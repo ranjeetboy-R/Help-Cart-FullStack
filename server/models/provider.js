@@ -14,11 +14,8 @@ const providerSchema = new mongoose.Schema({
     pincode: { type: String, trim: true },
     phone: { type: String, trim: true },
     ward: { type: String, trim: true },
-    profession: [{ title: { type: String } }],
-    experiences: [{
-        title: { type: String },
-        time: { type: String }
-    }],
+    profession: [String],
+    services: {type: String},
 
     profilePic: { type: String },
     profilePicId: { type: String },

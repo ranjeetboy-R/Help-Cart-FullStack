@@ -3,7 +3,7 @@ import "./globals.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Toaster } from "react-hot-toast";
 import InternetProvider from "./InternetProvider";
-import UserMenu from "./components/UserMenu";
+import UserMenu from "./user/userComponents/UserMenu";
 
 const bricolage_grotesque = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -66,13 +66,7 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-full flex flex-col">
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
-          <div className="md:max-w-md w-full mx-auto flex flex-col justify-between bg-slate-200 h-screen">
-                <div className="p-5">
-                  {children}
-                </div>
-                <UserMenu />
-              </div>
-
+          {children}
           <InternetProvider />
           <Toaster />
         </GoogleOAuthProvider>

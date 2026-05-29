@@ -11,7 +11,7 @@ const useUserStore = create(
             userLoading: false,
             profileUpdateLoading: false,
             accountDltLoading: false,
-            loadingResume: false,
+            getExpertLoading: false,
 
             userSignup: async (formData) => {
                 try {
@@ -112,23 +112,44 @@ const useUserStore = create(
                 }
             },
 
-            allResumes: async () => {
+            allExperts: async () => {
                 try {
-                    set({ loadingResume: true });
-                    const { data } = await axiosInstance.get('/user/resumes');
+                    set({ getExpertLoading: true });
+                    const { data } = await axiosInstance.get('/user/get-allProviders');
 
                     if (data && data.success) {
                         return {
                             success: true,
-                            resumes: data.resumes
+                            providers: data.providers
                         }
                     }
+
+                    return {success: false}
 
                 } catch (error) {
                     console.log(error?.response?.data?.message || 'Internal server error');
                 }
                 finally {
-                    set({ loadingResume: false });
+                    set({ getExpertLoading: false });
+                }
+            },
+
+            getExpertById: async (id) => {
+                try {
+                    const { data } = await axiosInstance.get(`/user/get-providerById/${id}`);
+
+                    if (data && data.success) {
+                        return {
+                            success: true,
+                            provider: data.provider
+                        }
+                    }
+
+                    return {success: false}
+
+                } catch (error) {
+                    console.log(error?.response?.data?.message || 'Internal server error');
+                    return {success: false}
                 }
             },
 

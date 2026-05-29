@@ -6,11 +6,14 @@ import { FaRegBell } from 'react-icons/fa'
 import Link from 'next/link'
 import { Search } from 'lucide-react'
 import LocationDropdown from './userComponents/LocationDropdown'
+import PopularExperts from './userComponents/PopularExperts'
+import UserMenu from './userComponents/UserMenu'
+import Categories from './userComponents/TopCategories'
 
 const page = () => {
   return (
     <div className="flex flex-col gap-3 bg-slate-100 p-5 rounded-xl">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between fixed z-10 bg-white/50 backdrop-blur-lg w-full top-0 left-0 right-0 p-3 ">
         <Link href='/user'>
           <Image
             src={logo}
@@ -28,10 +31,8 @@ const page = () => {
       </div>
 
       {/* navbar */}
-
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mt-10">
         <LocationDropdown />
-
         <Link href='/auth/signup' className="bg-linear-to-b from-green-500 to-green-800 p-2 rounded-md text-xs text-slate-100">Join as Expert</Link>
       </div>
 
@@ -75,6 +76,15 @@ const page = () => {
         </div>
 
       </div>
+
+      {/* Categories */}
+      <Categories />
+
+      {/* Popular Experts */}
+      <PopularExperts />
+
+      {/* Menu */}
+      <UserMenu />
     </div>
   )
 }

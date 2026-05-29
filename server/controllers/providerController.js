@@ -45,7 +45,7 @@ export const updateProfile = async (req, res) => {
         const provider = req.profile;
         const providerId = req.profile._id;
 
-        const { full_name, village, pincode, phone, ward, profession, experiences, recent_works, service_charges, whatsapp, facebook, instagram, bio, description, availability, likes, dislike } = req.body;
+        const { full_name, village, pincode, phone, ward, profession, experiences, recent_works, services, whatsapp, facebook, instagram, bio, description, availability, likes, dislike } = req.body;
 
         const file = req.file;
 
@@ -62,9 +62,10 @@ export const updateProfile = async (req, res) => {
         if (pincode !== undefined) provider.pincode = pincode;
         if (phone !== undefined) provider.phone = phone;
         if (ward !== undefined) provider.ward = ward;
+        if (services !== undefined) provider.services = services;
 
         if (profession !== undefined) {
-            provider.profession = JSON.parse(profession);
+            provider.profession = profession;
         }
 
         if (experiences !== undefined) {
@@ -73,10 +74,6 @@ export const updateProfile = async (req, res) => {
 
         if (recent_works !== undefined) {
             provider.recent_works = JSON.parse(recent_works);
-        }
-
-        if (service_charges !== undefined) {
-            provider.service_charges = JSON.parse(service_charges);
         }
 
         if (whatsapp !== undefined) provider.whatsapp = whatsapp;
