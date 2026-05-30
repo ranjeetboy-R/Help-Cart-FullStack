@@ -8,7 +8,7 @@ const providerRoute = express.Router();
 providerRoute.post('/delete-account', authMiddleware, deleteAccount);
 
 providerRoute.put(
-    '/update',
+    '/update-provider',
     authMiddleware,
     upload.single('profilePic'),
     updateProfile

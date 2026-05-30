@@ -25,11 +25,11 @@ export async function proxy(request) {
         }
     }
 
-    // if (pathname === '/auth/login') {
-    //     if (token && payloadData?.role === 'user') {
-    //         return NextResponse.redirect(new URL("/user", request.url));
-    //     }
-    // }
+    if (pathname === '/auth/login') {
+        if (token && payloadData?.role === 'user') {
+            return NextResponse.redirect(new URL("/user", request.url));
+        }
+    }
 
     // ✅ Provider protect
     if (pathname.startsWith("/provider")) {
@@ -38,11 +38,11 @@ export async function proxy(request) {
         }
     }
 
-    // if (pathname === '/auth/login') {
-    //     if (token && payloadData?.role === 'provider') {
-    //         return NextResponse.redirect(new URL("/provider", request.url));
-    //     }
-    // }
+    if (pathname === '/auth/login') {
+        if (token && payloadData?.role === 'provider') {
+            return NextResponse.redirect(new URL("/provider", request.url));
+        }
+    }
 
     return NextResponse.next();
 }

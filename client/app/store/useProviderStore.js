@@ -16,7 +16,7 @@ const useUserStore = create(
             updateProfile: async (formData) => {
                 try {
                     set({ profileUpdateLoading: true });
-                    const { data } = await axiosInstance.put('/user/profile-update', formData);
+                    const { data } = await axiosInstance.put('/provider/update-provider', formData);
 
                     if (data.success) {
                         toast.success(data.message);
@@ -73,36 +73,12 @@ const useUserStore = create(
 
             getExpertById: async (id) => {
                 try {
-                    set({ getExpertLoading: true });
                     const { data } = await axiosInstance.get(`/user/get-providerById/${id}`);
 
                     if (data && data.success) {
                         return {
                             success: true,
                             provider: data.provider
-                        }
-                    }
-
-                    return {success: false}
-
-                } catch (error) {
-                    console.log(error?.response?.data?.message || 'Internal server error');
-                    return {success: false}
-                }
-                finally {
-                    set({ getExpertLoading: false });
-                }
-                
-            },
-
-            toggleReaction: async (providerId, reaction) => {
-                try {
-                    const { data } = await axiosInstance.post(`/user/toggle-reaction/${providerId}`, reaction);
-
-                    if (data && data.success) {
-                        return {
-                            success: true,
-                            data
                         }
                     }
 

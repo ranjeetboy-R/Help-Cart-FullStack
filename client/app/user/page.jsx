@@ -5,15 +5,14 @@ import expert from '@/public/expert.png'
 import { FaRegBell } from 'react-icons/fa'
 import Link from 'next/link'
 import { Search } from 'lucide-react'
-import LocationDropdown from './userComponents/LocationDropdown'
 import PopularExperts from './userComponents/PopularExperts'
-import UserMenu from './userComponents/UserMenu'
 import Categories from './userComponents/TopCategories'
+import { CiLocationOn } from 'react-icons/ci'
 
 const page = () => {
   return (
-    <div className="flex flex-col gap-3 bg-slate-100 p-5 rounded-xl">
-      <div className="flex items-center justify-between fixed z-10 bg-white/50 backdrop-blur-lg w-full top-0 left-0 right-0 p-3 ">
+    <div className="flex flex-col gap-3 bg-slate-100 p-5 rounded-xl mb-20">
+      <div className="flex items-center justify-between fixed z-10 bg-green-100/50 backdrop-blur-lg w-full top-0 left-0 right-0 p-3 ">
         <Link href='/user'>
           <Image
             src={logo}
@@ -31,24 +30,27 @@ const page = () => {
       </div>
 
       {/* navbar */}
-      <div className="flex justify-between items-center mt-10">
-        <LocationDropdown />
+      <div className="flex justify-between items-center text-sm font-medium mt-12">
+        <span className='text-sm text-slate-600 font-semibold flex items-center gap-1'>
+          <CiLocationOn className='size-4' />
+          Mohjamma, Muzaffarpur
+        </span>
         <Link href='/auth/signup' className="bg-linear-to-b from-green-500 to-green-800 p-2 rounded-md text-xs text-slate-100">Join as Expert</Link>
       </div>
 
-    {/* Trusted box */}
-      <div className="h-60 relative rounded-2xl p-5 bg-green-600 overflow-hidden">
+      {/* Trusted box */}
+      <div className="h-60 relative rounded-2xl bg-green-600 overflow-hidden">
         <div className="bg-linear-to-b from-green-400 to-green-900 z-0 w-full h-full absolute top-0 left-0"></div>
 
         <div className="grid grid-cols-5 gap-5 backdrop-blur-xl">
-          <div className="col-span-3 flex flex-col">
+          <div className="col-span-3 flex flex-col p-5">
             <h1 className='text-2xl font-medium text-white'>
               Find trusted <br />
               local services <br />
               near you
             </h1>
 
-            <p className='mt-2 text-slate-100'>Quick. Easy. Reliable</p>
+            <p className='mt-2 text-sm text-slate-100'>Quick. Easy. Reliable</p>
           </div>
 
           <div className="col-span-2">
@@ -64,15 +66,15 @@ const page = () => {
         </div>
 
         <div className="rounded-lg flex absolute bottom-3 left-3 right-3 bg-white p-1.5">
-            <input 
-            type="search" 
+          <input
+            type="search"
             placeholder='Search for services...'
-            className='p-2 w-full' 
-            />
+            className='p-2 w-full'
+          />
 
-            <button className="w-12 rounded-md bg-linear-to-b from-green-400 to-green-900 active:scale-90 transition-all flex items-center justify-center text-white">
-              <Search className='size-5'/>
-            </button>
+          <button className="w-12 rounded-md bg-linear-to-b from-green-400 to-green-900 active:scale-90 transition-all flex items-center justify-center text-white">
+            <Search className='size-5' />
+          </button>
         </div>
 
       </div>
@@ -82,9 +84,6 @@ const page = () => {
 
       {/* Popular Experts */}
       <PopularExperts />
-
-      {/* Menu */}
-      <UserMenu />
     </div>
   )
 }

@@ -62,7 +62,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${bricolage_grotesque.className} h-full antialiased`}
+      className={`${bricolage_grotesque.className} scroll-smooth h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>

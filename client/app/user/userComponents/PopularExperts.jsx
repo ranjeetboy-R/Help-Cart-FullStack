@@ -8,6 +8,7 @@ import { HiMiniCheckBadge } from 'react-icons/hi2';
 import { IoIosCall } from 'react-icons/io';
 import { FaWhatsapp } from 'react-icons/fa';
 import useUserStore from '@/app/store/useUserStore';
+import { Bookmark } from 'lucide-react';
 
 const PopularExperts = () => {
 
@@ -24,11 +25,11 @@ const PopularExperts = () => {
         gettingExpert();
     }, [])
 
-    console.log("ex", experts);
+    console.log("experts", experts);
 
 
     return (
-        <div className="flex flex-col gap-2 mt-2 mb-20">
+        <div className="flex flex-col gap-2 mt-2">
             <div className="flex font-semibold items-center justify-between">
                 <p className='text-sm'>Popular Experts</p>
                 <Link href="/" className='text-xs text-green-700'>View all</Link>
@@ -36,7 +37,7 @@ const PopularExperts = () => {
 
             <div className="flex flex-col gap-3">
                 {
-                    experts?.slice(0, 2).map((expert, index) => (
+                    experts?.slice(0, 4).map((expert, index) => (
                         <div
                             className="py-2 hover:bg-white bg-white/50 transition-all flex justify-between items-center shadow shadow-black/20 border border-slate-200 rounded-lg p-3"
                             key={index}
@@ -67,16 +68,21 @@ const PopularExperts = () => {
                             </div>
 
                             <div className="flex items-center gap-3">
+                                <Link href='/app/expert' className='border border-slate-300 hover:bg-green-100 p-2 rounded-full'>
+                                    <Bookmark className='text-slate-600 size-5' />
+                                </Link>
+
                                 {
                                     expert.phone &&
-                                    <a href={`tel:+91${expert.phone}`} className="bg-green-600 p-1.5 rounded-full">
-                                        <IoIosCall className='size-6 text-white' />
+                                    <a href={`tel:+91${expert.phone}`} className="border border-slate-300 hover:bg-green-100 p-2 rounded-full">
+                                        <IoIosCall className='size-5 text-slate-600' />
                                     </a>
                                 }
+
                                 {
                                     expert.whatsapp &&
-                                    <a href={`https://wa.me/91${expert.whatsapp}`} target='_blank' className="bg-green-600 p-1.5 rounded-full">
-                                        <FaWhatsapp className='size-6 text-white' />
+                                    <a href={`https://wa.me/91${expert.whatsapp}`} target='_blank' className="bg-green-600 p-2 rounded-full">
+                                        <FaWhatsapp className='size-5 text-white' />
                                     </a>
                                 }
                             </div>

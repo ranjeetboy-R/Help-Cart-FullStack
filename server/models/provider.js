@@ -3,10 +3,12 @@ import mongoose from "mongoose";
 const providerSchema = new mongoose.Schema({
     full_name: { type: String, trim: true },
     email: { type: String, required: true, unique: true, trim: true, lowercase: true, match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email"] },
-    
-    password: { type: String, minlength: 6, required: function () {
-        return this.authType === "normal"
-    } },
+
+    password: {
+        type: String, minlength: 6, required: function () {
+            return this.authType === "normal"
+        }
+    },
 
     state: { type: String, default: "Bihar", trim: true },
     district: { type: String, default: "Muzaffarpur", trim: true },
@@ -15,7 +17,7 @@ const providerSchema = new mongoose.Schema({
     phone: { type: String, trim: true },
     ward: { type: String, trim: true },
     profession: [String],
-    services: {type: String},
+    services: { type: String },
 
     profilePic: { type: String },
     profilePicId: { type: String },
@@ -32,9 +34,14 @@ const providerSchema = new mongoose.Schema({
     availability: { type: Boolean, default: true },
 
     likes: { type: Number, default: 0 },
-    dislike: { type: Number, default: 0 },
+    liked: {type: Boolean, default: false},
+    likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    dislikes: { type: Number, default: 0 },
+    disliked: {type: Boolean, default: false},
+    dislikedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    
     authType: { type: String, enum: ['normal', 'google'], default: 'normal' },
-    role: {type: String}
+    role: { type: String }
 }, { timestamps: true });
 
 const Provider = mongoose.model("Provider", providerSchema);
