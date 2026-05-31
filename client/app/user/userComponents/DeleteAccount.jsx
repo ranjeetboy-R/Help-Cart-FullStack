@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 const DeleteAccount = ({ deleteModal, setDeleteModal, userId }) => {
     const [password, setPassword] = useState('');
     const { deleteAccount, accountDltLoading, logout } = useAuthStore();
+    const { user } = useAuthStore();
 
     const handalCancel = () => {
         setDeleteModal(false);
@@ -50,7 +51,9 @@ const DeleteAccount = ({ deleteModal, setDeleteModal, userId }) => {
                         <label className='text-zinc-600 text-sm'>{userId}</label>
                     </div>
 
-                    <input value={password} autoComplete='off' type='text' name='password' required onChange={(e) => setPassword(e.target.value)} placeholder='Confirm password to delete your account...' className="border border-zinc-400 hover:border-blue-500 transition-all rounded-md w-full p-2.5 text-slate-800" />
+                    {user?.authType === 'normal' &&
+                        <input value={password} autoComplete='off' type='text' name='password' required onChange={(e) => setPassword(e.target.value)} placeholder='Confirm password to delete your account...' className="border border-zinc-400 hover:border-blue-500 transition-all rounded-md w-full p-2.5 text-slate-800" />
+                    }
                 </div>
             </div>
         </Modal>

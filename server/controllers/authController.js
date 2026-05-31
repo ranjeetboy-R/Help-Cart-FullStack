@@ -387,10 +387,16 @@ export const deleteAccount = async (req, res) => {
         const profile = req.profile;
         const { password } = req.body;
 
-        const isMatched = await bcrypt.compare(password, profile.password);
+        if (profile.authType === 'normal') {
+            if (!password) {
+                return res.status(400).json({ success: false, message: "Password is required" });
+            }
 
-        if (!isMatched) {
-            return res.status(400).json({ success: false, message: "Invalid password" });
+            const isMatched = await bcrypt.compare(password, profile.password);
+            
+            if (!isMatched) {
+                return res.status(400).json({ success: false, message: "Invalid password" });
+            }
         }
 
         // 🔥 provider delete
