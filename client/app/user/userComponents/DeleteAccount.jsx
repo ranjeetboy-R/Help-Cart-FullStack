@@ -12,7 +12,15 @@ const DeleteAccount = ({ deleteModal, setDeleteModal, userId }) => {
     }
 
     const confirmDelete = async () => {
-        if (password) {
+        if (user?.authType === 'normal' && password) {
+            const res = await deleteAccount(password);
+            if (res && res.success) {
+                await logout();
+                window.location.replace("/");
+                window.location.reload();
+            }
+        }
+        if (user?.authType === 'google') {
             const res = await deleteAccount(password);
             if (res && res.success) {
                 await logout();
