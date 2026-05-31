@@ -11,8 +11,8 @@ const page = () => {
     return (
         <div>
             <div className="flex flex-col">
-                <div className="fixed z-50 top-0 left-0 w-full bg-green-600 h-16 px-3 flex items-center gap-3">
-                    <Link href='/user' className='p-2 rounded-full'>
+                <div className="md:max-w-lg fixed z-50 top-0 w-full bg-green-600 h-16 px-3 flex items-center gap-3">
+                    <Link href='/user' className='p-2 rounded-full hover:bg-black/10 transition-all'>
                         <IoArrowBack className='text-white size-6' />
                     </Link>
 
@@ -23,7 +23,9 @@ const page = () => {
             <div className="flex flex-col gap-2 p-3 mb-20 mt-15 bg-slate-100">
                 {
                     categories.map((category, index) => (
-                        <Link href={`/category/${category.key}`}className="hover:translate-x-1 transition-all cursor-pointer flex justify-between items-center bg-white shadow p-4 rounded-xl">
+                        <Link 
+                        key={index} 
+                        href={`/user/showCategory/${category.key}`}className="hover:translate-x-1 transition-all cursor-pointer flex justify-between items-center bg-white shadow p-4 rounded-xl">
                             <div className="flex items-center gap-3" key={index}>
                                 <span className={`${category.bgColor} p-2 rounded-full`}>
                                     <category.icon className={`text-white `} />

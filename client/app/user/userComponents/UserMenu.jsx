@@ -10,7 +10,7 @@ const UserMenu = () => {
   const pathname = usePathname();
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-slate-50 mx-auto w-full grid grid-cols-5 gap-3 p-5">
+    <div className="md:max-w-lg fixed bottom-0 left-0 right-0 bg-slate-50 mx-auto w-full grid grid-cols-5 gap-3 p-5">
       {
         userMenu?.map((menu, index) => (
           <Link href={menu.href} className={`${menu.href === pathname ? 'text-green-600 font-semibold' : 'text-slate-500'} hover:text-green-600 flex flex-col justify-center items-center transition-all`} key={index}>

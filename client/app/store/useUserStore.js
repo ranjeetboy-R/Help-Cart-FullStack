@@ -33,19 +33,15 @@ const useUserStore = create(
 
             getProfile: async () => {
                 try {
-                    set({ userLoading: true });
-                    const { data } = await axiosInstance.get('/user/profile');
+                    const { data } = await axiosInstance.get('/auth/profile');
 
-                    if (data.success) {
-                        set({ user: data.userObject });
+                    if (data?.success) {
+                        set({ user: data.account });
                     }
 
                 } catch (error) {
                     const msg = error.response?.data?.message || "Something went wrong";
-                    
-                }
-                finally {
-                    set({ userLoading: false });
+                    console.log(msg);
                 }
             },
 
@@ -114,28 +110,37 @@ const useUserStore = create(
                 }
             },
 
-            deleteAccount: async (password) => {
+            saveProvider: async (providerId) => {
                 try {
-                    set({ accountDltLoading: true });
-                    const { data } = await axiosInstance.delete('/user/delete-profile', { data: { password } });
+                    const { data } = await axiosInstance.post(`/user/save-provider`, {providerId});
 
-                    if (data?.success) {
-                        toast.success(data.message);
-                        set({ user: null })
-                        return { success: true }
+                    if (data && data.success) {                        
+                        return {success: true, saved: data.saved };
                     }
 
-                } catch (error) {
-                    const msg = error.response?.data?.message || "Something went wrong";
-                    toast.error(msg);
-                    set({ accountDltLoading: false });
-                    return { success: false }
-                }
-                finally {
-                    set({ accountDltLoading: false });
-                }
-            }
+                    return {success: false}
 
+                } catch (error) {
+                    console.log(error?.response?.data?.message || 'Internal server error');
+                    return {success: false}
+                }
+            },
+
+            getSaveProvider: async () => {
+                try {
+                    const { data } = await axiosInstance.get(`/user/get-savedProvider`);
+
+                    if (data && data.success) {                        
+                        return {success: true, saveProviders: data.providers };
+                    }
+
+                    return {success: false}
+
+                } catch (error) {
+                    console.log(error?.response?.data?.message || 'Internal server error');
+                    return {success: false}
+                }
+            },
         })
     )
 )

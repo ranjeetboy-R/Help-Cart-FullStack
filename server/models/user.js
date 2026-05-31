@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
     role: { type: String },
     authType: { type: String, enum: ['normal', 'google'], default: 'normal' },
     profilePic: { type: String },
+    savedProviderIds: [{type: mongoose.Schema.Types.ObjectId, ref: "Provider"}]
 }, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);

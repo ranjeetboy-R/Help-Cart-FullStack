@@ -30,6 +30,7 @@ const page = () => {
     const [liked, setliked] = useState(false);
     const [disliked, setdisliked] = useState(false);
     const [colleps, setColleps] = useState(null);
+    const [previousPath, setPreviousPath] = useState(null);
 
     useEffect(() => {
         const getProvider = async () => {
@@ -65,19 +66,28 @@ const page = () => {
         setColleps(colleps === item ? null : item)
     }
 
+    useEffect(() => {
+        const previousPath = sessionStorage.getItem("previousPath");
+        setPreviousPath(previousPath);
+    }, []);
+    
+    const rewritePath = previousPath ? previousPath : '/user';
+
     return (
         <div className="md:max-w-md mx-auto w-full flex flex-col gap-5 p-2">
 
             {/* image */}
             <div className="relative rounded-t-2xl h-60">
                 {
-                    expert?.profilePic &&
-                    <Image src={expert.profilePic} fill alt='Expert Image' className='object-cover rounded-t-2xl' />
+                    expert?.profilePic ?
+                        <Image src={expert.profilePic} fill alt='Expert Image' className='object-cover rounded-t-2xl' />
+                        :
+                        <Image src='/profileImage.webp' fill alt='Expert Image' className='object-contain -mt-5' />
                 }
 
                 <div className="absolute top-0 left-0 w-full h-full p-4 bg-linear-to-b from-transparent via-transparent to-white">
                     <div className="flex justify-between">
-                        <Link href='/user' className='bg-black/30 h-fit p-2 rounded-full'>
+                        <Link href={rewritePath} className='bg-black/30 h-fit p-2 rounded-full'>
                             <IoArrowBack className='text-white size-5' />
                         </Link>
 

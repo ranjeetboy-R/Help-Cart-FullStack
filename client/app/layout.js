@@ -4,6 +4,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Toaster } from "react-hot-toast";
 import InternetProvider from "./InternetProvider";
 import UserMenu from "./user/userComponents/UserMenu";
+import RouteTracker from "./RouteTracker";
 
 const bricolage_grotesque = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -66,6 +67,7 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-full flex flex-col">
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+          <RouteTracker />
           {children}
           <InternetProvider />
           <Toaster />

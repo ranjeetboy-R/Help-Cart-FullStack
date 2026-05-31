@@ -380,3 +380,39 @@ export const getProfile = async (req, res) => {
         return res.status(500).json({ success: false, message: error.message });
     }
 };
+
+// Delete profile 
+export const deleteAccount = async (req, res) => {
+    try {
+        const profile = req.profile;
+        const { password } = req.body;
+
+        const isMatched = await bcrypt.compare(password, profile.password);
+
+        if (!isMatched) {
+            return res.status(400).json({ success: false, message: "Invalid password" });
+        }
+
+        // 🔥 provider delete
+        await profile.deleteOne();
+
+        res.clearCookie("helpToken", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+            path: "/",
+        })
+
+        return res.status(200).json({
+            success: true,
+            message: "Account deleted successfully"
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};

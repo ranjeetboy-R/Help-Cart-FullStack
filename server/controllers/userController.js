@@ -1,4 +1,5 @@
 import Provider from "../models/provider.js";
+import User from "../models/user.js";
 
 
 export const getAllProvider = async (req, res) => {
@@ -29,7 +30,6 @@ export const getProviderById = async (req, res) => {
 
 
         const provider = await Provider.findOne({ _id: id }).select("-email -password -profilePicId");
-        console.log("provider", provider);
         if (!provider) {
             return res.status(404).json({ success: false, message: "Expert not available" })
         }
@@ -146,3 +146,77 @@ export const toggleReaction = async (req, res) => {
         });
     }
 };
+
+// Save providers 
+export const saveProvider = async (req, res) => {
+
+    try {
+        const user = req.profile;
+        const { providerId } = req.body;
+
+        if (!providerId) {
+            return res.status(400).json({
+                success: false,
+                message: "Provider ID is required"
+            });
+        }
+
+        const provider = await Provider.findById(providerId);
+
+        if (!provider) {
+            return res.status(404).json({
+                success: false,
+                message: "Provider not found"
+            });
+        }
+
+        let saved = null;
+
+        const alreadySaved = user.savedProviderIds.some(id =>
+            id.toString() === providerId
+        )
+
+        if (alreadySaved) {
+            user.savedProviderIds.pull(providerId);
+            saved = false;
+        }
+        else {
+            user.savedProviderIds.push(providerId);
+            saved = true;
+        }
+
+        await user.save();
+
+        return res.status(200).json({
+            success: true,
+            saved
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+export const getSavedProvider = async (req, res) => {
+    try {
+        const userId = req.profile._id;
+
+        const savedProvider = await User.findById(userId)
+        .populate("savedProviderIds")
+        .sort({createdAt : -1});
+
+        return res.status(200).json({
+            success: true,
+            providers: [...savedProvider.savedProviderIds].reverse()
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+}

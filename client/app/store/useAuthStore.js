@@ -86,7 +86,7 @@ const useAuthStore = create(
                 const { data } = await axiosInstance.post('/auth/logout');
 
                 if (data.success) {
-                    set({ user: null })
+                    set({ account: null })
                     return { success: true, message: data.message };
                 }
                 return { success: false };
@@ -119,11 +119,11 @@ const useAuthStore = create(
         deleteAccount: async (password) => {
             try {
                 set({ accountDltLoading: true });
-                const { data } = await axiosInstance.delete('/user/delete-profile', { data: { password } });
+                const { data } = await axiosInstance.delete('/auth/delete-account', { data: { password } });
 
                 if (data?.success) {
                     toast.success(data.message);
-                    set({ user: null })
+                    set({ account: null })
                     return { success: true }
                 }
                 return { success: false };

@@ -3,7 +3,7 @@ import UserMenu from '../userComponents/UserMenu'
 import { IoArrowBack } from 'react-icons/io5'
 import Link from 'next/link'
 import { Funnel, Search } from 'lucide-react'
-import PopularExperts from '../userComponents/PopularExperts'
+import Experts from '../userComponents/Experts'
 
 const page = () => {
   return (
@@ -37,8 +37,9 @@ const page = () => {
           Verified Only
         </button>
       </div>
-      {/* Showing Expert */}
-      <PopularExperts />
+      
+      {/* Popular Experts */}
+      <Experts quantity={10} title="Popular Experts" />
 
       {/* Post a Request */}
       <div className="flex items-center flex-col bg-green-100 p-5 rounded-xl mb-20">

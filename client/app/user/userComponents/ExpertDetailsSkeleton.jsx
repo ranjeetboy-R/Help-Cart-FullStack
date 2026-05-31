@@ -1,6 +1,6 @@
 export default function ExpertDetailsSkeleton() {
     return (
-        <div className="md:max-w-md mx-auto bg-white z-50 w-full fixed top-0 left-0 h-full animate-">
+        <div className="md:max-w-lg mx-auto bg-white z-50 w-full fixed top-0 h-full animate-">
 
             {/* Cover */}
             <div className="relative">

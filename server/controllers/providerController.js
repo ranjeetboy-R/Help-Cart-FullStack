@@ -4,41 +4,6 @@ import { generateToken } from "../utils/jwt.js";
 import { uploadToCloudinary } from "../utils/uploadToCloudinary.js";
 import bcrypt from 'bcrypt';
 
-// Delete profile 
-export const deleteAccount = async (req, res) => {
-    try {
-        const provider = req.profile;
-        const { password } = req.body;
-
-        const isMatched = await bcrypt.compare(password, provider.password);
-
-        if (!isMatched) {
-            return res.status(400).json({ success: false, message: "Invalid password" });
-        }
-
-        // 🔥 provider delete
-        await provider.deleteOne();
-
-        res.clearCookie("helpToken", {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'none',
-            path: "/"
-        })
-
-        return res.status(200).json({
-            success: true,
-            message: "Account deleted successfully"
-        });
-
-    } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
-};
-
 // Update Profile 
 export const updateProfile = async (req, res) => {
     try {
@@ -120,9 +85,6 @@ export const updateProfile = async (req, res) => {
         });
 
     } catch (error) {
-
-        console.log(error.message);
-
         return res.status(500).json({
             success: false,
             message: error.message
