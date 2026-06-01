@@ -32,7 +32,7 @@ export async function proxy(request) {
     }
 
     // ✅ Provider protect
-    if (pathname.startsWith("/provider")) {
+    if (pathname.startsWith("/expert")) {
         if (!token || payloadData?.role !== "provider") {
             return NextResponse.redirect(new URL("/auth/login", request.url));
         }
@@ -40,7 +40,7 @@ export async function proxy(request) {
 
     if (pathname === '/auth/login') {
         if (token && payloadData?.role === 'provider') {
-            return NextResponse.redirect(new URL("/provider", request.url));
+            return NextResponse.redirect(new URL("/expert", request.url));
         }
     }
 
@@ -48,5 +48,5 @@ export async function proxy(request) {
 }
 
 export const config = {
-    matcher: ["/auth/login", "/user/:path*", "/provider/:path*"],
+    matcher: ["/auth/login", "/user/:path*", "/expert/:path*"],
 };

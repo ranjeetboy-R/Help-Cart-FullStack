@@ -1,16 +1,28 @@
 "use client"
 
-import { UserX } from 'lucide-react';
+import { LogOut, UserX } from 'lucide-react';
 import React, { useState } from 'react';
 import Loading from '@/app/Loading';
 import useUserStore from '@/app/store/useUserStore';
 import moment from 'moment';
 import DeleteAccount from '../userComponents/DeleteAccount';
+import useAuthStore from '@/app/store/useAuthStore';
+import toast from 'react-hot-toast';
 
 const page = () => {
 
   const { user, userLoading } = useUserStore();
+  const { logout } = useAuthStore();
   const [deleteModal, setDeleteModal] = useState(false);
+
+  const logoutAccount = async () => {
+    const res = await logout();
+    if (res?.success) {
+      toast.success("Logout success");
+      window.location.replace('/auth/login');
+      window.location.reload();
+    }
+  }
 
 
   return (
@@ -36,11 +48,23 @@ const page = () => {
           </div>
         </div>
 
-        {/* Delete account  */}
-        <button type='button' onClick={() => setDeleteModal(true)} className="md:w-fit flex items-center justify-center gap-2 px-7 cursor-pointer py-3 rounded-lg border border-slate-300  hover:translate-x-1 active:scale-90 hover:bg-rose-100 duration-200 hover:border-l-4 hover:border-b-4 text-slate-800">
-          <UserX className='size-4' />
-          Delete account
-        </button>
+        <div className="flex items-center justify-between">
+          {/* Logout account  */}
+          <button
+            type='button'
+            onClick={logoutAccount}
+            className="md:w-fit flex items-center justify-center gap-2 px-7 cursor-pointer py-3 rounded-lg border border-slate-300  hover:bg-rose-100 duration-200 hover:scale-95 text-slate-800">
+            <LogOut className='size-4'
+            />
+            Logout
+          </button>
+
+          {/* Delete account  */}
+          <button type='button' onClick={() => setDeleteModal(true)} className="md:w-fit flex items-center justify-center gap-2 px-7 cursor-pointer py-3 rounded-lg border border-slate-300  hover:bg-rose-100 duration-200 hover:scale-95 text-slate-800">
+            <UserX className='size-4' />
+            Delete account
+          </button>
+        </div>
       </div>
 
       {

@@ -10,14 +10,15 @@ export const updateProfile = async (req, res) => {
         const provider = req.profile;
         const providerId = req.profile._id;
 
-        const { full_name, village, pincode, phone, ward, profession, experiences, recent_works, services, whatsapp, facebook, instagram, bio, description, availability, likes, dislike } = req.body;
+        const { full_name, village, pincode, phone, ward, profession, recent_works, services, whatsapp, facebook, instagram, bio, description, availability, likes, dislike } = req.body;
 
         const file = req.file;
 
         // 🔹 mobile duplicate check
         if (phone) {
             const existing = await Provider.findOne({ phone });
-            if (existing && existing._id !== provider._id) {
+            
+            if (existing && existing._id.toString() !== providerId.toString()) {
                 return res.status(400).json({ success: false, message: "Phone already in use" });
             }
         }
@@ -31,10 +32,6 @@ export const updateProfile = async (req, res) => {
 
         if (profession !== undefined) {
             provider.profession = profession;
-        }
-
-        if (experiences !== undefined) {
-            provider.experiences = JSON.parse(experiences);
         }
 
         if (recent_works !== undefined) {
@@ -81,7 +78,7 @@ export const updateProfile = async (req, res) => {
         return res.status(200).json({
             success: true,
             message: "Profile updated successfully",
-            providerObj
+            provider: providerObj
         });
 
     } catch (error) {

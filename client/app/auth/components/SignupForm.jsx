@@ -35,7 +35,7 @@ export default function SignupForm() {
         if (role === 'user') {
             if (formData) {
                 const res = await signup(formData);
-                if (res?.success) {
+                if (res?.success && res?.account.role === 'user') {
                     router.replace('/user')
                 }
             }
@@ -44,12 +44,11 @@ export default function SignupForm() {
         if (role === 'provider') {
             if (formData) {
                 const res = await signup(formData);
-                if (res?.success) {
-                    router.replace('/provider')
+                if (res?.success && res?.account.role === 'provider') {
+                    router.replace('/expert/accountDetails')
                 }
             }
         }
-
     };
 
     return (

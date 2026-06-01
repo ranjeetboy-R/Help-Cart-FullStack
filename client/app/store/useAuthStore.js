@@ -20,7 +20,8 @@ const useAuthStore = create(
 
                 if (data.success) {
                     toast.success(data.message)
-                    return { success: true };
+                    set({account: data.account})
+                    return { success: true, account: data.account };
                 }
                 return { success: false };
 
@@ -40,16 +41,19 @@ const useAuthStore = create(
 
                 const { data } = await axios.post(`/api/auth/login`, formData, {
                     withCredentials: true
-                });
+                });                
 
                 if (data.success) {
                     toast.success(data.message)
-                    return { success: true };
+                    set({account: data.account})
+                    return { success: true, account: data.account };
                 }
 
                 return { success: false };
 
             } catch (error) {
+                console.log(error);
+                
                 const msg = error.response?.data?.message || "Something went wrong";
                 toast.error(msg);
                 return { success: false };
@@ -70,6 +74,7 @@ const useAuthStore = create(
 
                 if (data?.success) {
                     toast.success(data.message);
+                    set({account: data.account})
                     return { success: true, account: data.account };
                 }
                 return { success: false };
@@ -87,7 +92,7 @@ const useAuthStore = create(
 
                 if (data.success) {
                     set({ account: null })
-                    return { success: true, message: data.message };
+                    return { success: true };
                 }
                 return { success: false };
             } catch (error) {

@@ -36,25 +36,21 @@ export default function LoginForm() {
 
     const FormSubmit = async (e) => {
         e.preventDefault();
-        if (role === "user") {
-            if (formData) {
-                const res = await login(formData);
-                if (res?.success) {
+
+        if (formData) {
+            const res = await login(formData);
+            console.log("res", res);
+            
+            if (res?.success) {
+                if (role === "user" && res?.account?.role === 'user') {
                     router.replace('/user')
                 }
-
-            }
-        }
-
-        if (role === "provider") {
-            if (formData) {
-                const res = await login(formData);
-                if (res?.success) {
-                    router.replace('/provider')
+                if (role === "provider" && res?.account?.role === 'provider') {
+                    router.replace('/expert')
                 }
-
             }
         }
+
 
     };
 
@@ -79,7 +75,7 @@ export default function LoginForm() {
             }
 
             if (res.account.role === 'provider') {
-                router.replace('/provider');
+                router.replace('/expert');
             }
         }
     }
@@ -115,7 +111,7 @@ export default function LoginForm() {
                 <button type="button" onClick={() => { setRole("user"); setFormData(emptyForm) }} className={`${role === "user" ? 'border-zinc-400 bg-green-400/10' : ''} border border-transparent w-full cursor-pointer py-2 rounded-lg`}>
                     Login as User
                 </button>
-                <button type="button" onClick={() => { setRole("admin"); setFormData(emptyForm) }} className={`${role === "admin" ? 'border-zinc-400 bg-green-400/10' : ''} border border-transparent w-full cursor-pointer py-2 rounded-lg`}>
+                <button type="button" onClick={() => { setRole("provider"); setFormData(emptyForm) }} className={`${role === "provider" ? 'border-zinc-400 bg-green-400/10' : ''} border border-transparent w-full cursor-pointer py-2 rounded-lg`}>
                     Login as Expert
                 </button>
             </div>

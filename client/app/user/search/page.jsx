@@ -1,8 +1,5 @@
 import React from 'react'
-import UserMenu from '../userComponents/UserMenu'
-import { IoArrowBack } from 'react-icons/io5'
-import Link from 'next/link'
-import { Funnel, Search } from 'lucide-react'
+import { Search } from 'lucide-react'
 import Experts from '../userComponents/Experts'
 
 const page = () => {
@@ -10,19 +7,13 @@ const page = () => {
     <div className="flex flex-col gap-3 p-5 relative">
 
       {/* Search Bar */}
-      <div className="flex items-center gap-2">
-        <div className="flex items-center gap-2 border border-slate-100 hover:shadow-md p-3 transition-all shadow rounded-lg w-full">
-          <Search className='size-5 text-slate-500' />
-          <input type="search" placeholder='Search electrician...' className="w-full" />
-        </div>
-
-        <button className="p-2">
-          <Funnel className='size-5 text-slate-500' />
-        </button>
+      <div className="flex items-center gap-2 border border-slate-100 hover:shadow-md p-3 transition-all shadow rounded-lg w-full">
+        <Search className='size-5 text-slate-500' />
+        <input type="search" placeholder='Search electrician...' className="w-full" />
       </div>
 
       {/* Filter Option */}
-      <div className="flex items-center justify-center gap-5">
+      <div className="flex items-center justify-center gap-5 mt-2">
         <button className="bg-green-100 px-5 text-green-800 font-medium py-2 rounded-full shadow-md text-sm">
           Near Me
         </button>
@@ -33,7 +24,9 @@ const page = () => {
           Verified Only
         </button>
       </div>
-      
+
+      <hr className='border border-slate-200 mt-1' />
+
       {/* Popular Experts */}
       <Experts quantity={10} title="Popular Experts" />
 

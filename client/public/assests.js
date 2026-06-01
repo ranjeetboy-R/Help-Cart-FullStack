@@ -1,4 +1,4 @@
-import { Heart, House, LayoutDashboard, Search, UserRound } from "lucide-react";
+import { Bot, CodeXml, Heart, House, LayoutDashboard, Search, UserRound } from "lucide-react";
 
 import {
   FaUserDoctor,
@@ -30,7 +30,6 @@ import {
 } from "react-icons/md";
 
 import {
-  GiSewingMachine,
   GiWaterDrop,
 } from "react-icons/gi";
 
@@ -95,6 +94,22 @@ export const categories = [
     color: "text-pink-600 fill-pink-600",
     bgColor: "bg-pink-600",
     services: "Painting, Polishing, Finishing",
+  },
+  {
+    title: "Website Developer",
+    key: "websiteDeveloper",
+    icon: CodeXml,
+    color: "text-green-600 fill-green-600",
+    bgColor: "bg-green-600",
+    services: "UI/UX Design, API Development, Deployment",
+  },
+  {
+    title: "AI Agent & Automation",
+    key: "aiAgentAutomation",
+    icon: Bot,
+    color: "text-cyan-600 fill-cyan-600",
+    bgColor: "bg-cyan-600",
+    services: "Whatsapp/Email Automation, Chatbot",
   },
   {
     title: "Mechanic",
@@ -226,7 +241,6 @@ export const categories = [
   },
 ]
 
-
 export const userMenu = [
   {
     icon: House,
@@ -253,4 +267,12 @@ export const userMenu = [
     href: '/user/profile',
     text: 'Profile'
   },
+]
+
+export const expertPageItems = [
+    {
+        title: "Dashboard",
+        href: '/user',
+        icon: LayoutDashboard
+    },
 ]

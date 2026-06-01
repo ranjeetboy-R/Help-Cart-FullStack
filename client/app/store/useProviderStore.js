@@ -4,22 +4,24 @@ import toast from "react-hot-toast";
 import { persist } from "zustand/middleware";
 import axiosInstance from "../axiosInstance";
 
-const useUserStore = create(
+const useProviderStore = create(
     persist(
         (set) => ({
-            user: null,
+            provider: null,
             userLoading: false,
             profileUpdateLoading: false,
             accountDltLoading: false,
             getExpertLoading: false,
 
-            updateProfile: async (formData) => {
+            updateProviderProfile: async (formData) => {
                 try {
                     set({ profileUpdateLoading: true });
                     const { data } = await axiosInstance.put('/provider/update-provider', formData);
 
                     if (data.success) {
                         toast.success(data.message);
+                        set({ provider: data.provider });
+                        return { success: true, provider: data.provider }
                     }
 
                 } catch (error) {
@@ -34,15 +36,15 @@ const useUserStore = create(
             getProfile: async () => {
                 try {
                     set({ userLoading: true });
-                    const { data } = await axiosInstance.get('/user/profile');
+                    const { data } = await axiosInstance.get('/auth/profile');                    
 
                     if (data.success) {
-                        set({ user: data.userObject });
+                        set({ provider: data.account });
                     }
 
                 } catch (error) {
                     const msg = error.response?.data?.message || "Something went wrong";
-                    
+
                 }
                 finally {
                     set({ userLoading: false });
@@ -61,7 +63,7 @@ const useUserStore = create(
                         }
                     }
 
-                    return {success: false}
+                    return { success: false }
 
                 } catch (error) {
                     console.log(error?.response?.data?.message || 'Internal server error');
@@ -82,38 +84,16 @@ const useUserStore = create(
                         }
                     }
 
-                    return {success: false}
+                    return { success: false }
 
                 } catch (error) {
                     console.log(error?.response?.data?.message || 'Internal server error');
-                    return {success: false}
-                }
-            },
-
-            deleteAccount: async (password) => {
-                try {
-                    set({ accountDltLoading: true });
-                    const { data } = await axiosInstance.delete('/user/delete-profile', { data: { password } });
-
-                    if (data?.success) {
-                        toast.success(data.message);
-                        set({ user: null })
-                        return { success: true }
-                    }
-
-                } catch (error) {
-                    const msg = error.response?.data?.message || "Something went wrong";
-                    toast.error(msg);
-                    set({ accountDltLoading: false });
                     return { success: false }
                 }
-                finally {
-                    set({ accountDltLoading: false });
-                }
-            }
+            },
 
         })
     )
 )
 
-export default useUserStore;
+export default useProviderStore;
