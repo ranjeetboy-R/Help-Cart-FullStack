@@ -15,6 +15,7 @@ const page = () => {
   const { allExperts } = useUserStore();
   const [experts, setExperts] = useState([]);
   const [uiUpdate, setUiUpdate] = useState(false);
+      const [previousPath, setPreviousPath] = useState(null);
 
   useEffect(() => {
     const gettingExpert = async () => {
@@ -35,9 +36,16 @@ const page = () => {
     gettingExpert();
   }, [])
 
+  useEffect(() => {
+          const previousPath = sessionStorage.getItem("previousPath");
+          setPreviousPath(previousPath);
+      }, []);
+      
+      const rewritePath = previousPath ? previousPath : '/user';
+
   return (
     <div className="p-5 flex flex-col">
-      <Link href='/user/categories' className='flex items-center gap-2 rounded-full'>
+      <Link href={rewritePath} className='flex items-center gap-2 rounded-full'>
         <button className="rounded-full hover:bg-slate-100 transition-all p-1.5">
           <IoArrowBack className='text-slate-700 size-5' />
         </button>

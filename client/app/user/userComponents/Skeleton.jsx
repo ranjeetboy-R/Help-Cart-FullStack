@@ -1,4 +1,4 @@
-export default function ExpertDetailsSkeleton() {
+export const ExpertDetailsSkeleton = () => {
     return (
         <div className="md:max-w-lg mx-auto bg-white z-50 w-full fixed top-0 h-full animate-">
 
@@ -64,6 +64,54 @@ export default function ExpertDetailsSkeleton() {
                         </div>
                     ))}
                 </div>
+            </div>
+        </div>
+    );
+}
+
+export const HomePageSkeleton = () => {
+    return (
+        <div className="md:max-w-lg mx-auto bg-white z-50 w-full fixed top-0 left-0 h-full p-5">
+
+            {/* Cover */}
+            <div className="flex flex-col gap-3">
+                {/* navbar */}
+                <div className="flex items-center justify-between">
+                    <div className="w-30 h-10 skeleton rounded-full bg-slate-100" />
+                    <div className="skeleton w-8 h-8 rounded-full" />
+                </div>
+
+                {/* welcome  */}
+                <div className="flex items-center justify-between">
+                    <div className="w-40 h-7 skeleton rounded-full bg-slate-100" />
+                    <div className="skeleton w-20 h-8 rounded-md" />
+                </div>
+
+                {/* image  */}
+                <div className="h-64 skeleton rounded-2xl"></div>
+
+                {/* category */}
+                <div className="flex items-center justify-between">
+                    <div className="w-40 h-7 skeleton rounded-full bg-slate-100" />
+                    <div className="skeleton w-15 h-7 rounded-full" />
+                </div>
+
+                <div className="grid grid-cols-4 gap-3">
+                    {
+                        Array(8).fill(0).map((_, index) => (
+                            <div key={index} className="skeleton h-17 rounded-lg"></div>
+                        ))
+                    }
+                </div>
+
+                    {/* popular experts */}
+                <div className="flex items-center justify-between">
+                    <div className="w-40 h-7 skeleton rounded-full bg-slate-100" />
+                    <div className="skeleton w-15 h-7 rounded-full" />
+                </div>
+
+                <div className="skeleton h-17 rounded-lg"></div>
+                <div className="skeleton h-17 rounded-lg"></div>
             </div>
         </div>
     );

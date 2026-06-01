@@ -1,11 +1,12 @@
 import useAuthStore from '@/app/store/useAuthStore';
+import useUserStore from '@/app/store/useUserStore';
 import { Modal } from 'antd';
 import React, { useState } from 'react'
 
 const DeleteAccount = ({ deleteModal, setDeleteModal, userId }) => {
     const [password, setPassword] = useState('');
     const { deleteAccount, accountDltLoading, logout } = useAuthStore();
-    const { user } = useAuthStore();
+    const { user } = useUserStore();
 
     const handalCancel = () => {
         setDeleteModal(false);
@@ -20,6 +21,7 @@ const DeleteAccount = ({ deleteModal, setDeleteModal, userId }) => {
                 window.location.reload();
             }
         }
+        
         if (user?.authType === 'google') {
             const res = await deleteAccount(password);
             if (res && res.success) {
@@ -28,7 +30,7 @@ const DeleteAccount = ({ deleteModal, setDeleteModal, userId }) => {
                 window.location.reload();
             }
         }
-    }
+    }    
 
     return (
         <Modal

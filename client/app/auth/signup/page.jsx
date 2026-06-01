@@ -6,7 +6,7 @@ import Loading from "@/app/Loading";
 
 export default function Page() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-950 text-white">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-green-300 to-fuchsia-300">
       <Suspense fallback={<Loading color="white" />}>
       <SignupForm />
       </Suspense>

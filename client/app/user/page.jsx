@@ -9,11 +9,11 @@ import Link from 'next/link'
 import { Search } from 'lucide-react'
 import Experts from './userComponents/Experts'
 import Categories from './userComponents/TopCategories'
-import { CiLocationOn } from 'react-icons/ci'
 import useUserStore from '../store/useUserStore'
+import { HomePageSkeleton } from './userComponents/Skeleton'
 
 const page = () => {
-  const { allExperts, user } = useUserStore();
+  const { allExperts, user, getExpertLoading } = useUserStore();
   const [experts, setExperts] = useState([]);
   const [searchInput, setSearchInput] = useState('');
 
@@ -105,6 +105,12 @@ const page = () => {
 
       {/* Popular Experts */}
       <Experts experts={filteredExperts} quantity={10} title="Popular Experts" />
+
+      {/* Skeleton  */}
+      {
+        getExpertLoading &&
+        <HomePageSkeleton />
+      }
     </div>
   )
 }

@@ -14,13 +14,13 @@ const Categories = () => {
             <div className="relative grid grid-cols-4 gap-3">
                 {
                     categories?.slice(0, 7).map((category, index) => (
-                        <div
+                        <Link href={`/user/showCategory/${category.key}`}
                             className="py-2 hover:bg-white cursor-pointer bg-white/50 transition-all flex flex-col items-center shadow shadow-black/20 border border-slate-200 rounded-lg"
                             key={index}
                         >
                             <category.icon style={{}} className={`${category.color} fill-green-500 size-6`} />
                             <p className='text-sm font-semibold text-slate-800 mt-2'>{category.title}</p>
-                        </div>
+                        </Link>
                     ))
                 }
 

@@ -12,7 +12,7 @@ export default function SignupForm() {
 
     const router = useRouter();
 
-    const { signup, googleAuth, accountLoading } = useAuthStore();
+    const { signup, accountLoading } = useAuthStore();
 
     const emptyForm = {
         full_name: "",
@@ -53,32 +53,32 @@ export default function SignupForm() {
     };
 
     return (
-        <form onSubmit={FormSubmit} className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-xl">
+        <form onSubmit={FormSubmit} className="w-full max-w-md bg-linear-to-br from-green-100 to-fuchsia-100 rounded-2xl p-6 shadow-xl shadow-black/30">
 
             {/* Heading */}
             <div className="mb-6 text-center">
                 <h1 className="text-xl font-semibold">
-                    Sign up to Run CV Application
+                    Get Started with HelpCart
                 </h1>
-                <p className="text-sm text-zinc-400">
-                    Ship Faster and Focus on Growth.
+                <p className="text-sm text-zinc-700">
+                    Find services, connect with professionals.
                 </p>
             </div>
 
             {/* Role Buttons */}
             <div className="flex gap-2 mb-4">
-                <button type="button" onClick={() => { setRole("user"); setFormData(emptyForm) }} className={`${role === "user" ? 'border-zinc-500' : ''} border border-transparent w-full cursor-pointer py-2 rounded-lg`}>
+                <button type="button" onClick={() => { setRole("user"); setFormData(emptyForm) }} className={`${role === "user" ? 'border-zinc-400 bg-green-400/10' : ''} border border-transparent w-full cursor-pointer py-2 rounded-lg`}>
                     Login as user
                 </button>
-                <button type="button" onClick={() => { setRole("provider"); setFormData(emptyForm) }} className={`${role === "provider" ? 'border-zinc-500' : ''} border border-transparent w-full cursor-pointer py-2 rounded-lg`}>
+                <button type="button" onClick={() => { setRole("provider"); setFormData(emptyForm) }} className={`${role === "provider" ? 'border-zinc-400 bg-green-400/10' : ''} border border-transparent w-full cursor-pointer py-2 rounded-lg`}>
                     Login as Expert
                 </button>
             </div>
 
             {/* Name */}
             <div className="mb-3">
-                <label className="text-sm text-zinc-400">Full Name*</label>
-                <div className="flex items-center mt-1 border border-slate-600 hover:border-slate-500 transition-all rounded-lg px-3">
+                <label className="text-sm text-zinc-800">Full Name*</label>
+                <div className="flex items-center mt-1 border border-slate-400 hover:border-slate-500 transition-all rounded-lg px-3">
                     <UserPen size={16} className="text-zinc-400" />
                     <input required autoComplete="off" placeholder="Enter your full name" name="full_name" onChange={handleInput} className="w-full p-2 bg-transparent" />
                 </div>
@@ -86,8 +86,8 @@ export default function SignupForm() {
 
             {/* Email */}
             <div className="mb-3">
-                <label className="text-sm text-zinc-400">Email address*</label>
-                <div className="flex items-center mt-1 border border-slate-600 hover:border-slate-500 transition-all rounded-lg px-3">
+                <label className="text-sm text-zinc-800">Email address*</label>
+                <div className="flex items-center mt-1 border border-slate-400 hover:border-slate-500 transition-all rounded-lg px-3">
                     <Mail size={16} className="text-zinc-400" />
                     <input required autoComplete="off" placeholder="Enter your email address" name="email" type="email" onChange={handleInput} className="w-full p-2 bg-transparent" />
                 </div>
@@ -95,8 +95,8 @@ export default function SignupForm() {
 
             {/* Password */}
             <div className="mb-3">
-                <label className="text-sm text-zinc-400">Password*</label>
-                <div className="flex items-center mt-1 border border-slate-600 hover:border-slate-500 transition-all rounded-lg px-3">
+                <label className="text-sm text-zinc-800">Password*</label>
+                <div className="flex items-center mt-1 border border-slate-400 hover:border-slate-500 transition-all rounded-lg px-3">
                     <Lock size={16} className="text-zinc-400" />
                     <input required autoComplete="off"
                         name="password"
@@ -111,7 +111,7 @@ export default function SignupForm() {
                 </div>
             </div>
 
-            <button disabled={accountLoading} className="disabled:opacity-50 disabled:cursor-not-allowed w-full flex items-center justify-center gap-2 cursor-pointer hover:bg-zinc-100 bg-zinc-200 text-black py-2 rounded-lg mt-5">
+            <button disabled={accountLoading} className="disabled:opacity-50 disabled:cursor-not-allowed w-full flex items-center justify-center gap-2 cursor-pointer bg-linear-to-br from-green-500 to-green-700 active:scale-90 transition-all bg-zinc-200 text-white py-2 rounded-lg mt-5">
                 {
                     accountLoading &&
                     <Loader className="size-5 animate-spin" />
@@ -122,9 +122,9 @@ export default function SignupForm() {
                 }
             </button>
 
-            <p className="text-center text-sm text-zinc-400 mt-4">
+            <p className="text-center text-sm text-zinc-800 mt-4">
                 Already have and account?
-                <span onClick={() => router.push("/auth/login")} className="ml-2 cursor-pointer text-white">
+                <span onClick={() => router.push("/auth/login")} className="ml-2 cursor-pointer text-green-700 font-semibold">
                     Login now
                 </span>
             </p>

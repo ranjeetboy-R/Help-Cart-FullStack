@@ -11,10 +11,6 @@ const page = () => {
 
       {/* Search Bar */}
       <div className="flex items-center gap-2">
-        <Link href='/user' className='p-2 rounded-full'>
-          <IoArrowBack className='text-slate-600 size-6' />
-        </Link>
-
         <div className="flex items-center gap-2 border border-slate-100 hover:shadow-md p-3 transition-all shadow rounded-lg w-full">
           <Search className='size-5 text-slate-500' />
           <input type="search" placeholder='Search electrician...' className="w-full" />

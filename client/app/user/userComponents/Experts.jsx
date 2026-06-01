@@ -44,7 +44,7 @@ const Experts = ({ experts = null, quantity, title = '', setUiUpdate, uiUpdate }
 
 
     return (
-        <div className="flex flex-col gap-2 mt-2">
+        <div className="relative flex flex-col gap-2 mt-2">
             <div className="flex font-semibold items-center justify-between">
                 <p className='text-sm capitalize'>{title}</p>
                 <Link href="/allExperts" className='text-xs text-green-700'>View all</Link>

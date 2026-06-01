@@ -98,24 +98,24 @@ export default function LoginForm() {
     }, [userRedirect]);
 
     return (
-        <form onSubmit={FormSubmit} className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-xl">
+        <form onSubmit={FormSubmit} className="w-full max-w-md bg-linear-to-br from-green-100 to-fuchsia-100 rounded-2xl p-6 shadow-xl shadow-black/30">
 
             {/* Heading */}
             <div className="mb-6 text-center">
                 <h1 className="text-xl font-semibold">
-                    Sign in to Help Cart Application
+                    Welcome back to HelpCart
                 </h1>
-                <p className="text-sm text-zinc-400">
-                    Easily find and hire skilled workers.
+                <p className="text-sm text-zinc-700">
+                    Find services, save favorites, and stay connected.
                 </p>
             </div>
 
             {/* Role Buttons */}
             <div className="flex gap-2 mt-5">
-                <button type="button" onClick={() => { setRole("user"); setFormData(emptyForm) }} className={`${role === "user" ? 'border-zinc-500 text-white bg-zinc-800/50' : 'text-zinc-400'} border border-transparent w-full cursor-pointer py-2 rounded-lg`}>
+                <button type="button" onClick={() => { setRole("user"); setFormData(emptyForm) }} className={`${role === "user" ? 'border-zinc-400 bg-green-400/10' : ''} border border-transparent w-full cursor-pointer py-2 rounded-lg`}>
                     Login as User
                 </button>
-                <button type="button" onClick={() => { setRole("admin"); setFormData(emptyForm) }} className={`${role === "admin" ? 'border-zinc-500 text-white bg-zinc-800/50' : 'text-zinc-400'} border border-transparent w-full cursor-pointer py-2 rounded-lg`}>
+                <button type="button" onClick={() => { setRole("admin"); setFormData(emptyForm) }} className={`${role === "admin" ? 'border-zinc-400 bg-green-400/10' : ''} border border-transparent w-full cursor-pointer py-2 rounded-lg`}>
                     Login as Expert
                 </button>
             </div>
@@ -132,7 +132,7 @@ export default function LoginForm() {
             {/* Email */}
             <div className="mb-3 mt-7">
                 <label className="text-sm text-zinc-600">Email id *</label>
-                <div className="flex items-center mt-1 border border-slate-600 hover:border-slate-500 transition-all rounded-lg px-3">
+                <div className="flex items-center mt-1 border border-slate-400 hover:border-slate-500 transition-all rounded-lg px-3">
                     <Mail size={16} className="text-zinc-500" />
                     <input
                         autoComplete="off"
@@ -142,7 +142,7 @@ export default function LoginForm() {
                         required
                         placeholder="Enter your email address"
                         onChange={handleInput}
-                        className="w-full bg-transparent outline-none p-2 text-sm"
+                        className="w-full p-2 text-sm"
                     />
                 </div>
             </div>
@@ -150,7 +150,7 @@ export default function LoginForm() {
             {/* Password */}
             <div className="mb-3">
                 <label className="text-sm text-zinc-400">Password*</label>
-                <div className="flex items-center mt-1 border border-slate-600 hover:border-slate-500 transition-all rounded-lg pl-3">
+                <div className="flex items-center mt-1 border border-slate-400 hover:border-slate-500 transition-all rounded-lg px-3">
                     <Lock size={16} className="text-zinc-400" />
                     <input
                         autoComplete="off"
@@ -160,7 +160,7 @@ export default function LoginForm() {
                         placeholder="Enter password"
                         value={formData?.password}
                         onChange={handleInput}
-                        className="w-full bg-transparent outline-none p-2 text-sm"
+                        className="w-full p-2 text-sm"
                     />
                     <button type="button" className="p-2" onClick={() => setShowPassword(!showPassword)}>
                         {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -176,7 +176,7 @@ export default function LoginForm() {
                 <button type="button" className="text-cyan-700">Forgot Password?</button>
             </div>
 
-            <button disabled={accountLoading} className="disabled:opacity-50 disabled:cursor-not-allowed w-full flex items-center justify-center gap-2 cursor-pointer hover:bg-zinc-100 bg-zinc-200 text-black mt-5 py-2 rounded-lg">
+            <button disabled={accountLoading} className="disabled:opacity-50 disabled:cursor-not-allowed w-full flex items-center justify-center gap-2 cursor-pointer bg-linear-to-br from-green-500 to-green-700 active:scale-90 transition-all bg-zinc-200 text-white py-2 rounded-lg mt-5">
                 {
                     (accountLoading) &&
                     <Loader className="size-5 animate-spin" />
@@ -187,9 +187,9 @@ export default function LoginForm() {
                 }
             </button>
 
-            <p className="text-center text-sm text-zinc-400 mt-4">
+            <p className="text-center text-sm text-zinc-800 mt-4">
                 New on our platform?
-                <span onClick={() => router.push("/auth/signup")} className="ml-2 text-white cursor-pointer">
+                <span onClick={() => router.push("/auth/signup")} className="ml-2 text-green-700 font-semibold cursor-pointer">
                     Create an account
                 </span>
             </p>

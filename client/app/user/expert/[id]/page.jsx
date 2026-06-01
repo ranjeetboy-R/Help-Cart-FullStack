@@ -6,25 +6,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { AiFillDislike, AiFillLike } from 'react-icons/ai';
 import { CgUnavailable } from 'react-icons/cg';
 import { CiLocationOn } from 'react-icons/ci';
-import { FaAngleRight, FaWhatsapp } from 'react-icons/fa';
-import { GiSkills } from 'react-icons/gi';
+import { FaWhatsapp } from 'react-icons/fa';
 import { HiMiniCheckBadge } from 'react-icons/hi2';
 import { IoIosCall } from 'react-icons/io';
 import { IoArrowBack, IoShieldCheckmark } from 'react-icons/io5';
-import { MdKeyboardArrowRight, MdOutlineEventAvailable, MdShare } from 'react-icons/md';
+import { MdOutlineEventAvailable, MdShare } from 'react-icons/md';
 import { RiMoneyRupeeCircleLine } from 'react-icons/ri';
-import { SiHyperskill } from 'react-icons/si';
-import { SlLike } from 'react-icons/sl';
-import ExpertDetailsSkeleton from '../../userComponents/ExpertDetailsSkeleton';
+import { ExpertDetailsSkeleton } from '../../userComponents/Skeleton';
 
 const page = () => {
 
     const params = useParams();
     const id = params.id;
-    const { getExpertById, toggleReaction, getExpertLoading } = useUserStore();
+    const { user, getExpertById, toggleReaction, getExpertLoading } = useUserStore();
 
     const [expert, setExpert] = useState(null);
     const [liked, setliked] = useState(false);
@@ -72,6 +68,8 @@ const page = () => {
     }, []);
     
     const rewritePath = previousPath ? previousPath : '/user';
+    
+    const isSaved = user?.savedProviderIds?.includes(expert?._id);
 
     return (
         <div className="md:max-w-md mx-auto w-full flex flex-col gap-5 p-2">
@@ -100,15 +98,15 @@ const page = () => {
                                 <Link href='/app/expert' className='bg-black/30 p-2 rounded-full'>
                                     <MdShare className='text-white size-5' />
                                 </Link>
-                                <Link href='/app/expert' className='bg-black/30 p-2 rounded-full'>
-                                    <Bookmark className='text-white size-5' />
-                                </Link>
+                                <button className='bg-black/30 p-2 rounded-full'>
+                                    <Bookmark className={`${isSaved ? 'fill-amber-500 text-amber-200' : 'text-white'} size-5`} />
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="absolute -bottom-12 left-3 right-3 bg-white rounded-xl shadow shadow-black/20 p-3 flex flex-col">
+                <div className="absolute -bottom-20 left-3 right-3 bg-white rounded-xl shadow shadow-black/20 p-3 flex flex-col">
                     {
                         expert &&
                         <div className='relative font-semibold text-lg w-fit capitalize'>
@@ -159,19 +157,19 @@ const page = () => {
                         }
 
                         {/* Phone and Whatsapp */}
-                        <div className="flex items-end gap-3">
+                        <div className="flex items-end gap-3 pr-2">
                             {
                                 expert?.phone &&
                                 <a href={`tel:+91${expert?.phone}`} className="border border-slate-300 text-xs text-black flex items-center py-2 px-3 rounded-full gap-1">
-                                    <IoIosCall className='size-4' />
-                                    Call Now
+                                    <IoIosCall className='size-5 md:size-4' />
+                                    <p className='hidden md:block'>Call Now</p>
                                 </a>
                             }
                             {
                                 expert?.whatsapp &&
                                 <a href={`https://wa.me/91${expert?.whatsapp}`} target='_blank' className="bg-green-600 text-xs flex items-center py-2 px-3 text-white rounded-full gap-1">
-                                    <FaWhatsapp className='size-4' />
-                                    Chat on Whatsapp
+                                    <FaWhatsapp className='size-5 md:size-4' />
+                                    <p className='hidden md:block'>Chat on Whatsapp</p>
                                 </a>
                             }
                         </div>
@@ -181,8 +179,8 @@ const page = () => {
             </div>
 
             {/* Hero section */}
-            <div className="flex flex-col gap-5 p-5">
-                <div className="mt-8">
+            <div className="flex flex-col mt-14 gap-5 p-5">
+                <div className="">
                     <span className='text-sm text-slate-600 font-semibold flex items-center gap-1'>
                         <CiLocationOn className='size-4' />
                         <div className="flex items-center">
@@ -214,9 +212,9 @@ const page = () => {
 
                 {
                     expert?.services &&
-                    <div onClick={() => collepsToggle('services')} className="grid grid-cols-12 border-b border-slate-200 pb-1 hover:translate-x-1 transition-all cursor-pointer">
+                    <div onClick={() => collepsToggle('services')} className="flex flex-col border-b border-slate-200 pb-1 hover:translate-x-1 transition-all cursor-pointer">
                         <p className='font-semibold col-span-3'>Services</p>
-                        <p className='text-sm col-span-9 w-fit text-slate-700 '>{colleps === 'services' ?
+                        <p className='text-sm text-slate-700 '>{colleps === 'services' ?
                             expert?.services
                             :
                             `${expert?.services.slice(0, 50)}...`}
@@ -226,9 +224,9 @@ const page = () => {
 
                 {
                     expert?.bio &&
-                    <div onClick={() => collepsToggle('bio')} className="grid grid-cols-12 border-b border-slate-200 pb-1 hover:translate-x-1 transition-all cursor-pointer">
+                    <div onClick={() => collepsToggle('bio')} className="flex flex-col border-b border-slate-200 pb-1 hover:translate-x-1 transition-all cursor-pointer">
                         <p className='font-semibold col-span-3'>Bio</p>
-                        <p className='text-sm col-span-9 w-fit text-slate-700 '>{colleps === 'bio' ?
+                        <p className='text-sm text-slate-700 '>{colleps === 'bio' ?
                             expert?.bio
                             :
                             `${expert?.bio.slice(0, 50)}...`}
@@ -238,9 +236,9 @@ const page = () => {
 
                 {
                     expert?.description &&
-                    <div onClick={() => collepsToggle('description')} className="grid grid-cols-12 border-b border-slate-200 pb-1 hover:translate-x-1 transition-all cursor-pointer">
+                    <div onClick={() => collepsToggle('description')} className="flex flex-col border-b border-slate-200 pb-1 hover:translate-x-1 transition-all cursor-pointer">
                         <p className='font-semibold col-span-3'>Description</p>
-                        <p className='text-sm col-span-9 w-fit text-slate-700 '>{colleps === 'description' ?
+                        <p className='text-sm text-slate-700 '>{colleps === 'description' ?
                             expert?.description
                             :
                             `${expert?.services.slice(0, 50)}...`}
