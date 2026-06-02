@@ -86,7 +86,7 @@ const useAuthStore = create(
             }
         },
 
-        logout: async () => {
+        logoutProfile: async () => {
             try {
                 const { data } = await axiosInstance.post('/auth/logout');
 

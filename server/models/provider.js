@@ -34,12 +34,14 @@ const providerSchema = new mongoose.Schema({
     availability: { type: Boolean, default: true },
 
     likes: { type: Number, default: 0 },
-    liked: {type: Boolean, default: false},
+    liked: { type: Boolean, default: false },
     likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     dislikes: { type: Number, default: 0 },
-    disliked: {type: Boolean, default: false},
+    disliked: { type: Boolean, default: false },
     dislikedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    
+
+    saveByUser: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+
     authType: { type: String, enum: ['normal', 'google'], default: 'normal' },
     role: { type: String }
 }, { timestamps: true });

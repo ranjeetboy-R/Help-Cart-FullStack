@@ -178,14 +178,17 @@ export const saveProvider = async (req, res) => {
 
         if (alreadySaved) {
             user.savedProviderIds.pull(providerId);
+            provider.saveByUser.pull(user._id);
             saved = false;
         }
         else {
             user.savedProviderIds.push(providerId);
+            provider.saveByUser.push(user._id);
             saved = true;
         }
 
         await user.save();
+        await provider.save();
 
         return res.status(200).json({
             success: true,
@@ -205,8 +208,8 @@ export const getSavedProvider = async (req, res) => {
         const userId = req.profile._id;
 
         const savedProvider = await User.findById(userId)
-        .populate("savedProviderIds")
-        .sort({createdAt : -1});
+            .populate("savedProviderIds")
+            .sort({ createdAt: -1 });
 
         return res.status(200).json({
             success: true,
@@ -220,3 +223,70 @@ export const getSavedProvider = async (req, res) => {
         });
     }
 }
+
+// User Update Profile
+export const userUpdateProfile = async (req, res) => {
+    try {
+        const user = req.profile;
+        const userId = req.profile._id;
+
+        const { full_name, village, pincode, phone, ward } = req.body;
+
+        const file = req.file;
+
+        // 🔹 mobile duplicate check
+        if (phone) {
+            const existing = await User.findOne({ phone });
+
+            if (existing && existing._id.toString() !== userId.toString()) {
+                return res.status(400).json({ success: false, message: "Phone already in use" });
+            }
+        }
+
+        if (full_name !== undefined) user.full_name = full_name;
+        if (village !== undefined) user.village = village;
+        if (pincode !== undefined) user.pincode = pincode;
+        if (phone !== undefined) user.phone = phone;
+        if (ward !== undefined) user.ward = ward;
+
+        if (file) {
+            try {
+                if (user.profilePicId) {
+                    try {
+                        await cloudinary.uploader.destroy(
+                            user.profilePicId
+                        )
+                    } catch (error) {
+                        console.log("Profile image destroy error : ", error.message);
+                    }
+                }
+
+                const result = await uploadToCloudinary(file.buffer, "Profile");
+                user.profilePic = result.secure_url;
+                user.profilePicId = result.public_id;
+
+            } catch (error) {
+                console.log("Profile image upload error : ", error.message);
+            }
+        }
+
+        // 🔹 save
+        await user.save();
+
+        // 🔐 remove sensitive data
+        const userObj = user.toObject();
+        delete userObj.password;
+
+        return res.status(200).json({
+            success: true,
+            message: "Profile updated successfully",
+            user: userObj
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};

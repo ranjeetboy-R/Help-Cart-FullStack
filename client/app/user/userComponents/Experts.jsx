@@ -7,7 +7,7 @@ import { FaWhatsapp } from 'react-icons/fa';
 import useUserStore from '@/app/store/useUserStore';
 import { Bookmark, Phone } from 'lucide-react';
 
-const Experts = ({ experts = null, quantity, title = '', setUiUpdate, uiUpdate }) => {
+const Experts = ({ experts = null, quantity, title = '', setUiUpdate = false, uiUpdate }) => {
 
     const { saveProvider, getProfile, user, allExperts } = useUserStore();
     const [saved, setsaved] = useState();

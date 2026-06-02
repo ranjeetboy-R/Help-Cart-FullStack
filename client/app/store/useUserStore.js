@@ -141,6 +141,26 @@ const useUserStore = create(
                     return {success: false}
                 }
             },
+
+            updateUserProfile: async (formData) => {
+                try {
+                    set({ profileUpdateLoading: true });
+                    const { data } = await axiosInstance.put('/provider/update-user', formData);
+
+                    if (data.success) {
+                        toast.success(data.message);
+                        set({ user: data.user });
+                        return { success: true, user: data.user }
+                    }
+
+                } catch (error) {
+                    const msg = error.response?.data?.message || "Something went wrong";
+                    toast.error(msg);
+                }
+                finally {
+                    set({ profileUpdateLoading: false });
+                }
+            },
         })
     )
 )

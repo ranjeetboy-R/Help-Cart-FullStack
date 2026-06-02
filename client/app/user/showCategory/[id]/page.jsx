@@ -15,7 +15,7 @@ const page = () => {
   const { allExperts } = useUserStore();
   const [experts, setExperts] = useState([]);
   const [uiUpdate, setUiUpdate] = useState(false);
-      const [previousPath, setPreviousPath] = useState(null);
+  const [previousPath, setPreviousPath] = useState(null);
 
   useEffect(() => {
     const gettingExpert = async () => {
@@ -37,11 +37,11 @@ const page = () => {
   }, [])
 
   useEffect(() => {
-          const previousPath = sessionStorage.getItem("previousPath");
-          setPreviousPath(previousPath);
-      }, []);
-      
-      const rewritePath = previousPath ? previousPath : '/user';
+    const previousPath = sessionStorage.getItem("previousPath");
+    setPreviousPath(previousPath);
+  }, []);
+
+  const rewritePath = previousPath ? previousPath : '/user';
 
   return (
     <div className="p-5 flex flex-col">

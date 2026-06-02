@@ -27,11 +27,7 @@ const Profile = ({ setBack }) => {
             bio: provider?.bio || '',
             description: provider?.description || ''
         })
-    }, [provider])
-
-    console.log("provider", provider);
-    console.log("formdata", formData);
-    
+    }, [provider])    
 
     const saveAndNext = async (e) => {
         e.preventDefault();

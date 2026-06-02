@@ -10,11 +10,13 @@ import { expertPageItems } from '@/public/assests';
 import toast from 'react-hot-toast';
 import useUserStore from '../store/useUserStore';
 import logo from '@/public/logo.png';
+import useAuthStore from '../store/useAuthStore';
 
 const layout = ({ children }) => {
-    const { user, userLoading, logoutUser, getProfile } = useUserStore();
+    const { user, userLoading, logoutUser } = useUserStore();
+    const {getProfile, account, logoutProfile} = useAuthStore();
+
     const pathname = usePathname() || '/user';
-    const [openAside, setOpenAside] = useState(false)
     const [phoneMenuOpen, setPhoneMenuOpen] = useState(false)
     const asideDiv = useRef();
 
@@ -36,9 +38,9 @@ const layout = ({ children }) => {
     }, [])
 
     const logout = async () => {
-        const res = await logoutUser();
+        const res = await logoutProfile();
         if (res && res.success) {
-            toast.success(res.message)
+            toast.success("Logout successfully")
             window.location.replace("/auth/login");
         }
     }
@@ -46,7 +48,7 @@ const layout = ({ children }) => {
     return pathname !== '/expert/accountDetails' ? (
         <div className='h-screen md:max-w-lg mx-auto w-full md:flex bg-linear-to-r from-zinc-100 via-zinc-50 to-zinc-50 overflow-hidden'>
 
-            <div className={`flex-1 p-5 md:mt-0 mt-18 h-screen overflow-y-auto [overflow-style:none] scrollbar-none`}>
+            <div className={`flex-1 p-5 mt-18 h-screen overflow-y-auto [overflow-style:none] scrollbar-none`}>
                 {children}
             </div>
 
@@ -78,10 +80,10 @@ const layout = ({ children }) => {
                 <div className="flex flex-col mb-20 pb-5 h-screen overflow-y-scroll scrollbar-none">
 
                     <div className={`flex flex-col pb-10 mt-5`}>
-                        <h1 className={`text-slate-700 mt-3 text-2xl justify-center flex capitalize font-semibold items-center gap-2`}>{user?.name}
+                        <h1 className={`text-slate-700 mt-3 text-2xl justify-center flex capitalize font-semibold items-center gap-2`}>{account?.name}
                         </h1>
 
-                        <p className='text-center mt-1 text-zinc-500'>Email Id : {user?.email}</p>
+                        <p className='text-center mt-1 text-zinc-500'>Email Id : {account?.email}</p>
                     </div>
 
                     <div className={`flex flex-col gap-2`}>
@@ -113,7 +115,7 @@ const layout = ({ children }) => {
                     <div className={`text-slate-700 hover:bg-slate-100 border border-zinc-300 w-full px-3 mx-3 rounded-xl flex items-center justify-between py-3`}>
                         <div className="flex items-center gap-2">
                             <UserLock className={` size-5`} />
-                            <p>{user?.email}</p>
+                            <p>{account?.email}</p>
                         </div>
                         <button onClick={logout} className="cursor-pointer">
                             <LogOut className='size-5' />

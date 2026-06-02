@@ -49,8 +49,8 @@ const page = () => {
                 ...prev,
                 likes: res.data.likes,
                 dislikes: res.data.dislikes,
-                liked: res.data.liked,
-                disliked: res.data.disliked
+                liked: res.data.likedBy?.includes(user?._id),
+                disliked: res.data.dislikedBy?.includes(user?._id)
             }))
 
             setliked(res.data.liked);
@@ -126,7 +126,7 @@ const page = () => {
                     {/* Availability */}
                     {
                         expert &&
-                        <div className={`${expert?.availability ? 'text-green-600' : 'text-rose-600'} font-medium text-sm`} >
+                        <div className={`${expert?.availability ? 'text-green-600' : 'text-rose-600'} mt-2 font-semibold text-sm`} >
                             {expert?.availability ?
                                 <p className='flex items-center gap-1'><MdOutlineEventAvailable /> Available</p>
                                 :
@@ -143,14 +143,14 @@ const page = () => {
                                 <button onClick={() => submitReaction('like')} className="flex items-center gap-2 border-r border-slate-200 px-3">
                                     <p>{expert?.likes}</p>
                                     <span>
-                                        <ThumbsUp className={`${(expert?.liked || liked) ? 'fill-rose-600 stroke-rose-600' : 'fill-transparent stroke-slate-600 stroke-2'} size-4`} />
+                                        <ThumbsUp className={`${(expert?.likedBy.includes(user?._id) || liked) ? 'fill-rose-600 stroke-rose-600' : 'fill-transparent stroke-slate-600 stroke-2'} size-4`} />
                                     </span>
                                 </button>
 
                                 <button onClick={() => submitReaction('dislike')} className="flex items-center gap-2 pr-3">
                                     <p>{expert?.dislikes}</p>
                                     <span>
-                                        <ThumbsDown className={`${(expert?.disliked || disliked) ? 'fill-gray-500 stroke-gray-500' : 'fill-transparent stroke-slate-600 stroke-2'} size-4`} />
+                                        <ThumbsDown className={`${(expert?.dislikedBy.includes(user?._id) || disliked) ? 'fill-gray-500 stroke-gray-500' : 'fill-transparent stroke-slate-600 stroke-2'} size-4`} />
                                     </span>
                                 </button>
                             </div>

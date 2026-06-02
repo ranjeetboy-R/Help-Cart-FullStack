@@ -9,7 +9,7 @@ import useProviderStore from '@/app/store/useProviderStore';
 
 const AccountDetails = () => {
   const { updateProviderProfile, profileUpdateLoading } = useProviderStore();
-  const { provider, getProfile } = useProviderStore();
+  const { provider, getProfile } = useAuthStore();
 
   const [save, setSave] = useState(false);
   const [back, setBack] = useState(false);
@@ -17,10 +17,7 @@ const AccountDetails = () => {
   const { account } = useAuthStore();
 
   useEffect(() => {
-    const gettingProfile = async () => {
-      await getProfile();
-    }
-    gettingProfile();
+    getProfile();
   }, [])
 
   const addressComplate = (

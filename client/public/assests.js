@@ -1,4 +1,4 @@
-import { Bot, CodeXml, Heart, House, LayoutDashboard, Search, UserRound } from "lucide-react";
+import { Bot, CodeXml, Heart, House, LayoutDashboard, Search, User2, UserRound } from "lucide-react";
 
 import {
   FaUserDoctor,
@@ -274,5 +274,10 @@ export const expertPageItems = [
         title: "Dashboard",
         href: '/user',
         icon: LayoutDashboard
+    },
+    {
+        title: "Profile",
+        href: '/expert/expertProfile',
+        icon: User2
     },
 ]

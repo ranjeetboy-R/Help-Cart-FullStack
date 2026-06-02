@@ -11,13 +11,14 @@ export const updateProfile = async (req, res) => {
         const providerId = req.profile._id;
 
         const { full_name, village, pincode, phone, ward, profession, recent_works, services, whatsapp, facebook, instagram, bio, description, availability, likes, dislike } = req.body;
+console.log("availability", availability);
 
         const file = req.file;
 
         // 🔹 mobile duplicate check
         if (phone) {
             const existing = await Provider.findOne({ phone });
-            
+
             if (existing && existing._id.toString() !== providerId.toString()) {
                 return res.status(400).json({ success: false, message: "Phone already in use" });
             }
@@ -31,7 +32,7 @@ export const updateProfile = async (req, res) => {
         if (services !== undefined) provider.services = services;
 
         if (profession !== undefined) {
-            provider.profession = profession;
+            provider.profession = JSON.parse(profession);
         }
 
         if (recent_works !== undefined) {
@@ -82,9 +83,30 @@ export const updateProfile = async (req, res) => {
         });
 
     } catch (error) {
+        console.log(error);
+        
         return res.status(500).json({
             success: false,
             message: error.message
         });
     }
 };
+
+// Get save by user details 
+export const profileSaveByUserDetails = async (req, res) => {
+    try {
+        const providerId = req.profile._id;
+
+        const saveUser = await Provider.findById(providerId)
+            .populate("saveByUser", "village pincode state district ward")
+            .sort({ createdAt: -1 });            
+
+        return res.status(200).json({ success: true, saveUser: saveUser?.saveByUser })
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+}

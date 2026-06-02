@@ -4,10 +4,11 @@ import React, { useEffect, useState } from 'react'
 import SelectProfession from './SelectProfession'
 import { ArrowRight, Loader, Loader2 } from 'lucide-react'
 import useProviderStore from '@/app/store/useProviderStore'
+import useAuthStore from '@/app/store/useAuthStore'
 
 const Address = ({ setNext, setBack }) => {
     const { updateProviderProfile, profileUpdateLoading } = useProviderStore();
-    const { provider } = useProviderStore();
+    const { account, getProfile } = useAuthStore();
 
     const [formData, setFormData] = useState({
         village: '',
@@ -16,6 +17,10 @@ const Address = ({ setNext, setBack }) => {
         ward: '',
         profession: []
     })
+
+    useEffect(() => {
+        getProfile();
+    }, [])
 
     const [profession, setProfession] = useState([]);
 
@@ -26,37 +31,26 @@ const Address = ({ setNext, setBack }) => {
 
     useEffect(() => {
         setFormData({
-            village: provider?.village || '',
-            pincode: provider?.pincode || '',
-            phone: provider?.phone || '',
-            ward: provider?.ward || '',
-            profession: provider?.profession || []
+            village: account?.village || '',
+            pincode: account?.pincode || '',
+            phone: account?.phone || '',
+            ward: account?.ward || '',
+            profession
         })
-    }, [provider])    
+    }, [account, profession])
 
-    useEffect(() => {
-        if (profession.length > 0) {
-            setFormData({
-                ...formData,
-                profession
-            })
+    useEffect(()=> {
+        if (account?.profession) {
+            setProfession(account.profession)
         }
-    }, [profession])
-
-    useEffect(() => {
-        if (formData?.profession) {
-            setProfession(formData.profession);
-        }
-    }, [formData.profession])
-
-
+    }, [account])
 
     const saveAndNext = async (e) => {
         e.preventDefault();
 
         if (formData) {
             const res = await updateProviderProfile(formData);
-            if (res?.success) {
+            if (res?.success) {                
                 setNext(true);
                 setBack(false);
             }

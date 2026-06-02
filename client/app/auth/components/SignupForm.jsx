@@ -1,8 +1,7 @@
 "use client";
 
 import { Mail, Lock, Eye, EyeOff, UserPen, Loader } from "lucide-react";
-import { useState, useEffect } from "react";
-import useUserStore from "@/app/store/useUserStore";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import useAuthStore from "@/app/store/useAuthStore";
 
@@ -67,10 +66,10 @@ export default function SignupForm() {
             {/* Role Buttons */}
             <div className="flex gap-2 mb-4">
                 <button type="button" onClick={() => { setRole("user"); setFormData(emptyForm) }} className={`${role === "user" ? 'border-zinc-400 bg-green-400/10' : ''} border border-transparent w-full cursor-pointer py-2 rounded-lg`}>
-                    Login as user
+                    Signup as user
                 </button>
                 <button type="button" onClick={() => { setRole("provider"); setFormData(emptyForm) }} className={`${role === "provider" ? 'border-zinc-400 bg-green-400/10' : ''} border border-transparent w-full cursor-pointer py-2 rounded-lg`}>
-                    Login as Expert
+                    Signup as Expert
                 </button>
             </div>
 
