@@ -22,7 +22,7 @@ const providerSchema = new mongoose.Schema({
     profilePic: { type: String },
     profilePicId: { type: String },
 
-    recent_works: [{ image: String, title: String, description: String }],
+    recent_works: [{ url: String, public_id: String }],
     service_charges: [{ title: String, amount: Number }],
 
     whatsapp: { type: String, trim: true },

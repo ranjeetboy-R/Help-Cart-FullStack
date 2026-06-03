@@ -1,6 +1,6 @@
 export const ExpertDetailsSkeleton = () => {
     return (
-        <div className="md:max-w-lg mx-auto bg-white z-50 w-full fixed top-0 h-full animate-">
+        <div className="md:max-w-lg mx-auto bg-white z-50 w-full fixed top-0 left-1/2 -translate-x-1/2 h-full animate-">
 
             {/* Cover */}
             <div className="relative">
@@ -71,7 +71,7 @@ export const ExpertDetailsSkeleton = () => {
 
 export const HomePageSkeleton = () => {
     return (
-        <div className="md:max-w-lg mx-auto bg-white z-50 w-full fixed top-0 left-0 h-full p-5">
+        <div className="md:max-w-lg mx-auto bg-white z-50 w-full fixed top-0 left-1/2 -translate-x-1/2 h-full p-5">
 
             {/* Cover */}
             <div className="flex flex-col gap-3">

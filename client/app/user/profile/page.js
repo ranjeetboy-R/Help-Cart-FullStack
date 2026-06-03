@@ -12,11 +12,11 @@ import toast from 'react-hot-toast';
 const page = () => {
 
   const { user, userLoading } = useUserStore();
-  const { logout } = useAuthStore();
+  const { logoutProfile } = useAuthStore();
   const [deleteModal, setDeleteModal] = useState(false);
 
   const logoutAccount = async () => {
-    const res = await logout();
+    const res = await logoutProfile();
     if (res?.success) {
       toast.success("Logout success");
       window.location.replace('/auth/login');

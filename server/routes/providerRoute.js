@@ -1,16 +1,20 @@
 import express from 'express';
-import { profileSaveByUserDetails, updateProfile } from '../controllers/providerController.js';
+import { deleteImage, profileSaveByUserDetails, updateProfile } from '../controllers/providerController.js';
 import upload from '../utils/upload.js';
 import authMiddleware from '../middleware/authMiddleware.js';
 
 const providerRoute = express.Router();
 
 providerRoute.get('/getUserDetails', authMiddleware, profileSaveByUserDetails);
+providerRoute.post('/delete-image', authMiddleware, deleteImage);
 
 providerRoute.put(
     '/update-provider',
     authMiddleware,
-    upload.single('profilePic'),
+    upload.fields([
+        {name: 'profilePic', maxCount: 1},
+        {name: 'images', maxCount: 5}
+    ]),
     updateProfile
 );
 

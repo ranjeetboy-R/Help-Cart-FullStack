@@ -10,6 +10,8 @@ import {
     Camera,
     FileText,
     Loader2,
+    LogOut,
+    UserX,
 } from 'lucide-react';
 import { FaFacebook } from 'react-icons/fa6';
 import { BsInstagram } from 'react-icons/bs';
@@ -18,6 +20,8 @@ import useProviderStore from '@/app/store/useProviderStore';
 import SelectProfession from '../expertComponent/SelectProfession';
 import profileImage from '@/public/profileImage.webp';
 import Image from 'next/image';
+import DeleteAccount from '@/app/user/userComponents/DeleteAccount';
+import toast from 'react-hot-toast';
 
 const fields = [
     {
@@ -77,9 +81,10 @@ const fields = [
 ];
 
 export default function ProviderProfilePage() {
-    const { account, getProfile } = useAuthStore();
+    const { account, getProfile, logoutProfile } = useAuthStore();
     const [imagePreview, setImagePreview] = useState(null);
     const [profession, setProfession] = useState([]);
+    const [deleteModal, setDeleteModal] = useState(false);
 
     const { updateProviderProfile, profileUpdateLoading } = useProviderStore();
 
@@ -106,7 +111,6 @@ export default function ProviderProfilePage() {
     }
 
     const [ditectFormData, setDitectFormData] = useState(emptyForm);
-
     const [formData, setFormData] = useState(emptyForm);
 
     useEffect(() => {
@@ -194,8 +198,19 @@ export default function ProviderProfilePage() {
         JSON.stringify(formData) !== JSON.stringify(ditectFormData)
     )
 
-    console.log("account", account);
-    console.log("formdata", formData);
+    const logoutAccount = async () => {
+        const res = await logoutProfile();
+        if (res?.success) {
+            toast.success("Logout success");
+            window.location.replace('/auth/login');
+            window.location.reload();
+        }
+    }
+
+    let finalProfilePic = profileImage;
+    if (account?.profilePic) {
+        finalProfilePic = account.profilePic;
+    }
 
     return (
         <div className="min-h-screen bg-slate-100 mb-20">
@@ -208,7 +223,7 @@ export default function ProviderProfilePage() {
                         <div className="relative">
                             <div className="relative w-40 h-40 border-4 border-white shadow-lg shadow-black/30 rounded-full overflow-hidden">
                                 <Image
-                                    src={imagePreview ? imagePreview || profileImage : account?.profilePic}
+                                    src={imagePreview || finalProfilePic}
                                     fill
                                     alt="Profile"
                                     className="object-cover rounded-full"
@@ -396,12 +411,33 @@ export default function ProviderProfilePage() {
                     >
                         {
                             profileUpdateLoading &&
-                            <Loader2 className='animate-spin size-5'/>
+                            <Loader2 className='animate-spin size-5' />
                         }
                         Save Profile
                     </button>
+
+                    <div className="flex items-center justify-between mt-5">
+                        {/* Logout account  */}
+                        <button
+                            type='button'
+                            onClick={logoutAccount}
+                            className="md:w-fit flex items-center justify-center gap-2 px-7 cursor-pointer py-3 rounded-lg border border-slate-300  hover:bg-rose-100 duration-200 hover:scale-95 text-slate-800">
+                            <LogOut className='size-4'
+                            />
+                            Logout
+                        </button>
+
+                        {/* Delete account  */}
+                        <button type='button' onClick={() => setDeleteModal(true)} className="md:w-fit flex items-center justify-center gap-2 px-7 cursor-pointer py-3 rounded-lg border border-slate-300  hover:bg-rose-100 duration-200 hover:scale-95 text-slate-800">
+                            <UserX className='size-4' />
+                            Delete account
+                        </button>
+                    </div>
                 </form>
             </div>
+
+            <DeleteAccount deleteModal={deleteModal} setDeleteModal={setDeleteModal} email={account?.email} />
+
         </div>
     );
 }

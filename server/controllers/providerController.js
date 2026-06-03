@@ -10,10 +10,7 @@ export const updateProfile = async (req, res) => {
         const provider = req.profile;
         const providerId = req.profile._id;
 
-        const { full_name, village, pincode, phone, ward, profession, recent_works, services, whatsapp, facebook, instagram, bio, description, availability, likes, dislike } = req.body;
-console.log("availability", availability);
-
-        const file = req.file;
+        const { full_name, village, pincode, phone, ward, profession, services, whatsapp, facebook, instagram, bio, description, availability, likes, dislike } = req.body;
 
         // 🔹 mobile duplicate check
         if (phone) {
@@ -35,10 +32,6 @@ console.log("availability", availability);
             provider.profession = JSON.parse(profession);
         }
 
-        if (recent_works !== undefined) {
-            provider.recent_works = JSON.parse(recent_works);
-        }
-
         if (whatsapp !== undefined) provider.whatsapp = whatsapp;
         if (facebook !== undefined) provider.facebook = facebook;
         if (instagram !== undefined) provider.instagram = instagram;
@@ -48,7 +41,7 @@ console.log("availability", availability);
         if (likes !== undefined) provider.likes = likes;
         if (dislike !== undefined) provider.dislike = dislike;
 
-        if (file) {
+        if (req.files?.profilePic) {
             try {
                 if (provider.profilePicId) {
                     try {
@@ -60,13 +53,49 @@ console.log("availability", availability);
                     }
                 }
 
-                const result = await uploadToCloudinary(file.buffer, "Profile");
+                const result = await uploadToCloudinary(req.files?.profilePic.buffer, "Profile");
                 provider.profilePic = result.secure_url;
                 provider.profilePicId = result.public_id;
 
             } catch (error) {
                 console.log("Profile image upload error : ", error.message);
             }
+        }
+
+        let uploadImages = [];
+
+        if (req.files?.images.length > 0) {
+            try {
+                const uploadAll = await Promise.all(
+                    req.files.images.map(async (file) => {
+                        const result = await uploadToCloudinary(
+                            file.buffer,
+                            "recentWork"
+                        );
+
+                        return {
+                            url: result.secure_url,
+                            public_id: result.public_id
+                        };
+                    })
+                );
+
+                uploadImages = uploadAll;
+                console.log("uploadAll", uploadAll);
+
+
+            } catch (error) {
+                return res.status(500).json({
+                    success: false,
+                    message: "Gallery images upload failed"
+                });
+            }
+        }
+
+        if (uploadImages.length > 0) {
+            uploadImages.forEach((item) => {
+                provider.recent_works.push(item);
+            })
         }
 
         // 🔹 save
@@ -78,19 +107,55 @@ console.log("availability", availability);
 
         return res.status(200).json({
             success: true,
-            message: "Profile updated successfully",
+            message: "Galery updated successfully",
             provider: providerObj
         });
 
     } catch (error) {
         console.log(error);
-        
+
         return res.status(500).json({
             success: false,
             message: error.message
         });
     }
 };
+
+// Delete Image 
+export const deleteImage = async (req, res) => {
+    try {
+        const providerId = req.profile._id;
+        const { public_id } = req.body;
+
+        const provider = await Provider.findOne({ _id: providerId, "recent_works.public_id": public_id });
+
+        if (provider) {
+            const result = await cloudinary.uploader.destroy(public_id);
+
+            if (result.result === 'ok') {
+
+                provider.recent_works = provider.recent_works?.filter(
+                    item => item.public_id !== public_id
+                )
+
+                await provider.save();
+
+                return res.status(200).json({ success: true, message: 'Image deleted' })
+            }
+            else {
+                return res.status(404).json({ success: false, message: 'Image not found' })
+            }
+        }
+
+        return res.status(400).json({ success: false, message: 'Image not found' })
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+}
 
 // Get save by user details 
 export const profileSaveByUserDetails = async (req, res) => {
@@ -99,7 +164,7 @@ export const profileSaveByUserDetails = async (req, res) => {
 
         const saveUser = await Provider.findById(providerId)
             .populate("saveByUser", "village pincode state district ward")
-            .sort({ createdAt: -1 });            
+            .sort({ createdAt: -1 });
 
         return res.status(200).json({ success: true, saveUser: saveUser?.saveByUser })
 

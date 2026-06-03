@@ -13,10 +13,9 @@ import logo from '@/public/logo.png';
 import useAuthStore from '../store/useAuthStore';
 
 const layout = ({ children }) => {
-    const { user, userLoading, logoutUser } = useUserStore();
     const {getProfile, account, logoutProfile} = useAuthStore();
 
-    const pathname = usePathname() || '/user';
+    const pathname = usePathname() || '/expert';
     const [phoneMenuOpen, setPhoneMenuOpen] = useState(false)
     const asideDiv = useRef();
 
@@ -79,8 +78,15 @@ const layout = ({ children }) => {
 
                 <div className="flex flex-col mb-20 pb-5 h-screen overflow-y-scroll scrollbar-none">
 
-                    <div className={`flex flex-col pb-10 mt-5`}>
-                        <h1 className={`text-slate-700 mt-3 text-2xl justify-center flex capitalize font-semibold items-center gap-2`}>{account?.name}
+                    <div className={`flex flex-col pb-5 mt-5`}>
+                        {
+                                  account?.profilePic &&
+                                  <div className="w-20 h-20 rounded-full relative mx-auto">
+                                    <Image src={account?.profilePic || undefined} alt='Profile' fill  sizes="80px" className='object-cover rounded-full' priority />
+                                  </div>
+                                }
+
+                        <h1 className={`text-slate-700 mt-3 text-2xl justify-center flex capitalize font-semibold items-center gap-2`}>{account?.full_name}
                         </h1>
 
                         <p className='text-center mt-1 text-zinc-500'>Email Id : {account?.email}</p>
@@ -96,7 +102,7 @@ const layout = ({ children }) => {
                                     rounded-r-md border-l-4 pl-2 flex gap-2 py-1.5 transition-all duration-200
                                     ${pathname === item.href
                                         ?
-                                        `border-green-600 ${phoneMenuOpen ? 'bg-green-100 text-green-800 scale-y-105' : ''}`
+                                        `border-green-600 bg-green-100 text-green-800 scale-y-105`
                                         : "border-transparent text-slate-600"
                                     } 
                                     ${phoneMenuOpen ? "items-center hover:bg-green-100"

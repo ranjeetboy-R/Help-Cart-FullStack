@@ -3,13 +3,14 @@ import useUserStore from '@/app/store/useUserStore';
 import { Modal } from 'antd';
 import React, { useState } from 'react'
 
-const DeleteAccount = ({ deleteModal, setDeleteModal, userId }) => {
+const DeleteAccount = ({ deleteModal, setDeleteModal, email }) => {
     const [password, setPassword] = useState('');
     const { deleteAccount, accountDltLoading, logout } = useAuthStore();
     const { user } = useUserStore();
 
     const handalCancel = () => {
         setDeleteModal(false);
+        setPassword('');
     }
 
     const confirmDelete = async () => {
@@ -58,7 +59,7 @@ const DeleteAccount = ({ deleteModal, setDeleteModal, userId }) => {
                 <div className="flex flex-col gap-5">
                     <div className="flex flex-col">
                         <label className='text-zinc-700 font-semibold text-lg'>Permanently Delete Your Account - </label>
-                        <label className='text-zinc-600 text-sm'>{userId}</label>
+                        <label className='text-zinc-600 text-sm'>Email id : {email}</label>
                     </div>
 
                     {user?.authType === 'normal' &&

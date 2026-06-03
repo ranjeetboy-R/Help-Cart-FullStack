@@ -15,9 +15,9 @@ import { IoArrowBack, IoShieldCheckmark } from 'react-icons/io5';
 import { MdOutlineEventAvailable, MdShare } from 'react-icons/md';
 import { RiMoneyRupeeCircleLine } from 'react-icons/ri';
 import { ExpertDetailsSkeleton } from '../../userComponents/Skeleton';
+import ImagePreview from '@/app/expert/expertComponent/ImagePreview';
 
 const page = () => {
-
     const params = useParams();
     const id = params.id;
     const { user, getExpertById, toggleReaction, getExpertLoading } = useUserStore();
@@ -66,9 +66,9 @@ const page = () => {
         const previousPath = sessionStorage.getItem("previousPath");
         setPreviousPath(previousPath);
     }, []);
-    
+
     const rewritePath = previousPath ? previousPath : '/user';
-    
+
     const isSaved = user?.savedProviderIds?.includes(expert?._id);
 
     return (
@@ -243,6 +243,15 @@ const page = () => {
                             :
                             `${expert?.services.slice(0, 50)}...`}
                         </p>
+                    </div>
+                }
+
+                {/* Image preview  */}
+                {
+                    expert?.recent_works?.length > 0 &&
+                    <div className='flex flex-col'>
+                        <p className='mb-3 font-semibold'>Recent work images</p>
+                        <ImagePreview images={expert?.recent_works} />
                     </div>
                 }
 

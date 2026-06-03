@@ -38,20 +38,20 @@ const page = () => {
         {
           account?.profilePic &&
           <div className="w-36 h-36 rounded-full relative mx-auto">
-            <Image src={account?.profilePic || undefined} fill className='object-cover rounded-full' priority />
+            <Image src={account?.profilePic || undefined} fill className='object-cover rounded-full' sizes='144px' alt='profile pic' priority />
           </div>
         }
 
         <div className="flex flex-col items-center mt-5">
           <div className='flex text-center flex-col capitalize'>
             <p className=''>Welcome,</p>
-            <p className='text-xl font-semibold'>{account?.full_name}👋</p>
+            <p className='text-2xl font-semibold capitalize'>{account?.full_name}👋</p>
           </div>
 
-          <span className='flex items-center gap-5 mt-1'>
+          <span className='flex items-center gap-2 mt-1'>
             {
               account?.profession?.map((item, index) => (
-                <p className='capitalize text-sm' key={index}>{item}</p>
+                <p className='capitalize font-medium text-sm' key={index}>{item} {index < account?.profession?.length ? ',' : ''}</p>
               ))
             }
           </span>
@@ -61,7 +61,7 @@ const page = () => {
             {account?.village}, {account?.state} {account?.district}
           </div>
 
-          <Link href="/expert/expertProfile" className="flex mt-5 items-center gap-2 border border-slate-400 hover:bg-green-50 transition-all active:scale-90 px-3 py-2 text-sm rounded-lg">
+          <Link href="/expert/expertProfile" className="flex mt-5 items-center gap-2 border border-slate-400 bg-black/80 hover:bg-black transition-all text-white active:scale-90 px-3 py-2 text-sm rounded-lg">
             View My Profile
             <ChevronRight className='size-4' />
           </Link>

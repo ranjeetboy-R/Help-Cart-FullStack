@@ -32,6 +32,21 @@ const useProviderStore = create(
             }
         },
 
+        deleteImage: async (public_id) => {
+            try {
+                const { data } = await axiosInstance.post('/provider/delete-image', {public_id});    
+
+                if (data.success) {
+                    toast.success(data.message);
+                    return { success: true }
+                }
+
+            } catch (error) {
+                const msg = error.response?.data?.message || "Something went wrong";
+                toast.error(msg);
+            }
+        },
+
         getUserDetailsWhoSaveProvider: async () => {
             try {
                 const { data } = await axiosInstance.get(`/provider/getUserDetails`);

@@ -34,31 +34,35 @@ const Address = ({ setNext, setBack }) => {
             village: account?.village || '',
             pincode: account?.pincode || '',
             phone: account?.phone || '',
-            ward: account?.ward || '',
-            profession
+            ward: account?.ward || ''
         })
-    }, [account, profession])
+    }, [account])
 
-    useEffect(()=> {
+    useEffect(() => {
         if (account?.profession) {
             setProfession(account.profession)
         }
-    }, [account])
+    }, [account?.profession])
 
     const saveAndNext = async (e) => {
         e.preventDefault();
 
-        if (formData) {
-            const res = await updateProviderProfile(formData);
-            if (res?.success) {                
-                setNext(true);
-                setBack(false);
-            }
-            else {
-                setNext(false);
-                setBack(false);
-            }
+        const newFormData = new FormData();
 
+        if (formData?.village) newFormData.append('village', formData.village);
+        if (formData?.pincode) newFormData.append('pincode', formData.pincode);
+        if (formData?.phone) newFormData.append('phone', formData.phone);
+        if (formData?.ward) newFormData.append('ward', formData.ward);
+        if (profession.length > 0) newFormData.append('profession', JSON.stringify(profession));
+
+        const res = await updateProviderProfile(newFormData);
+        if (res?.success) {
+            setNext(true);
+            setBack(false);
+        }
+        else {
+            setNext(false);
+            setBack(false);
         }
     }
 
