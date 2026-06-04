@@ -9,7 +9,7 @@ export default function RouteTracker() {
   useEffect(() => {
     const currentPath = sessionStorage.getItem("currentPath");
 
-    if (currentPath) {
+    if (currentPath && currentPath !== pathname) {
       sessionStorage.setItem("previousPath", currentPath);
     }
 

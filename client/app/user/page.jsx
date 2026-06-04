@@ -43,7 +43,7 @@ const page = () => {
             width={120}
             height={40}
             priority
-            quality={100}
+            className='w-auto h-auto'
           />
         </Link>
 
@@ -80,7 +80,7 @@ const page = () => {
               width={150}
               height={40}
               priority
-              quality={100}
+              className='h-auto w-auto'
             />
           </div>
         </div>

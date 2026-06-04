@@ -75,119 +75,124 @@ const page = () => {
         <div className="md:max-w-md mx-auto w-full flex flex-col gap-5 p-2">
 
             {/* image */}
-            <div className="relative rounded-t-2xl h-60">
-                {
-                    expert?.profilePic ?
-                        <Image src={expert.profilePic} fill alt='Expert Image' className='object-cover rounded-t-2xl' />
-                        :
-                        <Image src='/profileImage.webp' fill alt='Expert Image' className='object-contain -mt-5' />
-                }
 
-                <div className="absolute top-0 left-0 w-full h-full p-4 bg-linear-to-b from-transparent via-transparent to-white">
-                    <div className="flex justify-between">
-                        <Link href={rewritePath} className='bg-black/30 h-fit p-2 rounded-full'>
-                            <IoArrowBack className='text-white size-5' />
-                        </Link>
+            {
+                expert &&
+                <div className="relative rounded-t-2xl h-60">
+                    {
+                        expert?.profilePic ?
+                            <Image src={expert.profilePic} fill alt='Expert Image' className='object-cover rounded-t-2xl' />
+                            :
+                            <Image src='/profileImage.webp' fill alt='Expert Image' className='object-contain -mt-5' />
+                    }
 
-                        <div className="flex gap-3">
-                            <button className="flex h-fit items-center text-green-600 font-medium bg-green-200 p-2 text-xs gap-1 rounded-full">
-                                <IoShieldCheckmark /> Verified
-                            </button>
+                    <div className="absolute top-0 left-0 w-full h-full p-4 bg-linear-to-b from-transparent via-transparent to-white">
+                        <div className="flex justify-between">
+                            <Link href={rewritePath} className='bg-black/30 h-fit p-2 rounded-full'>
+                                <IoArrowBack className='text-white size-5' />
+                            </Link>
 
-                            <div className="flex flex-col gap-3">
-                                <Link href='/app/expert' className='bg-black/30 p-2 rounded-full'>
-                                    <MdShare className='text-white size-5' />
-                                </Link>
-                                <button className='bg-black/30 p-2 rounded-full'>
-                                    <Bookmark className={`${isSaved ? 'fill-amber-500 text-amber-200' : 'text-white'} size-5`} />
+                            <div className="flex gap-3">
+                                <button className="flex h-fit items-center text-green-600 font-medium bg-green-200 p-2 text-xs gap-1 rounded-full">
+                                    <IoShieldCheckmark /> Verified
                                 </button>
+
+                                <div className="flex flex-col gap-3">
+                                    <Link href='/app/expert' className='bg-black/30 p-2 rounded-full'>
+                                        <MdShare className='text-white size-5' />
+                                    </Link>
+                                    <button className='bg-black/30 p-2 rounded-full'>
+                                        <Bookmark className={`${isSaved ? 'fill-amber-500 text-amber-200' : 'text-white'} size-5`} />
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="absolute -bottom-20 left-3 right-3 bg-white rounded-xl shadow shadow-black/20 p-3 flex flex-col">
-                    {
-                        expert &&
-                        <div className='relative font-semibold text-lg w-fit capitalize'>
-                            {expert?.full_name}
-                            <HiMiniCheckBadge className='fill-green-600 absolute top-0 -right-6' />
-                        </div>
-                    }
-
-                    <div className='flex items-center gap-2 text-xs'>
-                        {
-                            expert?.profession?.slice(0, 2).map((item, index) => (
-                                <p key={index} className='font-medium text-slate-700 capitalize'>{item} {index === 0 ? ',' : ''}</p>
-                            ))
-                        }
-                    </div>
-
-                    {/* Availability */}
-                    {
-                        expert &&
-                        <div className={`${expert?.availability ? 'text-green-600' : 'text-rose-600'} mt-2 font-semibold text-sm`} >
-                            {expert?.availability ?
-                                <p className='flex items-center gap-1'><MdOutlineEventAvailable /> Available</p>
-                                :
-                                <p className='flex items-center gap-1'><CgUnavailable /> UnAvailable</p>
-                            }
-                        </div>
-                    }
-
-                    <div className="w-full flex items-center mt-2 justify-between">
-                        {/* Like & Deslike */}
+                    <div className="absolute -bottom-20 left-3 right-3 bg-white rounded-xl shadow shadow-black/20 p-3 flex flex-col">
                         {
                             expert &&
-                            <div className="flex items-center gap-3 border-b border-slate-200 py-1">
-                                <button onClick={() => submitReaction('like')} className="flex items-center gap-2 border-r border-slate-200 px-3">
-                                    <p>{expert?.likes}</p>
-                                    <span>
-                                        <ThumbsUp className={`${(expert?.likedBy.includes(user?._id) || liked) ? 'fill-rose-600 stroke-rose-600' : 'fill-transparent stroke-slate-600 stroke-2'} size-4`} />
-                                    </span>
-                                </button>
-
-                                <button onClick={() => submitReaction('dislike')} className="flex items-center gap-2 pr-3">
-                                    <p>{expert?.dislikes}</p>
-                                    <span>
-                                        <ThumbsDown className={`${(expert?.dislikedBy.includes(user?._id) || disliked) ? 'fill-gray-500 stroke-gray-500' : 'fill-transparent stroke-slate-600 stroke-2'} size-4`} />
-                                    </span>
-                                </button>
+                            <div className='relative font-semibold text-lg w-fit capitalize'>
+                                {expert?.full_name}
+                                <HiMiniCheckBadge className='fill-green-600 absolute top-0 -right-6' />
                             </div>
                         }
 
-                        {/* Phone and Whatsapp */}
-                        <div className="flex items-end gap-3 pr-2">
+                        <div className='flex items-center gap-2 text-xs'>
                             {
-                                expert?.phone &&
-                                <a href={`tel:+91${expert?.phone}`} className="border border-slate-300 text-xs text-black flex items-center py-2 px-3 rounded-full gap-1">
-                                    <IoIosCall className='size-5 md:size-4' />
-                                    <p className='hidden md:block'>Call Now</p>
-                                </a>
-                            }
-                            {
-                                expert?.whatsapp &&
-                                <a href={`https://wa.me/91${expert?.whatsapp}`} target='_blank' className="bg-green-600 text-xs flex items-center py-2 px-3 text-white rounded-full gap-1">
-                                    <FaWhatsapp className='size-5 md:size-4' />
-                                    <p className='hidden md:block'>Chat on Whatsapp</p>
-                                </a>
+                                expert?.profession?.slice(0, 2).map((item, index) => (
+                                    <p key={index} className='font-medium text-slate-700 capitalize'>{item} {index === 0 ? ',' : ''}</p>
+                                ))
                             }
                         </div>
-                    </div>
 
+                        {/* Availability */}
+                        {
+                            expert &&
+                            <div className={`${expert?.availability ? 'text-green-600' : 'text-rose-600'} mt-2 font-semibold text-sm`} >
+                                {expert?.availability ?
+                                    <p className='flex items-center gap-1'><MdOutlineEventAvailable /> Available</p>
+                                    :
+                                    <p className='flex items-center gap-1'><CgUnavailable /> UnAvailable</p>
+                                }
+                            </div>
+                        }
+
+                        <div className="w-full flex items-center mt-2 justify-between">
+                            {/* Like & Deslike */}
+                            {
+                                expert &&
+                                <div className="flex items-center gap-3 border-b border-slate-200 py-1">
+                                    <button onClick={() => submitReaction('like')} className="flex items-center gap-2 border-r border-slate-200 px-3">
+                                        <p>{expert?.likes}</p>
+                                        <span>
+                                            <ThumbsUp className={`${(expert?.likedBy.includes(user?._id) || liked) ? 'fill-rose-600 stroke-rose-600' : 'fill-transparent stroke-slate-600 stroke-2'} size-4`} />
+                                        </span>
+                                    </button>
+
+                                    <button onClick={() => submitReaction('dislike')} className="flex items-center gap-2 pr-3">
+                                        <p>{expert?.dislikes}</p>
+                                        <span>
+                                            <ThumbsDown className={`${(expert?.dislikedBy.includes(user?._id) || disliked) ? 'fill-gray-500 stroke-gray-500' : 'fill-transparent stroke-slate-600 stroke-2'} size-4`} />
+                                        </span>
+                                    </button>
+                                </div>
+                            }
+
+                            {/* Phone and Whatsapp */}
+                            <div className="flex items-end gap-3 pr-2">
+                                {
+                                    expert?.phone &&
+                                    <a href={`tel:+91${expert?.phone}`} className="border border-slate-300 text-xs text-black flex items-center py-2 px-3 rounded-full gap-1">
+                                        <IoIosCall className='size-5 md:size-4' />
+                                        <p className='hidden md:block'>Call Now</p>
+                                    </a>
+                                }
+                                {
+                                    expert?.whatsapp &&
+                                    <a href={`https://wa.me/91${expert?.whatsapp}`} target='_blank' className="bg-green-600 text-xs flex items-center py-2 px-3 text-white rounded-full gap-1">
+                                        <FaWhatsapp className='size-5 md:size-4' />
+                                        <p className='hidden md:block'>Chat on Whatsapp</p>
+                                    </a>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
-            </div>
+            }
 
             {/* Hero section */}
             <div className="flex flex-col mt-14 gap-5 p-5">
-                <div className="">
+                {
+                    (expert?.village || expert?.state || expert?.district) &&
                     <span className='text-sm text-slate-600 font-semibold flex items-center gap-1'>
                         <CiLocationOn className='size-4' />
                         <div className="flex items-center">
                             {expert?.village}, {expert?.state} {expert?.district}
                         </div>
                     </span>
-                </div>
+                }
 
                 {
                     expert?.service_charges &&

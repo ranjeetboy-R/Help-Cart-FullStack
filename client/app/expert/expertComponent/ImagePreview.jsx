@@ -112,9 +112,9 @@ const ImagePreview = ({ images, setUiUpdate, uiUpdate, deleteImage }) => {
                 },
             }}
         >
-            <div className={`${imageList?.length / 2 === 0 ? 'justify-center' : 'justify-start'} flex flex-wrap gap-5 mb-20`}>
+            <div className={`${imageList?.length / 2 === 0 ? 'justify-center' : 'justify-start'} flex gap-5 mb-20`}>
                 {imageList.map((item, index) => (
-                    <div key={item.public_id} className="relative rounded-xl overflow-hidden h-30!">
+                    <div key={item.public_id} className="border border-slate-300 relative rounded-xl overflow-hidden h-30!">
                         <Image alt={`image-${index}`} src={item.url} width={200} className='h-30! object-cover' />
 
                         {
