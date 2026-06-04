@@ -53,7 +53,7 @@ export const updateProfile = async (req, res) => {
                     }
                 }
 
-                const result = await uploadToCloudinary(req.files?.profilePic.buffer, "Profile");
+                const result = await uploadToCloudinary(req.files?.profilePic[0].buffer, "Profile");
                 provider.profilePic = result.secure_url;
                 provider.profilePicId = result.public_id;
 
@@ -64,7 +64,7 @@ export const updateProfile = async (req, res) => {
 
         let uploadImages = [];
 
-        if (req.files?.images.length > 0) {
+        if (req.files?.images?.length > 0) {
             try {
                 const uploadAll = await Promise.all(
                     req.files.images.map(async (file) => {
@@ -81,8 +81,6 @@ export const updateProfile = async (req, res) => {
                 );
 
                 uploadImages = uploadAll;
-                console.log("uploadAll", uploadAll);
-
 
             } catch (error) {
                 return res.status(500).json({
@@ -92,7 +90,7 @@ export const updateProfile = async (req, res) => {
             }
         }
 
-        if (uploadImages.length > 0) {
+        if (uploadImages?.length > 0) {
             uploadImages.forEach((item) => {
                 provider.recent_works.push(item);
             })
@@ -112,8 +110,6 @@ export const updateProfile = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
-
         return res.status(500).json({
             success: false,
             message: error.message

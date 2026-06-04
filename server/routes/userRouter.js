@@ -1,11 +1,12 @@
 import express from 'express';
-import { getAllProvider, getProviderById, getSavedProvider, saveProvider, toggleReaction, userUpdateProfile } from '../controllers/userController.js';
+import { getAllProvider, getAllProviderForLandingPage, getProviderById, getSavedProvider, saveProvider, toggleReaction, userUpdateProfile } from '../controllers/userController.js';
 import authMiddleware from '../middleware/authMiddleware.js';
 import upload from '../utils/upload.js';
 
 const userRouter = express.Router();
 
 userRouter.get('/get-allProviders', authMiddleware, getAllProvider);
+userRouter.get('/get-allProvidersForLandingPage', getAllProviderForLandingPage);
 userRouter.get('/get-providerById/:id', authMiddleware, getProviderById);
 userRouter.get('/get-savedProvider', authMiddleware, getSavedProvider);
 

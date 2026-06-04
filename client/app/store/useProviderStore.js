@@ -1,7 +1,5 @@
 import { create } from "zustand";
-import axios from "axios";
 import toast from "react-hot-toast";
-import { persist } from "zustand/middleware";
 import axiosInstance from "../axiosInstance";
 
 const useProviderStore = create(
@@ -26,6 +24,7 @@ const useProviderStore = create(
             } catch (error) {
                 const msg = error.response?.data?.message || "Something went wrong";
                 toast.error(msg);
+                
             }
             finally {
                 set({ profileUpdateLoading: false });

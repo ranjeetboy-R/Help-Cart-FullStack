@@ -67,7 +67,6 @@ const Profile = ({ setBack }) => {
         }
     ]
 
-
     return (
         <div className={`flex flex-col`}>
             <h1 className='text-lg font-semibold mt-2 text-slate-600'>Profile Details</h1>

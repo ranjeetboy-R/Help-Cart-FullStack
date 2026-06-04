@@ -276,18 +276,18 @@ export const expertPageItems = [
         icon: LayoutDashboard
     },
     {
+      title: "Recent Work",
+      href: '/expert/workDetails',
+      icon: NotebookPen
+    },
+    {
+      title: "Analysis",
+      href: '/expert/analysis',
+      icon: ChartNoAxesCombined
+    },
+    {
         title: "Profile",
         href: '/expert/expertProfile',
         icon: User2
-    },
-    {
-        title: "Recent Work",
-        href: '/expert/workDetails',
-        icon: NotebookPen
-    },
-    {
-        title: "Analysis",
-        href: '/expert/analysis',
-        icon: ChartNoAxesCombined
     },
 ]

@@ -2,6 +2,24 @@ import Provider from "../models/provider.js";
 import User from "../models/user.js";
 
 
+export const getAllProviderForLandingPage = async (req, res) => {
+    try {
+            const providers = await Provider.find().sort({ createdAt: -1 }).select("full_name village phone profession profilePic services");
+
+            if (providers.length === 0) {
+                return res.status(404).json({ message: "Provider not found" });
+            }
+
+            return res.status(200).json({ success: true, providers })
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+}
+
 export const getAllProvider = async (req, res) => {
     try {
         if (req.profile.role === 'user') {

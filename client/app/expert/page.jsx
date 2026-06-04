@@ -37,14 +37,14 @@ const page = () => {
 
         {
           account?.profilePic &&
-          <div className="w-36 h-36 rounded-full relative mx-auto">
+          <div className="relative w-40 h-40 border-4 border-white/50 shadow-lg shadow-black/50 rounded-full overflow-hidden mx-auto">
             <Image src={account?.profilePic || undefined} fill className='object-cover rounded-full' sizes='144px' alt='profile pic' priority />
           </div>
         }
 
         <div className="flex flex-col items-center mt-5">
           <div className='flex text-center flex-col capitalize'>
-            <p className=''>Welcome,</p>
+            <p className='font-semibold'>Welcome,</p>
             <p className='text-2xl font-semibold capitalize'>{account?.full_name}👋</p>
           </div>
 

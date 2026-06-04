@@ -195,7 +195,8 @@ export default function ProviderProfilePage() {
     }, [account?.profession.length])
 
     const isChanges = (
-        JSON.stringify(formData) !== JSON.stringify(ditectFormData)
+        JSON.stringify(formData) !== JSON.stringify(ditectFormData) ||
+        account?.profession.length !== profession?.length
     )
 
     const logoutAccount = async () => {
@@ -226,6 +227,7 @@ export default function ProviderProfilePage() {
                                     src={imagePreview || finalProfilePic}
                                     fill
                                     alt="Profile"
+                                    priority
                                     className="object-cover rounded-full"
                                 />
                             </div>
@@ -416,7 +418,7 @@ export default function ProviderProfilePage() {
                         Save Profile
                     </button>
 
-                    <div className="flex items-center justify-between mt-5">
+                    <div className="flex items-center justify-between gap-3 mt-5">
                         {/* Logout account  */}
                         <button
                             type='button'
