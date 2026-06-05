@@ -47,7 +47,8 @@ const Profile = ({ setBack }) => {
             name: 'services',
             type: 'text',
             value: formData.services,
-            optional: false
+            optional: false,
+            row: 2
         },
         {
             label: 'Bio',
@@ -55,7 +56,8 @@ const Profile = ({ setBack }) => {
             name: 'bio',
             type: 'text',
             value: formData.bio,
-            optional: true
+            optional: true,
+            row: 2
         },
         {
             label: 'Description',
@@ -63,7 +65,8 @@ const Profile = ({ setBack }) => {
             name: 'description',
             type: 'text',
             value: formData.description,
-            optional: true
+            optional: true,
+            row: 6
         }
     ]
 
@@ -76,7 +79,8 @@ const Profile = ({ setBack }) => {
                     arrayData?.map((data, index) => (
                         <div key={index} className="mb-3">
                             <label className="text-sm text-slate-700 font-semibold">{data.label} {data.optional ? '(Optional)' : '*'}</label>
-                            <input
+                            <textarea
+                            rows={data.row}
                                 onChange={(e) => handleChange(e)}
                                 type={data.type}
                                 required={!data.optional}
@@ -84,7 +88,7 @@ const Profile = ({ setBack }) => {
                                 autoComplete="off"
                                 placeholder={data.placeholder}
                                 name={data.name}
-                                className="w-full py-2 px-3 text-sm border border-slate-400 mt-1 rounded-md"
+                                className="w-full outline-none py-2 px-3 text-sm border border-slate-400 mt-1 rounded-md"
                             />
                         </div>
                     ))

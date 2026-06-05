@@ -17,6 +17,7 @@ import { RiMoneyRupeeCircleLine } from 'react-icons/ri';
 import ImagePreview from '@/app/expert/expertComponent/ImagePreview';
 import { ExpertDetailsSkeleton } from '@/app/user/userComponents/Skeleton';
 import moment from 'moment';
+import toast from 'react-hot-toast';
 
 const page = () => {
     const params = useParams();
@@ -87,6 +88,23 @@ const page = () => {
 
     const isSaved = user?.savedProviderIds?.includes(expert?._id);
 
+    const handleShare = async () => {
+        if (!navigator.share) {
+            toast.error("Sharing is not supported on this browser");
+            return;
+        }
+
+        try {
+            await navigator.share({
+                title: expert?.full_name,
+                text: expert?.bio || `Check ${expert?.full_name} Profile` ,
+                url:  `${window.location.origin}/user/expertDetails/${expert?._id}`,
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <div className="md:max-w-md mx-auto w-full flex flex-col gap-5 p-2">
 
@@ -114,9 +132,9 @@ const page = () => {
                                 </button>
 
                                 <div className="flex flex-col gap-3">
-                                    <Link href='/app/expert' className='bg-black/30 p-2 rounded-full'>
+                                    <button onClick={handleShare} className='cursor-pointer bg-black/30 p-2 rounded-full'>
                                         <MdShare className='text-white size-5' />
-                                    </Link>
+                                    </button>
                                     <button
                                         onClick={() => saveProviderButton(expert?._id)} className='bg-black/30 p-2 rounded-full cursor-pointer'>
                                         <Bookmark className={`${isSaved ? 'fill-amber-500 text-amber-200' : 'text-white'} size-5`} />
@@ -181,15 +199,13 @@ const page = () => {
                                 {
                                     expert?.phone &&
                                     <a href={`tel:+91${expert?.phone}`} className="border border-slate-300 text-xs text-black flex items-center py-2 px-3 rounded-full gap-1">
-                                        <IoIosCall className='size-5 md:size-4' />
-                                        <p className='hidden md:block'>Call Now</p>
+                                        <IoIosCall className='size-6' />
                                     </a>
                                 }
                                 {
                                     expert?.whatsapp &&
                                     <a href={`https://wa.me/91${expert?.whatsapp}`} target='_blank' className="bg-green-600 text-xs flex items-center py-2 px-3 text-white rounded-full gap-1">
-                                        <FaWhatsapp className='size-5 md:size-4' />
-                                        <p className='hidden md:block'>Chat on Whatsapp</p>
+                                        <FaWhatsapp className='size-6' />
                                     </a>
                                 }
                             </div>

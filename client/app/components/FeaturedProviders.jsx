@@ -58,16 +58,16 @@ export default function FeaturedProviders() {
 
           <motion.div
             animate={{
-              x: ["0%", "-50%"],
+              x: ["100%", "-100%"],
             }}
             transition={{
               duration: 20,
               repeat: Infinity,
               ease: "linear",
             }}
-            className="flex w-max -space-x-7"
+            className="flex -space-x-7"
           >
-            {[...randomExperts, ...randomExperts].map(
+            {[...randomExperts].slice(0, 10).map(
               (provider, index) => (
                 <div
                   key={index}

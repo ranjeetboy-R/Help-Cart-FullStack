@@ -113,7 +113,7 @@ export const updateProfile = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: "Galery updated successfully",
+            message: "Profile updated successfully",
             provider: providerObj
         });
 

@@ -60,7 +60,7 @@ const Experts = ({ experts = null, quantity, title = '' }) => {
                                         <img src={expert.profilePic || '/profileImage.webp'} alt='Expert' className='rounded-md object-cover aspect-square' />
                                     </div>
 
-                                    <Link href={`/expertDetails/${expert._id}`} className="flex flex-col w-full gap-1">
+                                    <Link href={`/user/expertDetails/${expert._id}`} className="flex flex-col w-full gap-1">
                                         <div className='relative font-semibold text-lg w-fit capitalize'>
                                             {expert.full_name}
                                             {
