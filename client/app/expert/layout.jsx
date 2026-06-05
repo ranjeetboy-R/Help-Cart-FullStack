@@ -8,7 +8,6 @@ import { usePathname } from 'next/navigation'
 import { RiMenu3Fill } from 'react-icons/ri'
 import { expertPageItems } from '@/public/assests';
 import toast from 'react-hot-toast';
-import useUserStore from '../store/useUserStore';
 import logo from '@/public/logo.png';
 import useAuthStore from '../store/useAuthStore';
 

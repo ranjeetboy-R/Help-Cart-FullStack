@@ -3,9 +3,7 @@
 import useUserStore from '@/app/store/useUserStore'
 import React, { useEffect, useState } from 'react'
 import Experts from '../userComponents/Experts';
-import Link from 'next/link';
-import { Funnel, Search } from 'lucide-react';
-import { IoArrowBack } from 'react-icons/io5';
+import { Search } from 'lucide-react';
 import { categories } from '@/public/assests';
 
 const page = () => {
@@ -19,6 +17,7 @@ const page = () => {
   useEffect(() => {
     const get = async () => {
       const res = await getSaveProvider();
+
       if (res?.success) {
         setProviders(res.saveProviders);
         setfilteredProviders(res.saveProviders)
@@ -52,16 +51,10 @@ const page = () => {
       </div>
 
       {/* Search Bar */}
-      <div className="flex items-center gap-2 mt-5">
-        <div className="flex items-center gap-2 border border-slate-100 hover:shadow-md p-3 transition-all shadow rounded-lg w-full">
+        <div className="flex items-center mt-5 gap-2 border border-slate-100 hover:shadow-md p-3 transition-all shadow rounded-lg w-full">
           <Search className='size-5 text-slate-500' />
           <input onChange={(e) => setSearchInput(e.target.value.trim())} type="search" placeholder='Search electrician...' className="w-full" />
         </div>
-
-        <button className="p-2">
-          <Funnel className='size-5 text-slate-500' />
-        </button>
-      </div>
 
       {/* Filter Option */}
       <div className="flex cursor-grab items-center mt-3 justify-center gap-5">

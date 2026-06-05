@@ -1,34 +1,77 @@
-import React from 'react'
-import { Search } from 'lucide-react'
+'use client'
+
+import React, { useEffect, useState } from 'react'
+import { Loader2, Search } from 'lucide-react'
 import Experts from '../userComponents/Experts'
+import useUserStore from '@/app/store/useUserStore'
 
 const page = () => {
+  const { searchProvider, searchLoading, allExperts } = useUserStore();
+  const [search, setSearch] = useState('');
+  const [experts, setExperts] = useState([]);
+  const [existingExperts, setExistingExperts] = useState([]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const gettingExpert = async () => {
+        const res = await allExperts();
+        if (res?.success) {
+          const data = res.providers.slice(0, 6);
+          setExperts(data);
+          setExistingExperts(data);
+        }
+      }
+
+      gettingExpert();
+    }, 500);
+
+    return () => clearTimeout(timer);
+
+  }, [])
+
+  const SearchSubmit = async () => {
+    if (search) {
+      const res = await searchProvider(search);
+
+      if (res?.success) {
+        setExperts(res.providers);
+      }
+    }
+  }
+
+  const finalExperts = search === '' ? existingExperts : experts;
+
   return (
     <div className="flex flex-col gap-3 p-5 relative">
 
       {/* Search Bar */}
-      <div className="flex items-center gap-2 border border-slate-100 hover:shadow-md p-3 transition-all shadow rounded-lg w-full">
-        <Search className='size-5 text-slate-500' />
-        <input type="search" placeholder='Search electrician...' className="w-full" />
+      <div className="flex items-center border border-slate-100 hover:shadow-md p-1 transition-all shadow rounded-lg w-full">
+        <div className="flex items-center gap-2 px-3 w-full">
+          <Search className='size-5 text-slate-500' />
+          <input onChange={(e) => setSearch(e.target.value.trim())} type="search" placeholder='Search by name, village, services...' className="w-full" />
+        </div>
+
+        <button disabled={searchLoading} onClick={SearchSubmit} className="w-10 h-10 disabled:cursor-not-allowed disabled:opacity-50 disabled:animate-pulse cursor-pointer aspect-square rounded-md bg-linear-to-b from-green-400 to-green-900 active:scale-90 transition-all flex items-center justify-center text-white">
+          {
+            searchLoading ?
+              <Loader2 className='animate-spin stroke-3 stroke-white' />
+              :
+              <Search className='size-5' />
+          }
+        </button>
       </div>
 
-      {/* Filter Option */}
-      <div className="flex items-center justify-center gap-5 mt-2">
-        <button className="bg-green-100 px-5 text-green-800 font-medium py-2 rounded-full shadow-md text-sm">
-          Near Me
-        </button>
-        <button className="px-5 text-slate-600 border border-slate-100 shadow-md font-medium py-2 rounded-full text-sm">
-          Top Rated
-        </button>
-        <button className="px-5 text-slate-600 border border-slate-100 shadow-md font-medium py-2 rounded-full text-sm">
-          Verified Only
-        </button>
-      </div>
+      <hr className='border border-slate-100 mt-1' />
 
-      <hr className='border border-slate-200 mt-1' />
+      {
+        finalExperts.length === 0 &&
+        <span className='flex items-center text-rose-600/50 font-semibold text-center justify-center font-mono capitalize my-5 gap-1 text-lg w-full'>Opps! 
+          <p className='text-green-600'>"{search}"</p> not found
+        </span>
+      }
 
       {/* Popular Experts */}
-      <Experts quantity={10} title="Popular Experts" />
+      <Experts experts={finalExperts} title="Popular Experts" />
 
       {/* Post a Request */}
       <div className="flex items-center flex-col bg-green-100 p-5 rounded-xl mb-20">

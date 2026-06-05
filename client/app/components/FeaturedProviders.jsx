@@ -3,22 +3,12 @@
 import axios from "axios";
 import { motion } from "framer-motion";
 import {
-  Star,
   MapPin,
   Phone,
   BadgeCheck,
 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-
-const providers = [
-  {
-    name: "Rahul Kumar",
-    profession: "Electrician",
-    location: "Bhagalpur",
-    rating: "4.9",
-  },
-];
 
 export default function FeaturedProviders() {
   const [experts, setExperts] = useState([]);
@@ -57,8 +47,7 @@ export default function FeaturedProviders() {
           </h2>
 
           <p className="text-gray-400 mt-5 max-w-2xl mx-auto">
-            Verified aur highly rated providers jo users ke
-            beech sabse zyada trusted hain.
+            ऐसे सेवा प्रदाता जिन्हें लोगों ने पसंद किया है और जिनके काम पर भरोसा किया जाता है।
           </p>
 
         </div>
@@ -76,13 +65,13 @@ export default function FeaturedProviders() {
               repeat: Infinity,
               ease: "linear",
             }}
-            className="flex gap-6 w-max"
+            className="flex w-max -space-x-7"
           >
             {[...randomExperts, ...randomExperts].map(
               (provider, index) => (
                 <div
                   key={index}
-                  className="w-[320px] shrink-0 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6"
+                  className="w-[320px] shrink-0 rounded-3xl border border-white/30 bg-slate-700/20 h-fit scale-85 hover:bg-slate-700/40 backdrop-blur-xl p-5"
                 >
                   {/* Avatar */}
 
@@ -128,7 +117,7 @@ export default function FeaturedProviders() {
 
                   <div className="mt-3 capitalize flex items-center gap-2 text-gray-400">
                     <MapPin size={16} />
-                    {provider.village}, Bihar
+                    {provider.village}, Bihar Muz.
                   </div>
 
                   {/* CTA */}
@@ -137,7 +126,7 @@ export default function FeaturedProviders() {
                     provider.phone &&
                     <a href={`tel:+91${provider.phone}`} className="w-full mt-6 bg-green-500 hover:bg-green-400 text-black font-semibold py-3 rounded-2xl flex items-center justify-center gap-2 transition">
                       <Phone size={16} />
-                      Contact Provider
+                      Contact
                     </a>
                   }
                 </div>

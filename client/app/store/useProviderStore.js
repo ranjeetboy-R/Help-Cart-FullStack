@@ -45,6 +45,21 @@ const useProviderStore = create(
                 toast.error(msg);
             }
         },
+        
+        deleteServiceCharge: async (id) => {
+            try {
+                const { data } = await axiosInstance.post('/provider/delete-serviceCharge', {id});    
+
+                if (data.success) {
+                    toast.success("Deleted");
+                    return { success: true }
+                }
+
+            } catch (error) {
+                const msg = error.response?.data?.message || "Something went wrong";
+                toast.error(msg);
+            }
+        },
 
         getUserDetailsWhoSaveProvider: async () => {
             try {

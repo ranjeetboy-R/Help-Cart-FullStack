@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import UserMenu from './userComponents/UserMenu'
 import UserLayoutWrapper from './userComponents/UserLayoutWrapper'
 import useUserStore from '../store/useUserStore'
 

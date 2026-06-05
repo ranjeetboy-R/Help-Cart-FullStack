@@ -4,13 +4,13 @@ import User from "../models/user.js";
 
 export const getAllProviderForLandingPage = async (req, res) => {
     try {
-            const providers = await Provider.find().sort({ createdAt: -1 }).select("full_name village phone profession profilePic services");
+        const providers = await Provider.find().sort({ createdAt: -1 }).select("full_name village phone profession profilePic services");
 
-            if (providers.length === 0) {
-                return res.status(404).json({ message: "Provider not found" });
-            }
+        if (providers.length === 0) {
+            return res.status(404).json({ message: "Provider not found" });
+        }
 
-            return res.status(200).json({ success: true, providers })
+        return res.status(200).json({ success: true, providers })
 
     } catch (error) {
         return res.status(500).json({
@@ -242,64 +242,35 @@ export const getSavedProvider = async (req, res) => {
     }
 }
 
-// User Update Profile
-export const userUpdateProfile = async (req, res) => {
+// Search experts 
+export const searchProvider = async (req, res) => {
     try {
-        const user = req.profile;
-        const userId = req.profile._id;
+        const value = req.query.search || '';
 
-        const { full_name, village, pincode, phone, ward } = req.body;
-
-        const file = req.file;
-
-        // 🔹 mobile duplicate check
-        if (phone) {
-            const existing = await User.findOne({ phone });
-
-            if (existing && existing._id.toString() !== userId.toString()) {
-                return res.status(400).json({ success: false, message: "Phone already in use" });
-            }
-        }
-
-        if (full_name !== undefined) user.full_name = full_name;
-        if (village !== undefined) user.village = village;
-        if (pincode !== undefined) user.pincode = pincode;
-        if (phone !== undefined) user.phone = phone;
-        if (ward !== undefined) user.ward = ward;
-
-        if (file) {
-            try {
-                if (user.profilePicId) {
-                    try {
-                        await cloudinary.uploader.destroy(
-                            user.profilePicId
-                        )
-                    } catch (error) {
-                        console.log("Profile image destroy error : ", error.message);
+        const providers = await Provider.aggregate([
+            {
+                $search: {
+                    index: "default",
+                    text: {
+                        query: value,
+                        path: ["full_name", "profession"],
+                        fuzzy: { maxEdits: 2 }
                     }
                 }
-
-                const result = await uploadToCloudinary(file.buffer, "Profile");
-                user.profilePic = result.secure_url;
-                user.profilePicId = result.public_id;
-
-            } catch (error) {
-                console.log("Profile image upload error : ", error.message);
+            },
+            {
+                $project: {
+                    password: 0,
+                    email: 0,
+                    updatedAt: 0,
+                    saveByUser: 0,
+                    role: 0,
+                    authType: 0,
+                }
             }
-        }
+        ]);
 
-        // 🔹 save
-        await user.save();
-
-        // 🔐 remove sensitive data
-        const userObj = user.toObject();
-        delete userObj.password;
-
-        return res.status(200).json({
-            success: true,
-            message: "Profile updated successfully",
-            user: userObj
-        });
+        return res.status(200).json({ success: true, providers });
 
     } catch (error) {
         return res.status(500).json({
@@ -307,4 +278,4 @@ export const userUpdateProfile = async (req, res) => {
             message: error.message
         });
     }
-};
+}

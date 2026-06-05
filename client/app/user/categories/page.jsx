@@ -1,8 +1,6 @@
 'use client'
 
 import React from 'react'
-import UserMenu from '../userComponents/UserMenu'
-import { IoArrowBack } from 'react-icons/io5'
 import Link from 'next/link'
 import { categories } from '@/public/assests'
 import { GoChevronRight } from 'react-icons/go'

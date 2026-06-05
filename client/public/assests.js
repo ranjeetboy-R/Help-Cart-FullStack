@@ -1,4 +1,4 @@
-import { Bot, ChartNoAxesCombined, CodeXml, Heart, House, LayoutDashboard, NotebookPen, Search, User2, UserRound } from "lucide-react";
+import { Bot, ChartNoAxesCombined, CodeXml, Heart, House, IndianRupee, LayoutDashboard, NotebookPen, Search, User2, UserRound } from "lucide-react";
 
 import {
   FaUserDoctor,
@@ -15,17 +15,14 @@ import {
   FaUsers,
   FaCar,
   FaCamera,
-  FaScissors,
   FaDumbbell,
   FaTruck,
-  FaWifi,
   FaShieldHalved,
   FaPersonChalkboard,
 } from "react-icons/fa6";
 
 import {
   MdRestaurant,
-  MdLocalLaundryService,
   MdLocalHospital,
 } from "react-icons/md";
 
@@ -270,24 +267,29 @@ export const userMenu = [
 ]
 
 export const expertPageItems = [
-    {
-        title: "Dashboard",
-        href: '/expert',
-        icon: LayoutDashboard
-    },
-    {
-      title: "Recent Work",
-      href: '/expert/workDetails',
-      icon: NotebookPen
-    },
-    {
-      title: "Analysis",
-      href: '/expert/analysis',
-      icon: ChartNoAxesCombined
-    },
-    {
-        title: "Profile",
-        href: '/expert/expertProfile',
-        icon: User2
-    },
+  {
+    title: "Dashboard",
+    href: '/expert',
+    icon: LayoutDashboard
+  },
+  {
+    title: "Recent Work",
+    href: '/expert/workDetails',
+    icon: NotebookPen
+  },
+  {
+    title: "Service Charges",
+    href: '/expert/charges',
+    icon: IndianRupee
+  },
+  {
+    title: "Analysis",
+    href: '/expert/analysis',
+    icon: ChartNoAxesCombined
+  },
+  {
+    title: "Profile",
+    href: '/expert/expertProfile',
+    icon: User2
+  },
 ]

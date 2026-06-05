@@ -1,65 +1,7 @@
 "use client";
 
+import { categories } from "@/public/assests";
 import { motion } from "framer-motion";
-import {
-    Wrench,
-    GraduationCap,
-    Hammer,
-    Laptop,
-    Car,
-    Paintbrush,
-    Zap,
-    Shield,
-    Brain,
-} from "lucide-react";
-
-const categories = [
-    {
-        title: "Electrician",
-        icon: Zap,
-        desc: "Home & Office Electrical Services",
-    },
-    {
-        title: "Teacher",
-        icon: GraduationCap,
-        desc: "Online & Offline Learning",
-    },
-    {
-        title: "Carpenter",
-        icon: Hammer,
-        desc: "Furniture & Wood Work",
-    },
-    {
-        title: "Computer Expert",
-        icon: Laptop,
-        desc: "Software & Hardware Support",
-    },
-    {
-        title: "Mechanic",
-        icon: Car,
-        desc: "Vehicle Repair & Maintenance",
-    },
-    {
-        title: "Painter",
-        icon: Paintbrush,
-        desc: "House & Commercial Painting",
-    },
-    {
-        title: "Plumber",
-        icon: Wrench,
-        desc: "Water & Pipe Solutions",
-    },
-    {
-        title: "Security",
-        icon: Shield,
-        desc: "Safety & Surveillance Services",
-    },
-    {
-        title: "IT Sector",
-        icon: Brain,
-        desc: "Web & AI Automotion Services",
-    },
-];
 
 export default function Categories() {
     return (
@@ -81,14 +23,13 @@ export default function Categories() {
                     </h2>
 
                     <p className="text-gray-400 max-w-2xl mx-auto mt-5">
-                        Har category ke verified providers ek hi platform par.
-                        Jo service chahiye, usko aasani se discover kariye.
+                        इलेक्ट्रिशियन, शिक्षक, प्लंबर, मैकेनिक और अन्य कई क्षेत्रों के अनुभवी एवं सत्यापित सेवा प्रदाताओं को एक ही स्थान पर खोजें।
                     </p>
                 </div>
 
-                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
 
-                    {categories.map((item, index) => {
+                    {categories.slice(0, 20).map((item, index) => {
                         const Icon = item.icon;
 
                         return (
@@ -100,26 +41,24 @@ export default function Categories() {
                                 transition={{
                                     delay: index * 0.08,
                                 }}
-                                whileHover={{
-                                    y: -10,
-                                }}
-                                className="group rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl"
-                            >
-                                <div className="h-16 w-16 rounded-2xl bg-green-500/10 flex items-center justify-center group-hover:bg-green-500 transition">
 
+                                className="group hover:translate-x-2 transition-all rounded-3xl border border-white/30 flex items-center gap-5 bg-slate-700/20 p-6 backdrop-blur-xl"
+                            >
+                                <div className="h-14 w-14 rounded-2xl bg-green-500/10 flex items-center justify-center group-hover:bg-green-500 transition">
                                     <Icon
                                         size={28}
                                         className="text-green-500 group-hover:text-black"
                                     />
                                 </div>
 
-                                <h3 className="mt-6 text-xl font-bold">
-                                    {item.title}
-                                </h3>
-
-                                <p className="mt-3 text-gray-400 text-sm">
-                                    {item.desc}
-                                </p>
+                                <div className="flex flex-col gap-2">
+                                    <h3 className="text-xl font-bold">
+                                        {item.title}
+                                    </h3>
+                                    <p className="text-gray-400 text-sm">
+                                        {item.services}
+                                    </p>
+                                </div>
                             </motion.div>
                         );
                     })}

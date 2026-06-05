@@ -6,41 +6,53 @@ import {
   Phone,
   CheckCircle,
   UserPlus,
+  Bookmark,
+  BarChart3,
 } from "lucide-react";
 
 const userSteps = [
   {
     icon: Search,
     title: "Search Providers",
-    desc: "Nearby providers ko category ke according find kariye.",
+    desc: "अपनी आवश्यकता और श्रेणी के अनुसार उपयुक्त सेवा प्रदाताओं को खोजें।",
   },
   {
     icon: CheckCircle,
     title: "View Profile",
-    desc: "Experience, rating aur details dekhiye.",
+    desc: "अनुभव, रेटिंग और अन्य महत्वपूर्ण जानकारी देखकर सही व्यक्ति चुनें।",
   },
   {
     icon: Phone,
     title: "Contact Directly",
-    desc: "Call ya WhatsApp karke connect kariye.",
+    desc: "कॉल या व्हाट्सऐप के माध्यम से सीधे संपर्क कर काम की शुरुआत करें।",
   },
+  {
+    icon: Bookmark,
+    title: "Save Experts",
+    desc: "पसंदीदा विशेषज्ञों को सेव करें ताकि जरूरत पड़ने पर उन्हें दोबारा आसानी से खोज सकें।",
+  }
 ];
 
 const providerSteps = [
   {
     icon: UserPlus,
     title: "Register Yourself",
-    desc: "Apna professional profile create kariye.",
+    desc: "अपनी प्रोफाइल बनाएं और अपनी सेवाओं की जानकारी जोड़ें।",
   },
   {
     icon: CheckCircle,
     title: "Get Visibility",
-    desc: "Thousands of users ke saamne profile show hogi.",
+    desc: "हजारों संभावित ग्राहकों के सामने अपनी प्रोफाइल दिखाएं।",
+  },
+  {
+    icon: BarChart3,
+    title: "Analyze Customers",
+    desc: "प्रोफाइल विज़िट, रुचि और ग्राहक गतिविधियों को समझकर अपनी पहुँच बढ़ाएं।",
   },
   {
     icon: Phone,
     title: "Receive Customers",
-    desc: "Direct customer inquiries aur leads paiye.",
+    desc: "इच्छुक ग्राहकों से सीधे संपर्क प्राप्त करें और नए काम के अवसर पाएं।",
   },
 ];
 
@@ -48,7 +60,7 @@ export default function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="py-28 bg-gradient-to-b from-black to-zinc-950"
+      className="py-28 bg-linear-to-b from-black to-zinc-950"
     >
       <div className="max-w-7xl mx-auto px-4">
 
@@ -62,7 +74,7 @@ export default function HowItWorks() {
           </h2>
 
           <p className="text-gray-400 mt-5 max-w-2xl mx-auto">
-            Users aur providers dono ke liye simple aur fast process.
+            ग्राहकों और सेवा प्रदाताओं को जोड़ने की आसान, तेज़ और भरोसेमंद प्रक्रिया।
           </p>
         </div>
 
@@ -112,7 +124,7 @@ export default function HowItWorks() {
 
           <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
             <h3 className="text-3xl font-bold mb-8">
-              For Providers
+              For Experts
             </h3>
 
             <div className="space-y-6">

@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { persist } from "zustand/middleware";
 import axiosInstance from "../axiosInstance";
@@ -12,24 +11,7 @@ const useUserStore = create(
             profileUpdateLoading: false,
             accountDltLoading: false,
             getExpertLoading: false,
-
-            updateProfile: async (formData) => {
-                try {
-                    set({ profileUpdateLoading: true });
-                    const { data } = await axiosInstance.put('/user/profile-update', formData);
-
-                    if (data.success) {
-                        toast.success(data.message);
-                    }
-
-                } catch (error) {
-                    const msg = error.response?.data?.message || "Something went wrong";
-                    toast.error(msg);
-                }
-                finally {
-                    set({ profileUpdateLoading: false });
-                }
-            },
+            searchLoading: false,
 
             getProfile: async () => {
                 try {
@@ -112,7 +94,7 @@ const useUserStore = create(
 
             saveProvider: async (providerId) => {
                 try {
-                    const { data } = await axiosInstance.post(`/user/save-provider`, {providerId});
+                    const { data } = await axiosInstance.post(`/user/save-provider`, {providerId});                    
 
                     if (data && data.success) {                        
                         return {success: true, saved: data.saved };
@@ -142,23 +124,23 @@ const useUserStore = create(
                 }
             },
 
-            updateUserProfile: async (formData) => {
+            searchProvider: async (value) => {
                 try {
-                    set({ profileUpdateLoading: true });
-                    const { data } = await axiosInstance.put('/provider/update-user', formData);
+                    set({searchLoading: true});
+                    const { data } = await axiosInstance.get(`/user/search-provider?search=${value}`);
 
-                    if (data.success) {
-                        toast.success(data.message);
-                        set({ user: data.user });
-                        return { success: true, user: data.user }
+                    if (data && data.success) {                        
+                        return {success: true, providers: data.providers };
                     }
 
+                    return {success: false}
+
                 } catch (error) {
-                    const msg = error.response?.data?.message || "Something went wrong";
-                    toast.error(msg);
+                    console.log(error?.response?.data?.message || 'Internal server error');
+                    return {success: false}
                 }
-                finally {
-                    set({ profileUpdateLoading: false });
+                finally{
+                    set({searchLoading: false});
                 }
             },
         })

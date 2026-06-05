@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import SelectProfession from './SelectProfession'
-import { ArrowRight, Loader, Loader2 } from 'lucide-react'
+import { ArrowRight, Loader2 } from 'lucide-react'
 import useProviderStore from '@/app/store/useProviderStore'
 import useAuthStore from '@/app/store/useAuthStore'
 

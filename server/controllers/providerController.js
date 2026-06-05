@@ -10,7 +10,7 @@ export const updateProfile = async (req, res) => {
         const provider = req.profile;
         const providerId = req.profile._id;
 
-        const { full_name, village, pincode, phone, ward, profession, services, whatsapp, facebook, instagram, bio, description, availability, likes, dislike } = req.body;
+        const { full_name, village, pincode, phone, ward, profession, services, whatsapp, facebook, instagram, bio, description, availability, likes, dislike, service_charges } = req.body;
 
         // 🔹 mobile duplicate check
         if (phone) {
@@ -30,6 +30,14 @@ export const updateProfile = async (req, res) => {
 
         if (profession !== undefined) {
             provider.profession = JSON.parse(profession);
+        }
+
+        if (service_charges !== undefined && service_charges?.length > 0) {
+            const parseData = JSON.parse(service_charges);
+
+            parseData.forEach((data) =>
+                provider.service_charges.push(data)
+            )
         }
 
         if (whatsapp !== undefined) provider.whatsapp = whatsapp;
@@ -163,6 +171,38 @@ export const profileSaveByUserDetails = async (req, res) => {
             .sort({ createdAt: -1 });
 
         return res.status(200).json({ success: true, saveUser: saveUser?.saveByUser })
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+}
+
+// delete service_charges 
+export const deleteServiceCharge = async (req, res) => {
+    try {
+        const providerId = req.profile._id;
+        const { id } = req.body;
+
+        const serviceCharge = await Provider.findByIdAndUpdate(
+            providerId,
+            {
+                $pull: {
+                    service_charges: {
+                        _id: id
+                    }
+                }
+            }
+        )
+
+        if (!serviceCharge) {
+            return res.status(404).json({success: false, message: "The service doesn't exist in database"})
+        }
+
+        return res.status(200).json({success: true});
+
 
     } catch (error) {
         return res.status(500).json({

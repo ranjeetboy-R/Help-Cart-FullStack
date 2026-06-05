@@ -4,15 +4,7 @@ import { motion } from "framer-motion";
 
 const stats = [
   {
-    number: "10K+",
-    label: "Providers",
-  },
-  {
-    number: "50K+",
-    label: "Customers",
-  },
-  {
-    number: "100+",
+    number: "40+",
     label: "Categories",
   },
   {
@@ -26,7 +18,7 @@ export default function Stats() {
     <section className="py-20 border-y border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 px-5">
 
           {stats.map((item, index) => (
             <motion.div
@@ -45,7 +37,7 @@ export default function Stats() {
               transition={{
                 delay: index * 0.1,
               }}
-              className="text-center bg-white/5 rounded-3xl p-8 border border-white/10 hover:border-green-500/30 transition"
+              className="text-center bg-slate-700/20 rounded-3xl p-8 border border-white/30 hover:border-green-500/30 transition"
             >
               <h3 className="text-4xl font-black text-green-500">
                 {item.number}

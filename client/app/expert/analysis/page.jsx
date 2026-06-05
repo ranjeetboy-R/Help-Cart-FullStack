@@ -2,14 +2,12 @@
 
 import React, { useEffect, useState } from 'react'
 import useProviderStore from '@/app/store/useProviderStore';
-import useAuthStore from '@/app/store/useAuthStore';
 import Link from 'next/link';
 import { IoArrowBack } from 'react-icons/io5';
 
 const page = () => {
 
   const { getUserDetailsWhoSaveProvider } = useProviderStore();
-  const { account } = useAuthStore();
 
   const [UserDetails, setUserDetails] = useState([]);
   const [input, setInput] = useState('');
@@ -31,9 +29,6 @@ const page = () => {
     user.ward?.toLowerCase().includes(input.toLowerCase()) ||
     user.pincode?.toLowerCase().includes(input.toLowerCase())
   )
-
-  console.log("filteredUser", filteredUser);
-
 
   const totalPages = Math.ceil(filteredUser.length / itemsPerPage);
   const start = (currentPage - 1) * itemsPerPage;

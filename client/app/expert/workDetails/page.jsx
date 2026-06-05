@@ -16,10 +16,7 @@ const page = () => {
 
     useEffect(()=> {
         getProfile();
-    }, [uiUpdate])
-
-    console.log("recentWork", account?.recent_works);
-    
+    }, [uiUpdate])    
 
   return (
     <div className="flex flex-col">

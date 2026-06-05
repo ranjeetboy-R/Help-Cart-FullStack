@@ -14,7 +14,6 @@ const page = () => {
 
   const { allExperts } = useUserStore();
   const [experts, setExperts] = useState([]);
-  const [uiUpdate, setUiUpdate] = useState(false);
   const [previousPath, setPreviousPath] = useState(null);
 
   useEffect(() => {
@@ -62,7 +61,7 @@ const page = () => {
 
       {
         experts.length > 0 &&
-        <Experts experts={experts} setUiUpdate={setUiUpdate} uiUpdate={uiUpdate} title={`All ${key}`} />
+        <Experts experts={experts} title={`All ${key}`} />
       }
     </div>
   )

@@ -35,10 +35,7 @@ export default function Hero() {
             </h1>
 
             <p className="mt-8 text-lg md:text-left text-center text-gray-400 leading-relaxed max-w-xl">
-              Electrician, Teacher, Plumber, Mechanic,
-              Technician ya kisi bhi service professional ko
-              aasani se dhundhiye. HelpCart verified providers
-              aur customers ko ek trusted platform par connect karta hai.
+              इलेक्ट्रिशियन, शिक्षक, प्लंबर, मैकेनिक, टेक्नीशियन या किसी भी सेवा विशेषज्ञ को आसानी से खोजें। HelpCart एक भरोसेमंद प्लेटफ़ॉर्म है जो सत्यापित सेवा प्रदाताओं और ग्राहकों को जोड़कर सही व्यक्ति तक जल्दी पहुँचने में मदद करता है।
             </p>
 
             <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-10">

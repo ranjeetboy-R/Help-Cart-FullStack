@@ -7,11 +7,11 @@ import { FaWhatsapp } from 'react-icons/fa';
 import useUserStore from '@/app/store/useUserStore';
 import { Bookmark, Phone } from 'lucide-react';
 
-const Experts = ({ experts = null, quantity, title = '', setUiUpdate = false, uiUpdate }) => {
+const Experts = ({ experts = null, quantity, title = '' }) => {
 
     const { saveProvider, getProfile, user, allExperts } = useUserStore();
-    const [saved, setsaved] = useState();
     const [totalExperts, setTotalExperts] = useState([]);
+    const [fetchAgain, setfetchAgain] = useState(false);
 
     useEffect(() => {
         const gettingExpert = async () => {
@@ -24,24 +24,19 @@ const Experts = ({ experts = null, quantity, title = '', setUiUpdate = false, ui
     }, [])
 
     useEffect(() => {
-        const getting = async () => {
-            await getProfile();
-        }
-        getting();
-    }, [saved])
+        getProfile();
+    }, [fetchAgain])
 
     const saveProviderButton = async (providerId) => {
         if (providerId) {
             const res = await saveProvider(providerId);
             if (res?.success) {
-                setsaved(!saved);
-                setUiUpdate(!uiUpdate);
+                setfetchAgain(!fetchAgain);
             }
         }
     }
 
     const finalExperts = experts ? experts : totalExperts;
-
 
     return (
         <div className="relative flex flex-col gap-2 mt-2">
@@ -53,7 +48,7 @@ const Experts = ({ experts = null, quantity, title = '', setUiUpdate = false, ui
             <div className="flex flex-col gap-3">
                 {
                     finalExperts?.slice(0, quantity).map((expert, index) => {
-                        const isSaved = user?.savedProviderIds?.includes(expert._id);
+                        const isSaved = user?.savedProviderIds?.includes(expert._id);                        
 
                         return (
                             <div
@@ -62,10 +57,10 @@ const Experts = ({ experts = null, quantity, title = '', setUiUpdate = false, ui
                             >
                                 <div className="flex items-center gap-3 w-full">
                                     <div className="w-40 border border-slate-200 rounded-md">
-                                            <img src={expert.profilePic || '/profileImage.webp'} alt='Expert' className='rounded-md object-cover aspect-square' />
+                                        <img src={expert.profilePic || '/profileImage.webp'} alt='Expert' className='rounded-md object-cover aspect-square' />
                                     </div>
 
-                                    <Link href={`/user/expert/${expert._id}`} className="flex flex-col w-full gap-1">
+                                    <Link href={`/expertDetails/${expert._id}`} className="flex flex-col w-full gap-1">
                                         <div className='relative font-semibold text-lg w-fit capitalize'>
                                             {expert.full_name}
                                             {

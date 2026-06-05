@@ -25,10 +25,7 @@ const UploadImage = ({fileList, setFileList}) => {
         setPreviewOpen(true);
     };
 
-    const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
-
-    console.log("fileList", fileList);
-    
+    const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);    
 
     const uploadButton = (
         <button style={{ border: 0, background: 'none' }} type="button" className='cursor-pointer'>

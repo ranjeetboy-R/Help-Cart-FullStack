@@ -15,7 +15,7 @@ export default function Footer() {
 
             <div className="flex items-center gap-2">
 
-              <div className="h-10 w-10 rounded-xl bg-gradient-to-r from-green-500 to-emerald-400 flex items-center justify-center font-black text-black">
+              <div className="h-10 w-10 rounded-xl bg-linear-to-r from-green-500 to-emerald-400 flex items-center justify-center font-black text-black">
                 H
               </div>
 
@@ -26,8 +26,7 @@ export default function Footer() {
             </div>
 
             <p className="text-gray-400 mt-6 leading-relaxed">
-              Connecting trusted service providers with customers.
-              Fast, simple and reliable platform for everyone.
+              HelpCart भरोसेमंद सेवा प्रदाताओं और ग्राहकों को एक साथ जोड़ता है, जिससे सही सेवा तक पहुँचना आसान और तेज़ बनता है।
             </p>
 
           </div>
@@ -40,14 +39,14 @@ export default function Footer() {
               Quick Links
             </h3>
 
-            <div className="flex flex-col gap-3 text-gray-400">
+            <ul className="flex flex-col gap-2 text-gray-400">
 
-              <Link href="/">Home</Link>
-              <Link href="/providers">Providers</Link>
-              <Link href="/categories">Categories</Link>
-              <Link href="/about">About Us</Link>
+              <a href="#">Home</a>
+              <a href="#providers">Providers</a>
+              <a href="#categories">Categories</a>
+              <a href="#about">About Us</a>
 
-            </div>
+            </ul>
 
           </div>
 
@@ -59,7 +58,7 @@ export default function Footer() {
               Popular Categories
             </h3>
 
-            <div className="flex flex-col gap-3 text-gray-400">
+            <div className="flex flex-col gap-2 text-gray-400">
 
               <span>Electrician</span>
               <span>Teacher</span>
@@ -122,8 +121,8 @@ export default function Footer() {
           </p>
 
           <div className="flex gap-6 text-sm text-gray-500">
-            <Link href="/privacy">Privacy Policy</Link>
-            <Link href="/terms">Terms & Conditions</Link>
+            <Link href="/">Privacy Policy</Link>
+            <Link href="/">Terms & Conditions</Link>
           </div>
 
         </div>

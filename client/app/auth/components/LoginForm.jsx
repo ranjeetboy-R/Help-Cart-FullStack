@@ -3,7 +3,6 @@
 import { Mail, Lock, Eye, EyeOff, Loader } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import useUserStore from "@/app/store/useUserStore";
 import useAuthStore from "@/app/store/useAuthStore";
 import { GoogleLogin } from "@react-oauth/google";
 import toast from "react-hot-toast";
@@ -39,7 +38,6 @@ export default function LoginForm() {
 
         if (formData) {
             const res = await login(formData);
-            console.log("res", res);
             
             if (res?.success) {
                 if (role === "user" && res?.account?.role === 'user') {
@@ -66,10 +64,8 @@ export default function LoginForm() {
     }
 
     const LoginWithGoogle = async (credentialResponse) => {
-        console.log(credentialResponse.credential);
         const res = await googleAuth(credentialResponse, role);
         if (res?.success) {
-            console.log("account", res.account);
             if (res.account.role === 'user') {
                 router.replace('/user');
             }

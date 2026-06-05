@@ -6,16 +6,15 @@ import logo from '@/public/logo.png'
 import expert from '@/public/expert.png'
 import { FaRegBell } from 'react-icons/fa'
 import Link from 'next/link'
-import { Search } from 'lucide-react'
 import Experts from './userComponents/Experts'
 import Categories from './userComponents/TopCategories'
 import useUserStore from '../store/useUserStore'
 import { HomePageSkeleton } from './userComponents/Skeleton'
+import { Search } from 'lucide-react'
 
 const page = () => {
   const { allExperts, user, getExpertLoading } = useUserStore();
   const [experts, setExperts] = useState([]);
-  const [searchInput, setSearchInput] = useState('');
 
   useEffect(() => {
     const gettingExpert = async () => {
@@ -26,12 +25,6 @@ const page = () => {
     }
     gettingExpert();
   }, [])
-
-  const filteredExperts = experts.filter(expert =>
-    expert.full_name.toLowerCase().includes(searchInput) ||
-    expert.profession.some(item => item.toLowerCase().includes(searchInput.toLowerCase()))
-  )
-
 
   return (
     <div className="flex flex-col gap-3 bg-slate-100 p-5 rounded-xl mb-20">
@@ -85,18 +78,13 @@ const page = () => {
           </div>
         </div>
 
-        <div className="rounded-lg flex absolute bottom-3 left-3 right-3 bg-white p-1.5">
-          <input
-            type="search"
-            onChange={(e) => setSearchInput(e.target.value.toLowerCase().trim())}
-            placeholder='Search for services...'
-            className='p-2 w-full'
-          />
-
-          <button className="w-12 rounded-md bg-linear-to-b from-green-400 to-green-900 active:scale-90 transition-all flex items-center justify-center text-white">
-            <Search className='size-5' />
-          </button>
-        </div>
+        <Link
+          href='/user/search'
+          className='p-3 items-center gap-2 text-slate-600 rounded-lg flex absolute bottom-3 left-3 right-3 bg-white'
+        >
+          <Search className='size-4'/>
+          Search by name, services...
+        </Link>
 
       </div>
 
@@ -104,7 +92,7 @@ const page = () => {
       <Categories />
 
       {/* Popular Experts */}
-      <Experts experts={filteredExperts} quantity={10} title="Popular Experts" />
+      <Experts experts={experts} quantity={10} title="Popular Experts" />
 
       {/* Skeleton  */}
       {

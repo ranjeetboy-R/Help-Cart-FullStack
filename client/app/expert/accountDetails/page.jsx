@@ -1,17 +1,13 @@
 'use client'
 
 import useAuthStore from '@/app/store/useAuthStore'
-import { ArrowLeft, ArrowRight, Loader2, UserPen } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import Address from '../expertComponent/Address';
 import Profile from '../expertComponent/Profile';
-import useProviderStore from '@/app/store/useProviderStore';
 
 const AccountDetails = () => {
-  const { updateProviderProfile, profileUpdateLoading } = useProviderStore();
   const { provider, getProfile } = useAuthStore();
 
-  const [save, setSave] = useState(false);
   const [back, setBack] = useState(false);
   const [next, setNext] = useState(false);
   const { account } = useAuthStore();

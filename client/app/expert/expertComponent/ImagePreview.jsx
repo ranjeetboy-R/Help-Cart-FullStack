@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { DownloadOutlined, LeftOutlined, RightOutlined, RotateLeftOutlined, RotateRightOutlined, SwapOutlined, UndoOutlined, ZoomInOutlined, ZoomOutOutlined, } from '@ant-design/icons';
 import { Image, Modal, Slider, Space } from 'antd';
 import { Trash2 } from 'lucide-react';
@@ -16,8 +16,6 @@ const ImagePreview = ({ images, setUiUpdate, uiUpdate, deleteImage }) => {
 
             async onOk() {
                 const res = await deleteImage?.(id);
-                console.log("res", res);
-
                 if (res?.success) {
                     setUiUpdate(!uiUpdate);
                 }
@@ -112,10 +110,10 @@ const ImagePreview = ({ images, setUiUpdate, uiUpdate, deleteImage }) => {
                 },
             }}
         >
-            <div className={`${imageList?.length / 2 === 0 ? 'justify-center' : 'justify-start'} flex gap-5 mb-20`}>
+            <div className={`flex gap-3 mb-20`}>
                 {imageList.map((item, index) => (
-                    <div key={item.public_id} className="border border-slate-300 relative rounded-xl overflow-hidden h-30!">
-                        <Image alt={`image-${index}`} src={item.url} width={200} className='h-30! object-cover' />
+                    <div key={item.public_id} className="border border-slate-300 relative rounded-xl overflow-hidden w-25! h-25!">
+                        <Image alt={`image-${index}`} src={item.url} width={200} className='aspect-square h-full w-full object-cover' />
 
                         {
                             deleteImage &&

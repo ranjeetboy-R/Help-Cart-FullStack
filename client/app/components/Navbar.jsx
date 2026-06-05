@@ -22,7 +22,7 @@ export default function Navbar() {
         <div className="mt-4 flex h-16 items-center justify-between rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl px-6">
 
           <Link href="/" className="flex items-center gap-2">
-            <div className="h-9 w-9 rounded-xl bg-gradient-to-r from-green-500 to-emerald-400 flex items-center justify-center font-bold text-black">
+            <div className="h-9 w-9 rounded-xl bg-linear-to-r from-green-500 to-emerald-400 flex items-center justify-center font-bold text-black">
               H
             </div>
             <span className="text-xl font-bold">

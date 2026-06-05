@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { ArrowLeft, ArrowRight, Loader, Loader2 } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Loader2 } from 'lucide-react'
 import useProviderStore from '@/app/store/useProviderStore'
 import { useRouter } from 'next/navigation'
 

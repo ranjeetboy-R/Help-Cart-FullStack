@@ -24,7 +24,6 @@ const page = () => {
     }
   }
 
-
   return (
     <form className='mt-5 p-5 flex flex-col max-w-3xl mx-auto w-full items-center mb-20'>
       <h1 className='text-zinc-600 md:text-xl text-left w-full'>Profile Settings</h1>

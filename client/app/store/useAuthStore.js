@@ -51,9 +51,7 @@ const useAuthStore = create(
 
                 return { success: false };
 
-            } catch (error) {
-                console.log(error);
-                
+            } catch (error) {                
                 const msg = error.response?.data?.message || "Something went wrong";
                 toast.error(msg);
                 return { success: false };

@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 
 const DeleteAccount = ({ deleteModal, setDeleteModal, email }) => {
     const [password, setPassword] = useState('');
-    const { deleteAccount, accountDltLoading, logout } = useAuthStore();
+    const { deleteAccount, accountDltLoading, logoutProfile } = useAuthStore();
     const { user } = useUserStore();
 
     const handalCancel = () => {
@@ -17,7 +17,7 @@ const DeleteAccount = ({ deleteModal, setDeleteModal, email }) => {
         if (user?.authType === 'normal' && password) {
             const res = await deleteAccount(password);
             if (res && res.success) {
-                await logout();
+                await logoutProfile();
                 window.location.replace("/");
                 window.location.reload();
             }
@@ -26,7 +26,7 @@ const DeleteAccount = ({ deleteModal, setDeleteModal, email }) => {
         if (user?.authType === 'google') {
             const res = await deleteAccount(password);
             if (res && res.success) {
-                await logout();
+                await logoutProfile();
                 window.location.replace("/");
                 window.location.reload();
             }

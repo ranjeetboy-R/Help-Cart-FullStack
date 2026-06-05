@@ -1,7 +1,7 @@
 'use client'
 
 import useUserStore from '@/app/store/useUserStore';
-import { Bookmark, ThumbsDown, ThumbsUp } from 'lucide-react';
+import { Bookmark, CalendarCheck, ThumbsDown, ThumbsUp } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation'
@@ -14,19 +14,21 @@ import { IoIosCall } from 'react-icons/io';
 import { IoArrowBack, IoShieldCheckmark } from 'react-icons/io5';
 import { MdOutlineEventAvailable, MdShare } from 'react-icons/md';
 import { RiMoneyRupeeCircleLine } from 'react-icons/ri';
-import { ExpertDetailsSkeleton } from '../../userComponents/Skeleton';
 import ImagePreview from '@/app/expert/expertComponent/ImagePreview';
+import { ExpertDetailsSkeleton } from '@/app/user/userComponents/Skeleton';
+import moment from 'moment';
 
 const page = () => {
     const params = useParams();
     const id = params.id;
-    const { user, getExpertById, toggleReaction, getExpertLoading } = useUserStore();
+    const { user, getProfile, getExpertById, toggleReaction, getExpertLoading, saveProvider } = useUserStore();
 
     const [expert, setExpert] = useState(null);
     const [liked, setliked] = useState(false);
     const [disliked, setdisliked] = useState(false);
     const [colleps, setColleps] = useState(null);
     const [previousPath, setPreviousPath] = useState(null);
+    const [uiUpdate, setUiUpdate] = useState(false);
 
     useEffect(() => {
         const getProvider = async () => {
@@ -39,6 +41,10 @@ const page = () => {
         }
         getProvider();
     }, [])
+
+    useEffect(() => {
+        getProfile();
+    }, [uiUpdate])
 
     const submitReaction = async (type) => {
         const reaction = { type };
@@ -55,6 +61,16 @@ const page = () => {
 
             setliked(res.data.liked);
             setdisliked(res.data.disliked);
+        }
+    }
+
+    const saveProviderButton = async (providerId) => {
+        if (providerId) {
+            const res = await saveProvider(providerId);
+
+            if (res?.success) {
+                setUiUpdate(!uiUpdate);
+            }
         }
     }
 
@@ -81,9 +97,9 @@ const page = () => {
                 <div className="relative rounded-t-2xl h-60">
                     {
                         expert?.profilePic ?
-                            <Image src={expert.profilePic} fill alt='Expert Image' className='object-cover rounded-t-2xl' />
+                            <Image src={expert.profilePic} priority sizes='240px 100%' fill alt='Expert Image' className='object-cover rounded-t-2xl' />
                             :
-                            <Image src='/profileImage.webp' fill alt='Expert Image' className='object-contain -mt-5' />
+                            <Image src='/profileImage.webp' priority sizes='240px 100%' fill alt='Expert Image' className='object-contain -mt-5' />
                     }
 
                     <div className="absolute top-0 left-0 w-full h-full p-4 bg-linear-to-b from-transparent via-transparent to-white">
@@ -101,7 +117,8 @@ const page = () => {
                                     <Link href='/app/expert' className='bg-black/30 p-2 rounded-full'>
                                         <MdShare className='text-white size-5' />
                                     </Link>
-                                    <button className='bg-black/30 p-2 rounded-full'>
+                                    <button
+                                        onClick={() => saveProviderButton(expert?._id)} className='bg-black/30 p-2 rounded-full cursor-pointer'>
                                         <Bookmark className={`${isSaved ? 'fill-amber-500 text-amber-200' : 'text-white'} size-5`} />
                                     </button>
                                 </div>
@@ -143,14 +160,14 @@ const page = () => {
                             {
                                 expert &&
                                 <div className="flex items-center gap-3 border-b border-slate-200 py-1">
-                                    <button onClick={() => submitReaction('like')} className="flex items-center gap-2 border-r border-slate-200 px-3">
+                                    <button onClick={() => submitReaction('like')} className="flex items-center gap-2 border-r cursor-pointer border-slate-200 px-3">
                                         <p>{expert?.likes}</p>
                                         <span>
                                             <ThumbsUp className={`${(expert?.likedBy.includes(user?._id) || liked) ? 'fill-rose-600 stroke-rose-600' : 'fill-transparent stroke-slate-600 stroke-2'} size-4`} />
                                         </span>
                                     </button>
 
-                                    <button onClick={() => submitReaction('dislike')} className="flex items-center gap-2 pr-3">
+                                    <button onClick={() => submitReaction('dislike')} className="flex items-center cursor-pointer gap-2 pr-3">
                                         <p>{expert?.dislikes}</p>
                                         <span>
                                             <ThumbsDown className={`${(expert?.dislikedBy.includes(user?._id) || disliked) ? 'fill-gray-500 stroke-gray-500' : 'fill-transparent stroke-slate-600 stroke-2'} size-4`} />
@@ -184,23 +201,40 @@ const page = () => {
 
             {/* Hero section */}
             <div className="flex flex-col mt-14 gap-5 p-5">
-                {
-                    (expert?.village || expert?.state || expert?.district) &&
-                    <span className='text-sm text-slate-600 font-semibold flex items-center gap-1'>
-                        <CiLocationOn className='size-4' />
-                        <div className="flex items-center">
-                            {expert?.village}, {expert?.state} {expert?.district}
-                        </div>
-                    </span>
-                }
+                <div className="flex flex-col gap-2">
+                    {
+                        (expert?.village || expert?.state || expert?.district) &&
+                        <span className='text-sm text-slate-600 font-semibold flex items-center gap-1'>
+                            <CiLocationOn className='size-4' />
+                            <div className="flex items-center">
+                                {expert?.village}, {expert?.state} {expert?.district}
+                            </div>
+                        </span>
+                    }
+
+                    {
+                        expert?.createdAt &&
+                        <span className='text-sm text-slate-600 font-semibold flex items-center gap-2'>
+                            <CalendarCheck className='size-3' />
+                            <div className="flex items-center">
+                                Join {moment(expert?.createdAt).fromNow()}
+                            </div>
+                        </span>
+                    }
+                </div>
 
                 {
                     expert?.service_charges &&
                     <div className="flex flex-col gap-2 shadow p-2 rounded-lg border-slate-200 ">
-                        <div className='font-semibold text-sm flex items-center gap-1'>
-                            <RiMoneyRupeeCircleLine />
-                            Service Charges
+                        <div className="flex items-center justify-between text-sm">
+                            <div className='font-semibold flex items-center gap-1'>
+                                <RiMoneyRupeeCircleLine />
+                                Service Charges
+                            </div>
+
+                            <p>Starting Price</p>
                         </div>
+
                         <div className="flex flex-col ">
                             {
                                 expert?.service_charges?.map((charge) => (
