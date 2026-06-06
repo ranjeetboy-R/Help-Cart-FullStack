@@ -1,40 +1,42 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import useProviderStore from '@/app/store/useProviderStore';
 import Link from 'next/link';
 import { IoArrowBack } from 'react-icons/io5';
+import useAuthStore from '@/app/store/useAuthStore';
+import Loading from '@/app/Loading';
+import moment from 'moment';
 
 const page = () => {
 
-  const { getUserDetailsWhoSaveProvider } = useProviderStore();
+  const { getAllUsers, getLoading } = useAuthStore();
 
-  const [UserDetails, setUserDetails] = useState([]);
+  const [expertsDetails, setExpertsDetails] = useState([]);
   const [input, setInput] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
   useEffect(() => {
     const get = async () => {
-      const res = await getUserDetailsWhoSaveProvider();
+      const res = await getAllUsers();
+
       if (res?.success) {
-        setUserDetails(res.users);
+        setExpertsDetails(res.users);
       }
     }
     get();
   }, [])
 
-  const filteredUser = UserDetails?.filter(user =>
-    user.state?.toLowerCase().includes(input.toLowerCase()) ||
-    user.ward?.toLowerCase().includes(input.toLowerCase()) ||
-    user.pincode?.toLowerCase().includes(input.toLowerCase())
+  const filteredUser = expertsDetails?.filter(user =>
+    user.full_name?.toLowerCase().includes(input.toLowerCase()) ||
+    user.email?.toLowerCase().includes(input.toLowerCase())
   )
 
-  const totalPages = Math.ceil(filteredUser.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredUser?.length / itemsPerPage);
   const start = (currentPage - 1) * itemsPerPage;
 
-  const currentUsers = filteredUser.slice(start, start + itemsPerPage);
-console.log("UserDetails", UserDetails);
+  const currentUsers = filteredUser?.slice(start, start + itemsPerPage);
+console.log(currentUsers);
 
   return (
     <div className="flex flex-col h-screen">
@@ -46,21 +48,21 @@ console.log("UserDetails", UserDetails);
           </Link>
         </div>
 
-        <input type="search" name="search" onChange={(e) => setInput(e.target.value)} value={input} placeholder="Search for village, pincode & ward no..." className="border border-zinc-400 rounded-lg w-full p-2.5 hover:border-slate-400 transition-all
+        <input type="search" name="search" onChange={(e) => setInput(e.target.value)} value={input} placeholder="Search by full name & email..." className="border border-zinc-400 rounded-lg w-full p-2.5 hover:border-slate-400 transition-all
           " />
       </div>
 
       {/* Table */}
-      <div className="w-full overflow-x-auto md:scrollbar-thin scrollbar-none">
-        <table className="shadow shadow-black/20 my-3 mx-1 min-w-225 w-full mt-5">
+      <div className="w-full overflow-x-auto scrollbar-track-transparent scrollbar-thumb-black/50">
+        <table className="shadow shadow-black/20 my-3 mx-1 min-w-200 w-full mt-5">
           <thead className="bg-green-600 text-white text-lg">
             <tr className="text-left whitespace-nowrap">
               <th className="pl-3 py-2 font-medium">S/N.</th>
-              <th className="pl-3 py-2 font-medium">Village</th>
-              <th className="pl-3 py-2 font-medium">Ward No.</th>
-              <th className="pl-3 py-2 font-medium">Pincode</th>
-              <th className="pl-3 py-2 font-medium">State</th>
-              <th className="pl-3 py-2 font-medium">district</th>
+              <th className="pl-3 py-2 font-medium">Full Name</th>
+              <th className="pl-3 py-2 font-medium">Email</th>
+              <th className="pl-3 py-2 font-medium">Auth Type</th>
+              <th className="pl-3 py-2 font-medium">Role</th>
+              <th className="pl-3 py-2 font-medium">Created At</th>
             </tr>
           </thead>
 
@@ -72,11 +74,11 @@ console.log("UserDetails", UserDetails);
                   className="even:bg-zinc-200/70"
                 >
                   <td className="pl-3 py-2">{(currentPage - 1) * itemsPerPage + index + 1}</td>
-                  <td className="pl-3 py-2">{user.village || "Mohjamma"}</td>
-                  <td className="pl-3 py-2">{user.ward || '13'}</td>
-                  <td className="pl-3 py-2">{user.pincode || '843107'}</td>
-                  <td className="pl-3 py-2">{user.state}</td>
-                  <td className="pl-3 py-2">{user.district}</td>
+                  <td className="pl-3 py-2 capitalize">{user.full_name}</td>
+                  <td className="pl-3 py-2">{user.email || '13'}</td>
+                  <td className="pl-3 py-2 capitalize">{user.authType}</td>
+                  <td className="pl-3 py-2 capitalize">{user.role}</td>
+                  <td className="pl-3 py-2 capitalize">{moment(user.createdAt).fromNow()}</td>
                 </tr>
               ))
             ) : (
@@ -132,6 +134,11 @@ console.log("UserDetails", UserDetails);
         </button>
 
       </div>
+
+      {
+        getLoading &&
+        <Loading />
+      }
 
     </div>
   )

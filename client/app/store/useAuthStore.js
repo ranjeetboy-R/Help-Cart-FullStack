@@ -10,6 +10,7 @@ const useAuthStore = create(
         profileUpdateLoading: false,
         accountDltLoading: false,
         getProviderLoading: false,
+        getLoading: false,
 
         signup: async (formData) => {
             try {
@@ -20,7 +21,7 @@ const useAuthStore = create(
 
                 if (data.success) {
                     toast.success(data.message)
-                    set({account: data.account})
+                    set({ account: data.account })
                     return { success: true, account: data.account };
                 }
                 return { success: false };
@@ -41,17 +42,17 @@ const useAuthStore = create(
 
                 const { data } = await axios.post(`/api/auth/login`, formData, {
                     withCredentials: true
-                });                
+                });
 
                 if (data.success) {
                     toast.success(data.message)
-                    set({account: data.account})
+                    set({ account: data.account })
                     return { success: true, account: data.account };
                 }
 
                 return { success: false };
 
-            } catch (error) {                
+            } catch (error) {
                 const msg = error.response?.data?.message || "Something went wrong";
                 toast.error(msg);
                 return { success: false };
@@ -72,7 +73,7 @@ const useAuthStore = create(
 
                 if (data?.success) {
                     toast.success(data.message);
-                    set({account: data.account})
+                    set({ account: data.account })
                     return { success: true, account: data.account };
                 }
                 return { success: false };
@@ -140,7 +141,51 @@ const useAuthStore = create(
             finally {
                 set({ accountDltLoading: false });
             }
-        }
+        },
+
+        // Admin Store 
+        getAllUsers: async () => {
+            try {
+                set({ getLoading: true });
+                const { data } = await axiosInstance.get('/admin/get-allUsers');
+
+                if (data.success) {
+                    return { success: true, users: data.users }
+                }
+
+                return { success: false };
+
+            } catch (error) {
+                const msg = error.response?.data?.message || "Something went wrong";
+                console.log(msg);
+
+            }
+            finally {
+                set({ getLoading: false });
+            }
+        },
+
+        // Admin Store 
+        getAllExperts: async () => {
+            try {
+                set({ getLoading: true });
+                const { data } = await axiosInstance.get('/admin/get-allExperts');
+
+                if (data.success) {
+                    return { success: true, experts: data.experts }
+                }
+
+                return { success: false };
+
+            } catch (error) {
+                const msg = error.response?.data?.message || "Something went wrong";
+                console.log(msg);
+
+            }
+            finally {
+                set({ getLoading: false });
+            }
+        },
 
     })
 )

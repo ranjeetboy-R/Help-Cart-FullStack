@@ -10,7 +10,6 @@ import toast from "react-hot-toast";
 export default function LoginForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [role, setRole] = useState("user");
-    const [userRedirect, setUserRedirect] = useState(false);
     const [remember, setRemember] = useState(false);
 
     const { login, accountLoading, googleAuth } = useAuthStore();
@@ -38,7 +37,7 @@ export default function LoginForm() {
 
         if (formData) {
             const res = await login(formData);
-            
+
             if (res?.success) {
                 if (role === "user" && res?.account?.role === 'user') {
                     router.replace('/user')
@@ -46,10 +45,11 @@ export default function LoginForm() {
                 if (role === "provider" && res?.account?.role === 'provider') {
                     router.replace('/expert')
                 }
+                if (role === "admin" && res?.account?.role === 'admin') {
+                    router.replace('/admin')
+                }
             }
         }
-
-
     };
 
     const rememberMe = (value) => {
@@ -66,12 +66,19 @@ export default function LoginForm() {
     const LoginWithGoogle = async (credentialResponse) => {
         const res = await googleAuth(credentialResponse, role);
         if (res?.success) {
-            if (res.account.role === 'user') {
+
+            if (res.account?.role === 'user') {
                 router.replace('/user');
             }
 
-            if (res.account.role === 'provider') {
-                router.replace('/expert');
+            if (res.account?.role === 'provider') {
+
+                if (res.account.village === '' || res.account.pincode === '' || res.account.ward === '' || res.account.profession.length === 0 ) {
+                    router.replace('/expert/accountDetails');
+                }
+                else {
+                    router.replace('/expert');
+                }
             }
         }
     }
@@ -84,10 +91,6 @@ export default function LoginForm() {
             setRemember(true);
         }
     }, [remember])
-
-    useEffect(() => {
-        if (userRedirect) router.replace("/user");
-    }, [userRedirect]);
 
     return (
         <form onSubmit={FormSubmit} className="w-full max-w-md bg-linear-to-br from-green-100 to-fuchsia-100 rounded-2xl p-6 shadow-xl shadow-black/30">
@@ -103,19 +106,30 @@ export default function LoginForm() {
             </div>
 
             {/* Role Buttons */}
-            <div className="flex gap-2 mt-5">
-                <button type="button" onClick={() => { setRole("user"); setFormData(emptyForm) }} className={`${role === "user" ? 'border-zinc-400 bg-green-400/10' : ''} border border-transparent w-full cursor-pointer py-2 rounded-lg`}>
-                    Login as User
-                </button>
-                <button type="button" onClick={() => { setRole("provider"); setFormData(emptyForm) }} className={`${role === "provider" ? 'border-zinc-400 bg-green-400/10' : ''} border border-transparent w-full cursor-pointer py-2 rounded-lg`}>
-                    Login as Expert
-                </button>
+            <div className="flex flex-col mt-5">
+                <p className="text-lg font-medium text-slate-600">Choose your account type to proceed</p>
+
+                <div className="flex flex-wrap mt-2">
+
+                    <button type="button" onClick={() => { setRole("user"); setFormData(emptyForm) }} className={`${role === "user" ? 'border-zinc-400 bg-green-400/10' : ''} border border-transparent px-5 cursor-pointer py-2 rounded-lg`}>
+                        User
+                    </button>
+
+                    <button type="button" onClick={() => { setRole("provider"); setFormData(emptyForm) }} className={`${role === "provider" ? 'border-zinc-400 bg-green-400/10' : ''} border border-transparent px-5 cursor-pointer py-2 rounded-lg`}>
+                        Expert
+                    </button>
+
+                    <button type="button" onClick={() => { setRole("admin"); setFormData(emptyForm) }} className={`${role === "admin" ? 'border-zinc-400 bg-green-400/10' : ''} border border-transparent w-fit px-5 cursor-pointer py-2 rounded-lg`}>
+                        Admin
+                    </button>
+
+                </div>
             </div>
 
             <div className="mt-5">
-                <GoogleLogin 
+                <GoogleLogin
                     onSuccess={LoginWithGoogle}
-                    onError={()=> {
+                    onError={() => {
                         toast.error("Login Failed")
                     }}
                 />

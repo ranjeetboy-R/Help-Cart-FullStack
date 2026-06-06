@@ -1,4 +1,4 @@
-import { Bot, ChartNoAxesCombined, CodeXml, Heart, House, IndianRupee, LayoutDashboard, NotebookPen, Search, User2, UserRound } from "lucide-react";
+import { Bot, ChartNoAxesCombined, CodeXml, Heart, House, IndianRupee, LayoutDashboard, NotebookPen, Search, SquareUserRound, User2, UserRound, UsersRound } from "lucide-react";
 
 import {
   FaUserDoctor,
@@ -291,5 +291,23 @@ export const expertPageItems = [
     title: "Profile",
     href: '/expert/expertProfile',
     icon: User2
+  },
+]
+
+export const adminPageItems = [
+  {
+    title: "Dashboard",
+    href: '/admin',
+    icon: LayoutDashboard
+  },
+  {
+    title: "Users",
+    href: '/admin/users',
+    icon: UsersRound
+  },
+  {
+    title: "Experts",
+    href: '/admin/experts',
+    icon: SquareUserRound
   },
 ]

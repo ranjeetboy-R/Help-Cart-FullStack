@@ -161,25 +161,6 @@ export const deleteImage = async (req, res) => {
     }
 }
 
-// Get save by user details 
-export const profileSaveByUserDetails = async (req, res) => {
-    try {
-        const providerId = req.profile._id;
-
-        const saveUser = await Provider.findById(providerId)
-            .populate("saveByUser", "village pincode state district ward")
-            .sort({ createdAt: -1 });
-
-        return res.status(200).json({ success: true, saveUser: saveUser?.saveByUser })
-
-    } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
-}
-
 // delete service_charges 
 export const deleteServiceCharge = async (req, res) => {
     try {

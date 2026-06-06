@@ -44,9 +44,22 @@ export async function proxy(request) {
         }
     }
 
+    // ✅ Admin protect
+    if (pathname.startsWith("/admin")) {
+        if (!token || payloadData?.role !== "admin") {
+            return NextResponse.redirect(new URL("/auth/login", request.url));
+        }
+    }
+
+    if (pathname === '/auth/login') {
+        if (token && payloadData?.role === 'admin') {
+            return NextResponse.redirect(new URL("/admin", request.url));
+        }
+    }
+
     return NextResponse.next();
 }
 
 export const config = {
-    matcher: ["/auth/login", "/user/:path*", "/expert/:path*"],
+    matcher: ["/auth/login", "/user/:path*", "/expert/:path*", "/admin/:path*"],
 };

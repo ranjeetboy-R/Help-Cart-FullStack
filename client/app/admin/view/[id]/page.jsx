@@ -1,7 +1,7 @@
 'use client'
 
 import useUserStore from '@/app/store/useUserStore';
-import { Bookmark, CalendarCheck, ThumbsDown, ThumbsUp } from 'lucide-react';
+import { CalendarCheck, ThumbsDown, ThumbsUp } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation'
@@ -11,25 +11,20 @@ import { CiLocationOn } from 'react-icons/ci';
 import { FaWhatsapp } from 'react-icons/fa';
 import { HiMiniCheckBadge } from 'react-icons/hi2';
 import { IoIosCall } from 'react-icons/io';
-import { IoArrowBack, IoShieldCheckmark } from 'react-icons/io5';
-import { MdOutlineEventAvailable, MdShare } from 'react-icons/md';
+import { IoArrowBack } from 'react-icons/io5';
+import { MdOutlineEventAvailable } from 'react-icons/md';
 import { RiMoneyRupeeCircleLine } from 'react-icons/ri';
 import ImagePreview from '@/app/expert/expertComponent/ImagePreview';
 import { ExpertDetailsSkeleton } from '@/app/user/userComponents/Skeleton';
 import moment from 'moment';
-import toast from 'react-hot-toast';
 
 const page = () => {
     const params = useParams();
     const id = params.id;
-    const { user, getProfile, getExpertById, toggleReaction, getExpertLoading, saveProvider } = useUserStore();
+    const { getProfile, getExpertById, getExpertLoading } = useUserStore();
 
     const [expert, setExpert] = useState(null);
-    const [liked, setliked] = useState(false);
-    const [disliked, setdisliked] = useState(false);
     const [colleps, setColleps] = useState(null);
-    const [previousPath, setPreviousPath] = useState(null);
-    const [uiUpdate, setUiUpdate] = useState(false);
 
     useEffect(() => {
         const getProvider = async () => {
@@ -45,68 +40,14 @@ const page = () => {
 
     useEffect(() => {
         getProfile();
-    }, [uiUpdate])
-
-    const submitReaction = async (type) => {
-        const reaction = { type };
-        const res = await toggleReaction(expert?._id, reaction);
-
-        if (res?.success) {
-            setExpert((prev) => ({
-                ...prev,
-                likes: res.data.likes,
-                dislikes: res.data.dislikes,
-                liked: res.data.likedBy?.includes(user?._id),
-                disliked: res.data.dislikedBy?.includes(user?._id)
-            }))
-
-            setliked(res.data.liked);
-            setdisliked(res.data.disliked);
-        }
-    }
-
-    const saveProviderButton = async (providerId) => {
-        if (providerId) {
-            const res = await saveProvider(providerId);
-
-            if (res?.success) {
-                setUiUpdate(!uiUpdate);
-            }
-        }
-    }
+    }, [])
 
     const collepsToggle = (item) => {
         setColleps(colleps === item ? null : item)
     }
 
-    useEffect(() => {
-        const previousPath = sessionStorage.getItem("previousPath");
-        setPreviousPath(previousPath);
-    }, []);
-
-    const rewritePath = previousPath ? previousPath : '/user';
-
-    const isSaved = user?.savedProviderIds?.includes(expert?._id);
-
-    const handleShare = async () => {
-        if (!navigator.share) {
-            toast.error("Sharing is not supported on this browser");
-            return;
-        }
-
-        try {
-            await navigator.share({
-                title: expert?.full_name,
-                text: expert?.bio || `Check ${expert?.full_name} Profile` ,
-                url:  `${window.location.origin}/user/expertDetails/${expert?._id}`,
-            });
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
     return (
-        <div className="md:max-w-md mx-auto w-full flex flex-col gap-5 p-2">
+        <div className="md:max-w-md mx-auto w-full flex flex-col gap-5">
 
             {/* image */}
 
@@ -122,25 +63,9 @@ const page = () => {
 
                     <div className="absolute top-0 left-0 w-full h-full p-4 bg-linear-to-b from-transparent via-transparent to-white">
                         <div className="flex justify-between">
-                            <Link href={rewritePath} className='bg-black/30 h-fit p-2 rounded-full'>
+                            <Link href='/admin/experts' className='bg-black/30 h-fit p-2 rounded-full'>
                                 <IoArrowBack className='text-white size-5' />
                             </Link>
-
-                            <div className="flex gap-3">
-                                <button className="flex h-fit items-center text-green-600 font-medium bg-green-200 p-2 text-xs gap-1 rounded-full">
-                                    <IoShieldCheckmark /> Verified
-                                </button>
-
-                                <div className="flex flex-col gap-3">
-                                    <button onClick={handleShare} className='cursor-pointer bg-black/30 p-2 rounded-full'>
-                                        <MdShare className='text-white size-5' />
-                                    </button>
-                                    <button
-                                        onClick={() => saveProviderButton(expert?._id)} className='bg-black/30 p-2 rounded-full cursor-pointer'>
-                                        <Bookmark className={`${isSaved ? 'fill-amber-500 text-amber-200' : 'text-white'} size-5`} />
-                                    </button>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
@@ -178,17 +103,17 @@ const page = () => {
                             {
                                 expert &&
                                 <div className="flex items-center gap-3 border-b border-slate-200 py-1">
-                                    <button onClick={() => submitReaction('like')} className="flex items-center gap-2 border-r cursor-pointer border-slate-200 px-3">
+                                    <button className="flex items-center gap-2 border-r border-slate-200 px-3">
                                         <p>{expert?.likes}</p>
                                         <span>
-                                            <ThumbsUp className={`${(expert?.likedBy.includes(user?._id) || liked) ? 'fill-rose-600 stroke-rose-600' : 'fill-transparent stroke-slate-600 stroke-2'} size-4`} />
+                                            <ThumbsUp className={` size-4`} />
                                         </span>
                                     </button>
 
-                                    <button onClick={() => submitReaction('dislike')} className="flex items-center cursor-pointer gap-2 pr-3">
+                                    <button className="flex items-center gap-2 pr-3">
                                         <p>{expert?.dislikes}</p>
                                         <span>
-                                            <ThumbsDown className={`${(expert?.dislikedBy.includes(user?._id) || disliked) ? 'fill-gray-500 stroke-gray-500' : 'fill-transparent stroke-slate-600 stroke-2'} size-4`} />
+                                            <ThumbsDown className={` size-4`} />
                                         </span>
                                     </button>
                                 </div>
@@ -272,7 +197,7 @@ const page = () => {
                         <p className='text-sm text-slate-700 '>{colleps === 'services' ?
                             expert?.services
                             :
-                            `${expert?.services.slice(0, 50)}...`}
+                            `${expert?.services.slice(0, 120)}...`}
                         </p>
                     </div>
                 }

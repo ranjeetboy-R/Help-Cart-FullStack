@@ -8,6 +8,7 @@ import database from './config/db.js';
 import dns from 'dns';
 import authRouter from './routes/authRouter.js';
 import userRouter from './routes/userRouter.js';
+import adminRoute from './routes/adminRoute.js';
 
 dns.setServers(["1.1.1.1", "8.8.8.8"])
 
@@ -35,6 +36,7 @@ app.get('/', (req, res) => {
 app.use('/api/provider', providerRoute);
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
+app.use('/api/admin', adminRoute);
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);

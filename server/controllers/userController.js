@@ -247,28 +247,16 @@ export const searchProvider = async (req, res) => {
     try {
         const value = req.query.search || '';
 
-        const providers = await Provider.aggregate([
-            {
-                $search: {
-                    index: "default",
-                    text: {
-                        query: value,
-                        path: ["full_name", "profession"],
-                        fuzzy: { maxEdits: 2 }
-                    }
-                }
-            },
-            {
-                $project: {
-                    password: 0,
-                    email: 0,
-                    updatedAt: 0,
-                    saveByUser: 0,
-                    role: 0,
-                    authType: 0,
-                }
-            }
-        ]);
+        const providers = await Provider.find({
+            $or: [
+                { full_name: { $regex: value, $options: "i" } },
+                { village: { $regex: value, $options: "i" } },
+                { services: { $regex: value, $options: "i" } },
+                { ward: { $regex: value, $options: "i" } },
+                { profession: { $regex: value, $options: "i" } },
+            ]
+        })
+            .select("-password -email")
 
         return res.status(200).json({ success: true, providers });
 

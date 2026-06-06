@@ -30,7 +30,7 @@ export default function FeaturedProviders() {
     getAllProvider();
   }, [])
 
-  const randomExperts = [...experts].sort(() => Math.random() - 0.5);  
+  const randomExperts = [...experts].sort(() => Math.random() - 0.5);
 
   return (
     <section id="professionals" className="py-28 overflow-hidden">
@@ -80,10 +80,10 @@ export default function FeaturedProviders() {
                     <div className="relative h-13 w-13 rounded-full bg-linear-to-r from-green-500 to-emerald-400 flex items-center justify-center text-black font-bold text-3xl capitalize">
                       {
                         provider.profilePic ?
-                        <Image src={provider.profilePic} sizes="52px" 
-                        alt="H" fill priority className="rounded-full w-auto h-auto" />
-                        : 
-                        provider.full_name[0]
+                          <Image src={provider.profilePic} sizes="52px"
+                            alt="H" fill priority className="rounded-full w-auto h-auto" />
+                          :
+                          provider.full_name[0]
                       }
                     </div>
 

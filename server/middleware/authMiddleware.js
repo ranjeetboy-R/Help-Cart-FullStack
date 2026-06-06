@@ -1,6 +1,7 @@
 import { jwtVerify } from "jose";
 import Provider from "../models/provider.js";
 import User from "../models/user.js";
+import Admin from "../models/admin.js";
 
 const authMiddleware = async (req, res, next) => {
     try {
@@ -39,12 +40,22 @@ const authMiddleware = async (req, res, next) => {
             
             account = user;
         }
+
+        if (payload.role === 'admin') {
+            const admin = await Admin.findOne({ _id: payload.id });
+
+            if (!admin) {
+                return res.status(404).json({ success: false, message: "Account not found" })
+            }
+            
+            account = admin;
+        }
         
         req.profile = account;
         next();
 
     } catch (error) {
-        return res.status(401).json({ message: "Invalid token" });
+        return res.status(401).json({ message: "Invalid token" });        
     }
 }
 

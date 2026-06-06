@@ -10,6 +10,8 @@ const page = () => {
   const [search, setSearch] = useState('');
   const [experts, setExperts] = useState([]);
   const [existingExperts, setExistingExperts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -26,7 +28,6 @@ const page = () => {
     }, 500);
 
     return () => clearTimeout(timer);
-
   }, [])
 
   const SearchSubmit = async () => {
@@ -39,7 +40,17 @@ const page = () => {
     }
   }
 
-  const finalExperts = search === '' ? existingExperts : experts;
+  useEffect(()=> {
+    if (search === '') {
+      setExperts(existingExperts);
+    }
+  }, [search])
+
+  const totalPages = Math.ceil(experts?.length / itemsPerPage);
+  const start = (currentPage - 1) * itemsPerPage;
+
+  const currentExpert = experts?.slice(start, start + itemsPerPage);
+
 
   return (
     <div className="flex flex-col gap-3 p-5 relative">
@@ -64,14 +75,57 @@ const page = () => {
       <hr className='border border-slate-100 mt-1' />
 
       {
-        finalExperts.length === 0 &&
-        <span className='flex items-center text-rose-600/50 font-semibold text-center justify-center font-mono capitalize my-5 gap-1 text-lg w-full'>Opps! 
+        experts.length === 0 &&
+        <span className='flex items-center text-rose-600/50 font-semibold text-center justify-center font-mono capitalize my-5 gap-1 text-lg w-full'>Opps!
           <p className='text-green-600'>"{search}"</p> not found
         </span>
       }
 
       {/* Popular Experts */}
-      <Experts experts={finalExperts} title="Popular Experts" />
+      <Experts experts={currentExpert} title="Popular Experts" />
+
+      {/* Pagination */}
+      <div className="flex justify-center gap-2 mt-6 flex-wrap">
+
+        {/* Prev */}
+        <button
+          disabled={currentPage === 1}
+          onClick={() =>
+            setCurrentPage((p) => Math.max(p - 1, 1))
+          }
+          className="px-3 disabled:cursor-not-allowed disabled:opacity-50 py-1 bg-zinc-300 rounded hover:bg-zinc-300 cursor-pointer"
+        >
+          Prev
+        </button>
+
+        {/* Page Numbers */}
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrentPage(i + 1)}
+            className={`px-3 py-1 rounded ${currentPage === i + 1
+              ? "bg-zinc-800 text-white"
+              : "bg-white text-black cursor-pointer"
+              }`}
+          >
+            {i + 1}
+          </button>
+        ))}
+
+        {/* Next */}
+        <button
+          disabled={totalPages === currentPage}
+          onClick={() =>
+            setCurrentPage((p) =>
+              Math.min(p + 1, totalPages)
+            )
+          }
+          className="px-3 disabled:cursor-not-allowed disabled:opacity-50 py-1 bg-zinc-200 rounded hover:bg-zinc-300 cursor-pointer"
+        >
+          Next
+        </button>
+
+      </div>
 
       {/* Post a Request */}
       <div className="flex items-center flex-col bg-green-100 p-5 rounded-xl mb-20">

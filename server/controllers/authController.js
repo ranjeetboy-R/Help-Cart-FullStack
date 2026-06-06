@@ -3,6 +3,7 @@ import User from "../models/user.js";
 import Provider from "../models/provider.js";
 import bcrypt from 'bcrypt';
 import { generateToken } from "../utils/jwt.js";
+import Admin from "../models/admin.js";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -157,6 +158,20 @@ export const login = async (req, res) => {
 
             account = user;
             type = 'user';
+        }
+
+        if (role === 'admin') {
+            const admin = await Admin.findOne({ email });
+
+            if (!admin) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid credentials",
+                });
+            }
+
+            account = admin;
+            type = 'admin';
         }
 
         // ✅ invalid role
@@ -371,7 +386,7 @@ export const getProfile = async (req, res) => {
     try {
         const provider = req.profile;
 
-        const providerObj = provider.toObject();
+        const providerObj = provider?.toObject();
         delete providerObj.password;
 
         return res.status(200).json({ success: true, account: providerObj });
@@ -393,7 +408,7 @@ export const deleteAccount = async (req, res) => {
             }
 
             const isMatched = await bcrypt.compare(password, profile.password);
-            
+
             if (!isMatched) {
                 return res.status(400).json({ success: false, message: "Invalid password" });
             }
