@@ -109,7 +109,7 @@ export default function LoginForm() {
             <div className="flex flex-col mt-5">
                 <p className="text-lg font-medium text-slate-600">Choose your account type to proceed</p>
 
-                <div className="flex flex-wrap mt-2">
+                <div className="flex flex-wrap justify-around mt-2">
 
                     <button type="button" onClick={() => { setRole("user"); setFormData(emptyForm) }} className={`${role === "user" ? 'border-zinc-400 bg-green-400/10' : ''} border border-transparent px-5 cursor-pointer py-2 rounded-lg`}>
                         User
