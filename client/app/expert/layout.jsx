@@ -12,7 +12,7 @@ import logo from '@/public/logo.png';
 import useAuthStore from '../store/useAuthStore';
 
 const layout = ({ children }) => {
-    const {getProfile, account, logoutProfile} = useAuthStore();
+    const { getProfile, account, logoutProfile } = useAuthStore();
 
     const pathname = usePathname() || '/expert';
     const [phoneMenuOpen, setPhoneMenuOpen] = useState(false)
@@ -78,12 +78,9 @@ const layout = ({ children }) => {
                 <div className="flex flex-col mb-20 pb-5 h-screen overflow-y-scroll scrollbar-none">
 
                     <div className={`flex flex-col pb-5 mt-5`}>
-                        {
-                                  account?.profilePic &&
-                                  <div className="w-20 h-20 rounded-full relative mx-auto">
-                                    <Image src={account?.profilePic || undefined} alt='Profile' fill  sizes="80px" className='object-cover rounded-full' priority />
-                                  </div>
-                                }
+                        <div className="w-20 h-20 rounded-full relative mx-auto">
+                            <Image src={account?.profilePicId !== '' ? account?.profilePic : '/profileImage.webp'} alt='Profile' fill sizes="80px" className='object-cover rounded-full' priority />
+                        </div>
 
                         <h1 className={`text-slate-700 mt-3 text-2xl justify-center flex capitalize font-semibold items-center gap-2`}>{account?.full_name}
                         </h1>

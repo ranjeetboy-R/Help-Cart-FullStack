@@ -36,7 +36,7 @@ const page = () => {
       <div className="flex flex-col rounded-2xl bg-green-100/90 shadow-lg shadow-black/10 p-8">
 
         <div className="relative w-40 h-40 border-4 border-white/50 shadow-lg shadow-black/50 rounded-full overflow-hidden mx-auto">
-          <Image src={account?.profilePic || '/profileImage.webp'} fill className='object-cover rounded-full' sizes='144px' alt='profile pic' priority />
+          <Image src={account?.profilePicId !== '' ? account?.profilePic : '/profileImage.webp'} fill className='object-cover rounded-full' sizes='144px' alt='profile pic' priority />
         </div>
 
         <div className="flex flex-col items-center mt-5">
@@ -48,7 +48,7 @@ const page = () => {
           <span className='flex items-center gap-2 mt-1'>
             {
               account?.profession?.map((item, index) => (
-                <p className='capitalize font-medium text-sm' key={index}>{item} {index < account?.profession?.length ? ',' : ''}</p>
+                <p className='capitalize font-medium text-sm' key={index}>{item}</p>
               ))
             }
           </span>
@@ -58,8 +58,12 @@ const page = () => {
             {account?.village}, {account?.state} {account?.district}
           </div>
 
-          <Link href="/expert/expertProfile" className="flex mt-5 items-center gap-2 border border-slate-400 bg-black/80 hover:bg-black transition-all text-white active:scale-90 px-3 py-2 text-sm rounded-lg">
-            View My Profile
+          <Link 
+          href="/expert/expertProfile" 
+          className={`${account?.profilePicId === '' ? 'bg-rose-200 text-black' : 'bg-black/80 hover:bg-black border border-slate-400 text-white'} flex mt-5 items-center gap-2 transition-all active:scale-90 hover:scale-105 px-3 py-2 text-sm rounded-lg`}>
+            {
+              account?.profilePicId === '' ? 'Update Profile Image' : 'View My Profile'
+            }
             <ChevronRight className='size-4' />
           </Link>
         </div>
