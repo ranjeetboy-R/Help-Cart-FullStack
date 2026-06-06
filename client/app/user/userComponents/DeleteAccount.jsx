@@ -22,7 +22,7 @@ const DeleteAccount = ({ deleteModal, setDeleteModal, email }) => {
                 window.location.reload();
             }
         }
-        
+
         if (user?.authType === 'google') {
             const res = await deleteAccount(password);
             if (res && res.success) {
@@ -31,7 +31,7 @@ const DeleteAccount = ({ deleteModal, setDeleteModal, email }) => {
                 window.location.reload();
             }
         }
-    }    
+    }
 
     return (
         <Modal
@@ -59,7 +59,10 @@ const DeleteAccount = ({ deleteModal, setDeleteModal, email }) => {
                 <div className="flex flex-col gap-5">
                     <div className="flex flex-col">
                         <label className='text-zinc-700 font-semibold text-lg'>Permanently Delete Your Account - </label>
-                        <label className='text-zinc-600 text-sm'>Email id : {email}</label>
+                        {
+                            email &&
+                            <label className='text-zinc-600 text-sm'>Email id : {email}</label>
+                        }
                     </div>
 
                     {user?.authType === 'normal' &&

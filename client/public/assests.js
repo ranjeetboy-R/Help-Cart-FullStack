@@ -283,11 +283,6 @@ export const expertPageItems = [
     icon: IndianRupee
   },
   {
-    title: "Analysis",
-    href: '/expert/analysis',
-    icon: ChartNoAxesCombined
-  },
-  {
     title: "Profile",
     href: '/expert/expertProfile',
     icon: User2

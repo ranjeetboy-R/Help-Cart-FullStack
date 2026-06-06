@@ -37,7 +37,7 @@ const page = () => {
     const rewritePath = previousPath ? previousPath : '/user';
 
     return (
-        <div className="flex flex-col gap-5 p-5">
+        <div className="md:max-w-lg mx-auto w-full flex flex-col gap-5 p-5">
             <Link href={rewritePath} className='flex items-center gap-2'>
                 <ArrowLeft className='size-5' />
                 All Experts

@@ -47,7 +47,7 @@ const page = () => {
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-3">
           <Link href="/expert" className='mb-2 flex items-center gap-3'>
-            <IoArrowBack className='text-slate-800 size-5' /> All users
+            <IoArrowBack className='text-slate-800 size-5' /> All experts
           </Link>
         </div>
 

@@ -35,12 +35,9 @@ const page = () => {
       {/* Welcome  */}
       <div className="flex flex-col rounded-2xl bg-green-100/90 shadow-lg shadow-black/10 p-8">
 
-        {
-          account?.profilePic &&
-          <div className="relative w-40 h-40 border-4 border-white/50 shadow-lg shadow-black/50 rounded-full overflow-hidden mx-auto">
-            <Image src={account?.profilePic || undefined} fill className='object-cover rounded-full' sizes='144px' alt='profile pic' priority />
-          </div>
-        }
+        <div className="relative w-40 h-40 border-4 border-white/50 shadow-lg shadow-black/50 rounded-full overflow-hidden mx-auto">
+          <Image src={account?.profilePic || '/profileImage.webp'} fill className='object-cover rounded-full' sizes='144px' alt='profile pic' priority />
+        </div>
 
         <div className="flex flex-col items-center mt-5">
           <div className='flex text-center flex-col capitalize'>
@@ -73,9 +70,7 @@ const page = () => {
       <div className="flex flex-col gap-3 mt-5">
 
         {/* Saved Profile  */}
-        <Link
-          href='/expert/analysis'
-          className="border border-slate-300 rounded-lg hover:translate-x-1 transition-all hover:shadow hover:bg-green-50 p-5 flex justify-between items-center ">
+        <div className="border border-slate-300 rounded-lg hover:translate-x-1 transition-all hover:shadow hover:bg-green-50 p-5 flex justify-between items-center ">
           <div className="flex items-center gap-5">
             <span className='p-2 rounded-md bg-green-200 text-green-700'>
               <Heart className='size-5 fill-green-300' />
@@ -86,9 +81,7 @@ const page = () => {
               <p>Saved By User</p>
             </div>
           </div>
-
-          <ArrowRight className='size-5' />
-        </Link>
+        </div>
 
         {/* Liked Profile  */}
         <div className="border border-slate-300 rounded-lg hover:translate-x-1 transition-all hover:shadow hover:bg-rose-50 p-5 flex items-center gap-5">
