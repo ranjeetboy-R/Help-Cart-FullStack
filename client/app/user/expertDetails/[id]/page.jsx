@@ -222,7 +222,7 @@ const page = () => {
                         (expert?.village || expert?.state || expert?.district) &&
                         <span className='text-sm text-slate-600 font-semibold flex items-center gap-1'>
                             <CiLocationOn className='size-4' />
-                            <div className="flex items-center">
+                            <div className="flex items-center capitalize">
                                 {expert?.village}, {expert?.state} {expert?.district}
                             </div>
                         </span>

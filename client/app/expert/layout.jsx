@@ -10,6 +10,7 @@ import { expertPageItems } from '@/public/assests';
 import toast from 'react-hot-toast';
 import logo from '@/public/logo.png';
 import useAuthStore from '../store/useAuthStore';
+import profileImage from '@/public/profileImage.webp';
 
 const layout = ({ children }) => {
     const { getProfile, account, logoutProfile } = useAuthStore();
@@ -79,7 +80,7 @@ const layout = ({ children }) => {
 
                     <div className={`flex flex-col pb-5 mt-5`}>
                         <div className="w-20 h-20 rounded-full relative mx-auto">
-                            <Image src={account?.profilePicId !== '' ? account?.profilePic : '/profileImage.webp'} alt='Profile' fill sizes="80px" className='object-cover rounded-full' priority />
+                            <Image src={account?.profilePic || profileImage} alt='Profile' fill sizes="80px" className='object-cover rounded-full' priority />
                         </div>
 
                         <h1 className={`text-slate-700 mt-3 text-2xl justify-center flex capitalize font-semibold items-center gap-2`}>{account?.full_name}

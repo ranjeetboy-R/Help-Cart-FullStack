@@ -20,7 +20,7 @@ const providerSchema = new mongoose.Schema({
     services: { type: String },
 
     profilePic: { type: String },
-    profilePicId: { type: String },
+    profilePicId: { type: String, default: '' },
 
     recent_works: [{ url: String, public_id: String }],
     service_charges: [{ title: String, amount: Number }],

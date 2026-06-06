@@ -37,17 +37,12 @@ const page = () => {
     return (
         <div className="flex flex-col">
 
-            <div className="flex flex-col gap-5">
-                {
-                    account?.recent_works.length > 0 &&
-                    <div className="flex items-center justify-between">
-                        <h1 className='text-xl font-semibold text-slate-800'>Add Service Charges</h1>
+            <div className="flex items-center justify-between">
+                <h1 className='text-xl font-semibold text-slate-800'>Add Service Charges</h1>
 
-                        <button onClick={() => setAddModal(true)} className="px-5 py-2 cursor-pointer hover:bg-black bg-black/80 rounded-lg text-sm text-white active:scale-90 transition-all flex items-center gap-2">
-                            <Plus /> Add new
-                        </button>
-                    </div>
-                }
+                <button onClick={() => setAddModal(true)} className="px-5 py-2 cursor-pointer hover:bg-black bg-black/80 rounded-lg text-sm text-white active:scale-90 transition-all flex items-center gap-2">
+                    <Plus /> Add new
+                </button>
             </div>
 
             {/* Preview service charges  */}

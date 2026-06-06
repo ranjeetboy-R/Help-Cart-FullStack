@@ -60,26 +60,6 @@ const useProviderStore = create(
                 toast.error(msg);
             }
         },
-
-        getUserDetailsWhoSaveProvider: async () => {
-            try {
-                const { data } = await axiosInstance.get(`/provider/getUserDetails`);
-
-                if (data && data.success) {
-                    return {
-                        success: true,
-                        users: data.saveUser
-                    }
-                }
-
-                return { success: false }
-
-            } catch (error) {
-                console.log(error?.response?.data?.message || 'Internal server error');
-                return { success: false }
-            }
-        },
-
     })
 )
 

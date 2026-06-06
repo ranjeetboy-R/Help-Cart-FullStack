@@ -3,31 +3,20 @@
 import React, { useEffect, useState } from 'react'
 import useProviderStore from '../store/useProviderStore'
 import Image from 'next/image';
-import { ArrowRight, ChevronRight, Heart, MapPin, ThumbsDown, ThumbsUp } from 'lucide-react';
+import { ChevronRight, Heart, MapPin, ThumbsDown, ThumbsUp } from 'lucide-react';
 import useAuthStore from '../store/useAuthStore';
 import Link from 'next/link';
+import profileImage from '@/public/profileImage.webp';
 
 const page = () => {
-
-  const { getUserDetailsWhoSaveProvider } = useProviderStore();
-  const [UserDetails, setUserDetails] = useState([]);
-
   const { account, getProfile } = useAuthStore();
 
   useEffect(() => {
     getProfile()
   }, [])
 
-  useEffect(() => {
-    const get = async () => {
-      const res = await getUserDetailsWhoSaveProvider();
-      if (res?.success) {
-        setUserDetails(res.users);
-      }
-    }
-
-    get();
-  }, [])
+  console.log(account);
+  
 
   return (
     <div className="flex flex-col min-h-screen mb-20">
@@ -36,7 +25,7 @@ const page = () => {
       <div className="flex flex-col rounded-2xl bg-green-100/90 shadow-lg shadow-black/10 p-8">
 
         <div className="relative w-40 h-40 border-4 border-white/50 shadow-lg shadow-black/50 rounded-full overflow-hidden mx-auto">
-          <Image src={account?.profilePicId !== '' ? account?.profilePic : '/profileImage.webp'} fill className='object-cover rounded-full' sizes='144px' alt='profile pic' priority />
+          <Image src={account?.profilePic || profileImage} fill className='object-cover rounded-full' sizes='144px' alt='profile pic' priority />
         </div>
 
         <div className="flex flex-col items-center mt-5">
@@ -81,7 +70,7 @@ const page = () => {
             </span>
 
             <div className="flex  items-center gap-2">
-              <p className='text-2xl font-medium text-slate-800'>{UserDetails?.length > 0 && UserDetails?.length < 10 ? `0${UserDetails?.length}` : UserDetails.length}</p>
+              <p className='text-2xl font-medium text-slate-800'>{account?.saveByUser?.length > 0 && account?.saveByUser?.length < 10 ? `0${account?.saveByUser?.length}` : account?.saveByUser.length}</p>
               <p>Saved By User</p>
             </div>
           </div>
