@@ -121,8 +121,8 @@ export default function Footer() {
           </p>
 
           <div className="flex gap-6 text-sm text-gray-500">
-            <Link href="/">Privacy Policy</Link>
-            <Link href="/">Terms & Conditions</Link>
+            <Link href="/privacy-policy">Privacy Policy</Link>
+            <Link href="/terms-and-conditions">Terms & Conditions</Link>
           </div>
 
         </div>

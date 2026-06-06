@@ -11,51 +11,91 @@ const bricolage_grotesque = Bricolage_Grotesque({
 });
 
 export const metadata = {
-  title: "HelpCart - Find Workers & Service Providers Easily",
+  metadataBase: new URL("https://helpcart.vercel.app"),
+
+  title: {
+    default: "HelpCart",
+    template: "%s | HelpCart",
+  },
+
   description:
-    "HelpCart is a platform that connects workers and service providers with customers. Hire skilled professionals, post jobs, and get services easily in your area.",
+    "Find trusted service providers and skilled professionals near you.",
+
   keywords: [
     "HelpCart",
-    "hire workers",
-    "service marketplace",
-    "find workers online",
-    "freelancers India",
-    "home services",
-    "skilled labor platform",
+    "service provider",
+    "local services",
+    "electrician",
+    "plumber",
+    "carpenter",
+    "technician",
+    "teacher",
+    "contractor",
+    "painter",
+    "websiteDeveloper",
+    "aiAgentAutomation",
+    "mechanic",
+    "mobile_repair",
   ],
-  authors: [{ name: "HelpCart Team" }],
+
+  authors: [{ name: "HelpCart" }],
+
   creator: "HelpCart",
   publisher: "HelpCart",
 
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+
   openGraph: {
-    title: "HelpCart - Connect Workers & Service Providers",
-    description:
-      "Easily find and hire skilled workers and service providers near you with HelpCart.",
-    url: "https://helpcart.com",
-    siteName: "HelpCart",
     type: "website",
+    locale: "en_US",
+    url: "https://helpcart.vercel.app",
+    siteName: "HelpCart",
+    title: "HelpCart",
+    description:
+      "Find trusted service providers and skilled professionals near you.",
     images: [
       {
-        url: "https://helpcart.com/og-image.png",
+        url: "/logo.png",
         width: 1200,
         height: 630,
-        alt: "HelpCart Preview",
+        alt: "HelpCart",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "HelpCart - Hire Workers & Services",
+    title: "HelpCart",
     description:
-      "Connect with skilled workers and service providers instantly on HelpCart.",
-    images: ["https://helpcart.com/og-image.png"],
+      "Find trusted service providers and skilled professionals near you.",
+    images: ["/logo.png"],
   },
 
-  robots: {
-    index: true,
-    follow: true,
+  alternates: {
+    canonical: "https://helpcart.vercel.app",
   },
+
+  verification: {
+    google: "PASTE_GOOGLE_SEARCH_CONSOLE_CODE",
+  },
+};
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "HelpCart",
+  url: "https://helpcart.vercel.app",
+  logo: "https://helpcart.vercel.app/logo.png",
 };
 
 export default function RootLayout({ children }) {
@@ -68,6 +108,14 @@ export default function RootLayout({ children }) {
       <body className="min-h-full flex flex-col">
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
           <RouteTracker />
+
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(organizationSchema),
+            }}
+          />
+
           {children}
           <InternetProvider />
           <Toaster />
