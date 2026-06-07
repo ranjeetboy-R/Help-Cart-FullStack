@@ -2,6 +2,7 @@
 
 import { categories } from "@/public/assests";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function Categories() {
     return (
@@ -29,7 +30,7 @@ export default function Categories() {
 
                 <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
 
-                    {categories.slice(0, 20).map((item, index) => {
+                    {categories.slice(0, 10).map((item, index) => {
                         const Icon = item.icon;
 
                         return (
@@ -51,14 +52,14 @@ export default function Categories() {
                                     />
                                 </div>
 
-                                <div className="flex flex-col gap-2">
+                                <Link href="/auth/signup" className="flex flex-col gap-2">
                                     <h3 className="text-xl font-bold">
                                         {item.title}
                                     </h3>
                                     <p className="text-gray-400 text-sm">
                                         {item.services}
                                     </p>
-                                </div>
+                                </Link>
                             </motion.div>
                         );
                     })}
