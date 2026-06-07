@@ -65,7 +65,7 @@ export const metadata = {
       "Find trusted service providers and skilled professionals near you.",
     images: [
       {
-        url: "/logo.png",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "HelpCart",
@@ -78,7 +78,7 @@ export const metadata = {
     title: "HelpCart",
     description:
       "Find trusted service providers and skilled professionals near you.",
-    images: ["/logo.png"],
+    images: ["/og-image.png"],
   },
 
   alternates: {
