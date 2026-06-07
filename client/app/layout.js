@@ -1,13 +1,16 @@
 import { Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
+
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Toaster } from "react-hot-toast";
+
 import InternetProvider from "./InternetProvider";
 import RouteTracker from "./RouteTracker";
 
 const bricolage_grotesque = Bricolage_Grotesque({
   subsets: ["latin"],
-  weight: ['200', '300', '400', '500', '600', '700', '800']
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
 export const metadata = {
@@ -27,37 +30,13 @@ export const metadata = {
     "local services",
     "electrician",
     "plumber",
-    "carpenter",
     "technician",
     "teacher",
     "contractor",
-    "painter",
-    "websiteDeveloper",
-    "aiAgentAutomation",
-    "mechanic",
-    "mobile_repair",
   ],
-
-  authors: [{ name: "HelpCart" }],
-
-  creator: "HelpCart",
-  publisher: "HelpCart",
-
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
-  },
 
   openGraph: {
     type: "website",
-    locale: "en_US",
     url: "https://helpcart.vercel.app",
     siteName: "HelpCart",
     title: "HelpCart",
@@ -81,12 +60,9 @@ export const metadata = {
     images: ["/og-image.png"],
   },
 
-  alternates: {
-    canonical: "https://helpcart.vercel.app",
-  },
-
-  verification: {
-    google: "ukIpr66GL43dJDI5xNSm26ufrCDCK6v6I6hkA4kZR5I",
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
@@ -102,13 +78,26 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      data-scroll-behavior="smooth"
-      className={`${bricolage_grotesque.className} scroll-smooth h-full antialiased`}
+      className={`${bricolage_grotesque.className} scroll-smooth antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+      <head>
+        {/* ⚡ LCP OPTIMIZATION - ONLY CRITICAL IMAGES */}
+        <link rel="preload" as="image" href="/expert.png" />
+        <link rel="preload" as="image" href="/logo.png" />
+
+        {/* ⚡ OPTIONAL: if using external images */}
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+      </head>
+
+      <body className="min-h-screen flex flex-col bg-white">
+        {/* GOOGLE AUTH PROVIDER (kept minimal impact) */}
+        <GoogleOAuthProvider
+          clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
+        >
+          {/* ⚡ route tracking (keep lightweight) */}
           <RouteTracker />
 
+          {/* JSON-LD structured data */}
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
@@ -116,9 +105,12 @@ export default function RootLayout({ children }) {
             }}
           />
 
-          {children}
+          {/* MAIN APP */}
+          <div className="flex-1">{children}</div>
+
+          {/* GLOBAL PROVIDERS */}
           <InternetProvider />
-          <Toaster />
+          <Toaster position="top-right" />
         </GoogleOAuthProvider>
       </body>
     </html>
