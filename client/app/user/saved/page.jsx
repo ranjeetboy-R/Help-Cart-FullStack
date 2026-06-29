@@ -15,6 +15,7 @@ const page = () => {
   const [uiUpdate, setUiUpdate] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const { getExpertLoading } = useUserStore();
+  const [keyword, setKeyword] = useState('all');
 
   useEffect(() => {
     const get = async () => {
@@ -31,7 +32,10 @@ const page = () => {
   // filterByCategory
   const filterByCategory = (key) => {
     const filter = providers?.filter(provider =>
-      provider.profession?.some(item => item.toLowerCase().includes(key))
+      provider?.profession?.some((item) => {
+        setKeyword(key);
+        return item.toLowerCase().includes(key)
+      })
     )
     setfilteredProviders(filter);
   }
@@ -61,13 +65,14 @@ const page = () => {
       {/* Filter Option */}
       <div className="flex cursor-grab items-center mt-3 justify-center gap-5">
 
-        <div className="flex items-center gap-3 w-full px-2 overflow-x-auto md:scrollbar-thin scrollbar-none">
+        <div className="flex items-center gap-3 w-full px-2 py-2 overflow-x-auto md:scrollbar-thin scrollbar-none">
           <button onClick={() => setfilteredProviders(providers)} className="bg-green-100 px-5 text-green-800 font-medium py-2 rounded-lg shadow-md mb-3 text-sm">
             All
           </button>
+
           {
             categories.map((category, index) => (
-              <button onClick={() => filterByCategory(category.key)} key={index} className="px-3 mb-3 whitespace-nowrap text-slate-600 border border-slate-100 shadow-md bg-slate-50 hover:bg-slate-100 font-medium py-2 rounded-lg text-sm">
+              <button onClick={() => filterByCategory(category.key)} key={index} className={`${keyword === category.key ? 'bg-zinc-300/30 scale-110 border-zinc-300' : 'border-slate-100'} px-3 mb-3 whitespace-nowrap text-slate-600 border shadow-md transition-all font-medium py-2 rounded-lg text-sm`}>
                 {category.title}
               </button>
             ))

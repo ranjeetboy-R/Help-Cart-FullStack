@@ -71,7 +71,7 @@ export const ExpertDetailsSkeleton = () => {
 
 export const HomePageSkeleton = () => {
     return (
-        <div className="md:max-w-lg mx-auto z-50 w-full h-full absolute top-0 left-1/2 -translate-x-1/2 mt-10 flex flex-col gap-3">
+        <div className="md:max-w-lg mx-auto bg-white z-50 w-full h-full absolute top-0 left-1/2 -translate-x-1/2 mt-15 flex flex-col gap-3">
 
             {
                 Array(4).fill(0).map((_, index) => (

@@ -30,9 +30,9 @@ const page = () => {
 
       <div className="mt-5 p-5 border border-slate-200 space-y-5 w-full shadow-lg shadow-black/10 rounded-xl">
 
-        <div className="flex items-center justify-between whitespace-nowrap">
-          <p className='text-zinc-400 text-left'>Profile Details</p>
-          <p className='text-zinc-600 text-sm'>Profile Created {moment(user?.createdAt).format("DD MMM YYYY, hh:mm")} </p>
+        <div className="flex flex-col gap-2 justify-between whitespace-nowrap">
+          <p className='text-zinc-600 text-left text-lg'>Profile Details</p>
+          <p className='text-zinc-600 text-sm'>Profile Created - {moment(user?.createdAt).format("DD MMM YYYY, hh:mm")} </p>
         </div>
 
         <div className="grid md:grid-cols-2 grid-cols-1 md:gap-5 gap-3">
