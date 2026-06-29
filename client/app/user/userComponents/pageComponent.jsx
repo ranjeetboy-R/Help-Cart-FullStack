@@ -6,13 +6,13 @@ import logo from '@/public/logo.png'
 import expert from '@/public/expert.png'
 import { FaRegBell } from 'react-icons/fa'
 import Link from 'next/link'
-import { Search } from 'lucide-react'
+import { ArrowRight, Search } from 'lucide-react'
 import useUserStore from '@/app/store/useUserStore'
 import Categories from './TopCategories'
 import Experts from './Experts'
 import { HomePageSkeleton } from './Skeleton'
 
-const PageComponent = ({experts}) => {
+const PageComponent = ({ experts }) => {
   const { user, getExpertLoading } = useUserStore();
 
   return (
@@ -36,8 +36,12 @@ const PageComponent = ({experts}) => {
 
       {/* navbar */}
       <div className="flex justify-between items-center text-sm font-medium mt-12">
-        <p className='text-sm text-slate-600 font-semibold flex items-center gap-1 capitalize'>Welcome, {user?.full_name}</p>
-        <Link href='/auth/signup' className="bg-linear-to-b from-green-500 to-green-800 p-2 rounded-md text-xs text-slate-100">Join as Expert</Link>
+        <p className='text-lg text-slate-600 font-semibold flex items-center gap-1 capitalize'>Welcome, {user?.full_name}</p>
+
+        <Link href='/auth/signup?ref=provider' className="shadow-md relative transition-all border border-slate-200  px-3 py-2 rounded-md font-semibold group text-green-600 hover:bg-green-100 flex items-center">
+          Join as Expert
+          <ArrowRight className='size-5 -ml-5 opacity-0 group-hover:opacity-100 group-hover:ml-1 transition-all duration-300' />
+        </Link>
       </div>
 
       {/* Trusted box */}
@@ -72,7 +76,7 @@ const PageComponent = ({experts}) => {
           href='/user/search'
           className='p-3 items-center gap-2 text-slate-600 rounded-lg flex absolute bottom-3 left-3 right-3 bg-white'
         >
-          <Search className='size-4'/>
+          <Search className='size-4' />
           Search by name, services...
         </Link>
 
@@ -81,14 +85,16 @@ const PageComponent = ({experts}) => {
       {/* Categories */}
       <Categories />
 
-      {/* Popular Experts */}
-      <Experts experts={experts} quantity={10} title="Popular Experts" />
+      <div className="relative flex flex-col">
+        {/* Popular Experts */}
+        <Experts experts={experts} quantity={10} title="Popular Experts" />
 
-      {/* Skeleton  */}
-      {
-        getExpertLoading &&
-        <HomePageSkeleton />
-      }
+        {/* Skeleton  */}
+        {
+          getExpertLoading &&
+          <HomePageSkeleton />
+        }
+      </div>
     </div>
   )
 }

@@ -4,9 +4,11 @@ import React, { useEffect, useState } from 'react'
 import { Loader2, Search } from 'lucide-react'
 import Experts from '../userComponents/Experts'
 import useUserStore from '@/app/store/useUserStore'
+import { HomePageSkeleton } from '../userComponents/Skeleton'
+import toast from 'react-hot-toast'
 
 const page = () => {
-  const { searchProvider, searchLoading, allExperts } = useUserStore();
+  const { searchProvider, searchLoading, allExperts, getExpertLoading } = useUserStore();
   const [search, setSearch] = useState('');
   const [experts, setExperts] = useState([]);
   const [existingExperts, setExistingExperts] = useState([]);
@@ -40,7 +42,7 @@ const page = () => {
     }
   }
 
-  useEffect(()=> {
+  useEffect(() => {
     if (search === '') {
       setExperts(existingExperts);
     }
@@ -74,15 +76,16 @@ const page = () => {
 
       <hr className='border border-slate-100 mt-1' />
 
-      {
-        experts.length === 0 &&
-        <span className='flex items-center text-rose-600/50 font-semibold text-center justify-center font-mono capitalize my-5 gap-1 text-lg w-full'>Opps!
-          <p className='text-green-600'>"{search}"</p> not found
-        </span>
-      }
+      <div className="relative flex flex-col">
+        {/* Popular Experts */}
+        <Experts experts={currentExpert} title="Popular Experts" />
 
-      {/* Popular Experts */}
-      <Experts experts={currentExpert} title="Popular Experts" />
+        {/* Skeleton  */}
+        {
+          getExpertLoading &&
+          <HomePageSkeleton />
+        }
+      </div>
 
       {/* Pagination */}
       <div className="flex justify-center gap-2 mt-6 flex-wrap">
@@ -128,12 +131,12 @@ const page = () => {
       </div>
 
       {/* Post a Request */}
-      <div className="flex items-center flex-col bg-green-100 p-5 rounded-xl mb-20">
+      <div className={`${getExpertLoading && 'hidden'} flex items-center flex-col bg-green-100 p-5 mt-5 rounded-xl mb-20`}>
         <h1 className='font-medium text-slate-800'>Didn't find what you're looking for?</h1>
         <p className='text-sm text-center text-slate-700'>Post a request and get expert  help near you.
         </p>
 
-        <button className="bg-green-600 mt-1 px-5 py-2 rounded-lg w-fit text-white text-sm">
+        <button onClick={()=> toast.success('Comming soon!')} className="bg-green-600 cursor-pointer mt-1 px-5 py-2 rounded-lg w-fit text-white text-sm">
           Post a Request
         </button>
       </div>

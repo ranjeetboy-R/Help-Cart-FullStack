@@ -1,17 +1,28 @@
 "use client";
 
 import { Mail, Lock, Eye, EyeOff, UserPen, Loader } from "lucide-react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import useAuthStore from "@/app/store/useAuthStore";
+import { GoogleLogin } from "@react-oauth/google";
 
 export default function SignupForm() {
     const [showPassword, setShowPassword] = useState(false);
+    const searchParams = useSearchParams();
     const [role, setRole] = useState("user");
+
+    const ref = searchParams.get('ref');
+
+    useEffect(() => {
+        if (ref === 'provider') {
+            setRole('provider');
+        }
+    }, [ref])
+
 
     const router = useRouter();
 
-    const { signup, accountLoading } = useAuthStore();
+    const { signup, accountLoading, googleAuth } = useAuthStore();
 
     const emptyForm = {
         full_name: "",
@@ -50,6 +61,26 @@ export default function SignupForm() {
         }
     };
 
+    const LoginWithGoogle = async (credentialResponse) => {
+        const res = await googleAuth(credentialResponse, role);
+        if (res?.success) {
+
+            if (res.account?.role === 'user') {
+                router.replace('/user');
+            }
+
+            if (res.account?.role === 'provider') {
+
+                if (res.account.village === '' || res.account.pincode === '' || res.account.ward === '' || res.account.profession.length === 0) {
+                    router.replace('/expert/accountDetails');
+                }
+                else {
+                    router.replace('/expert');
+                }
+            }
+        }
+    }
+
     return (
         <form onSubmit={FormSubmit} className="w-full max-w-md bg-linear-to-br from-green-100 to-fuchsia-100 rounded-2xl p-6 shadow-xl shadow-black/30">
 
@@ -64,17 +95,27 @@ export default function SignupForm() {
             </div>
 
             {/* Role Buttons */}
-            <div className="flex gap-2 mb-4">
-                <button type="button" onClick={() => { setRole("user"); setFormData(emptyForm) }} className={`${role === "user" ? 'border-zinc-400 bg-green-400/10' : ''} border border-transparent w-full cursor-pointer py-2 rounded-lg`}>
+            <div className="flex gap-4 mb-4">
+                <button type="button" onClick={() => { setRole("user"); setFormData(emptyForm) }} className={`${role === "user" ? 'bg-green-400/20 shadow-md border-transparent' : 'border-slate-300 scale-95'} border w-full cursor-pointer transition-all duration-300 py-2 rounded-lg`}>
                     Signup as user
                 </button>
-                <button type="button" onClick={() => { setRole("provider"); setFormData(emptyForm) }} className={`${role === "provider" ? 'border-zinc-400 bg-green-400/10' : ''} border border-transparent w-full cursor-pointer py-2 rounded-lg`}>
+                <button type="button" onClick={() => { setRole("provider"); setFormData(emptyForm) }} className={`${role === "provider" ? 'bg-green-400/20 shadow-md border-transparent' : 'border-slate-300 scale-95'} border w-full cursor-pointer transition-all duration-300 py-2 rounded-lg`}>
                     Signup as Expert
                 </button>
             </div>
 
+            <div>
+                <GoogleLogin
+                    onSuccess={LoginWithGoogle}
+                    text="continue_with"
+                    onError={() => {
+                        toast.error("Login Failed")
+                    }}
+                />
+            </div>
+
             {/* Name */}
-            <div className="mb-3">
+            <div className="mb-3 mt-7">
                 <label className="text-sm text-zinc-800">Full Name*</label>
                 <div className="flex items-center mt-1 border border-slate-400 hover:border-slate-500 transition-all rounded-lg px-3">
                     <UserPen size={16} className="text-zinc-400" />

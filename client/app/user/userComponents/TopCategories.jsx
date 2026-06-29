@@ -11,11 +11,11 @@ const Categories = () => {
                 <Link href='/user/categories' className='text-xs text-green-700'>View all</Link>
             </div>
 
-            <div className="relative grid grid-cols-4 gap-3">
+            <div className="relative grid grid-cols-4 gap-4">
                 {
                     categories?.slice(0, 7).map((category, index) => (
                         <Link href={`/user/showCategory/${category.key}`}
-                            className="py-2 hover:bg-white cursor-pointer bg-white/50 transition-all flex flex-col items-center shadow shadow-black/20 border border-slate-200 rounded-lg"
+                            className="py-4 active:scale-90 hover:shadow-md hover:bg-white cursor-pointer bg-linear-to-br from-green-100 to-rose-100 transition-all flex flex-col items-center shadow shadow-black/20 border border-slate-200 rounded-lg"
                             key={index}
                         >
                             <category.icon style={{}} className={`${category.color} fill-green-500 size-6`} />
@@ -25,7 +25,7 @@ const Categories = () => {
                 }
 
                 <Link href='/user/categories'
-                    className="py-2 flex flex-col hover:bg-white cursor-pointer bg-white/50 transition-all items-center shadow shadow-black/30 border border-slate-200 rounded-lg">
+                    className="py-2 flex flex-col cursor-pointer bg-linear-to-br from-green-50 to-rose-50 transition-all items-center shadow shadow-black/30 border border-slate-200 rounded-lg">
                     <Ellipsis className='size-6' />
                     <p className='text-sm font-semibold text-slate-800 mt-2'>More</p>
                 </Link>

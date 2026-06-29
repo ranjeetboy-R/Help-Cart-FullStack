@@ -6,13 +6,14 @@ import React, { useEffect, useState } from 'react'
 import Experts from '../../userComponents/Experts';
 import { IoArrowBack } from 'react-icons/io5';
 import Link from 'next/link';
+import { HomePageSkeleton } from '../../userComponents/Skeleton';
 
 const page = () => {
 
   const params = useParams();
   const key = params.id;
 
-  const { allExperts } = useUserStore();
+  const { allExperts, getExpertLoading } = useUserStore();
   const [experts, setExperts] = useState([]);
   const [previousPath, setPreviousPath] = useState(null);
 
@@ -51,17 +52,26 @@ const page = () => {
         Back
       </Link>
 
+      <div className="relative flex flex-col">
+        {/* Providers */}
+        {
+          experts.length > 0 &&
+          <Experts experts={experts} title={`All ${key}`} />
+        }
+
+        {/* Skeleton  */}
+        {
+          getExpertLoading &&
+          <HomePageSkeleton />
+        }
+      </div>
+
       {
         experts.length === 0 &&
         <div className="flex flex-col items-center mt-20 mx-auto">
           <h1 className='capitalize text-2xl font-semibold'>{key}</h1>
           <p className='font-medium capitalize text-slate-700'>Oops! {key} Not Found</p>
         </div>
-      }
-
-      {
-        experts.length > 0 &&
-        <Experts experts={experts} title={`All ${key}`} />
       }
     </div>
   )

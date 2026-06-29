@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import Experts from '../userComponents/Experts';
 import { Search } from 'lucide-react';
 import { categories } from '@/public/assests';
+import { HomePageSkeleton } from '../userComponents/Skeleton';
 
 const page = () => {
 
@@ -13,6 +14,7 @@ const page = () => {
   const [filteredProviders, setfilteredProviders] = useState([]);
   const [uiUpdate, setUiUpdate] = useState(false);
   const [searchInput, setSearchInput] = useState('');
+  const { getExpertLoading } = useUserStore();
 
   useEffect(() => {
     const get = async () => {
@@ -51,10 +53,10 @@ const page = () => {
       </div>
 
       {/* Search Bar */}
-        <div className="flex items-center mt-5 gap-2 border border-slate-100 hover:shadow-md p-3 transition-all shadow rounded-lg w-full">
-          <Search className='size-5 text-slate-500' />
-          <input onChange={(e) => setSearchInput(e.target.value.trim())} type="search" placeholder='Search electrician...' className="w-full" />
-        </div>
+      <div className="flex items-center mt-5 gap-2 border border-slate-100 hover:shadow-md p-3 transition-all shadow rounded-lg w-full">
+        <Search className='size-5 text-slate-500' />
+        <input onChange={(e) => setSearchInput(e.target.value.trim())} type="search" placeholder='Search electrician...' className="w-full" />
+      </div>
 
       {/* Filter Option */}
       <div className="flex cursor-grab items-center mt-3 justify-center gap-5">
@@ -79,11 +81,19 @@ const page = () => {
         <p className='mx-auto font-medium text-lg mt-10'>No saved experts yet.</p>
       }
 
-      {/* Saved Providers */}
-      {
-        filteredProviders.length > 0 &&
-        <Experts experts={filteredProviders} setUiUpdate={setUiUpdate} uiUpdate={uiUpdate} title={`${filteredProviders.length} saved experts`} />
-      }
+      <div className="relative flex flex-col">
+        {/* Saved Providers */}
+        {
+          filteredProviders.length > 0 &&
+          <Experts experts={filteredProviders} setUiUpdate={setUiUpdate} uiUpdate={uiUpdate} title={`${filteredProviders.length} saved experts`} />
+        }
+
+        {/* Skeleton  */}
+        {
+          getExpertLoading &&
+          <HomePageSkeleton />
+        }
+      </div>
     </div>
   )
 }

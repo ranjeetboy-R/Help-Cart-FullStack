@@ -18,7 +18,7 @@ button{
 .skeleton {
   position: relative;
   overflow: hidden;
-  background-color: #e2e8f0;
+  background-color: #eff2f6;
 }
 
 .skeleton::after {

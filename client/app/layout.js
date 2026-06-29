@@ -110,7 +110,7 @@ export default function RootLayout({ children }) {
 
           {/* GLOBAL PROVIDERS */}
           <InternetProvider />
-          <Toaster position="top-right" />
+          <Toaster />
         </GoogleOAuthProvider>
       </body>
     </html>

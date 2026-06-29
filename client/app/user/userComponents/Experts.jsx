@@ -52,12 +52,12 @@ const Experts = ({ experts = null, quantity, title = '' }) => {
 
                         return (
                             <div
-                                className="py-2 hover:bg-white bg-white/50 transition-all flex justify-between items-center shadow shadow-black/20 border border-slate-200 rounded-lg p-2"
+                                className="py-2 hover:bg-linear-to-br from-rose-50 to-green-50 hover:shadow-md bg-white/50 transition-all flex justify-between items-center shadow shadow-black/20 border border-slate-200 rounded-lg p-2"
                                 key={index}
                             >
                                 <div className="flex items-center gap-3 w-full">
                                     <div className="w-40 border border-slate-200 rounded-md">
-                                        <img src={expert.profilePic || '/profileImage.webp'} alt='Expert' className='rounded-md object-cover aspect-square' />
+                                        <img src={expert.profilePic || '/profileImage.webp'} alt='Expert' className='rounded-md w-full h-full object-cover aspect-square' />
                                     </div>
 
                                     <Link href={`/user/expertDetails/${expert._id}`} className="flex flex-col w-full gap-1">
