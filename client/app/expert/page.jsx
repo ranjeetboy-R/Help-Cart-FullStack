@@ -49,9 +49,9 @@ const page = () => {
 
           <Link 
           href="/expert/expertProfile" 
-          className={`${account?.profilePicId === '' ? 'bg-rose-200 text-black' : 'bg-black/80 hover:bg-black border border-slate-400 text-white'} flex mt-5 items-center gap-2 transition-all active:scale-90 hover:scale-105 px-3 py-2 text-sm rounded-lg`}>
+          className={`${!account?.profilePic ? 'bg-rose-200 text-black' : 'bg-black/80 hover:bg-black border border-slate-400 text-white'} flex mt-5 items-center gap-2 transition-all active:scale-90 hover:scale-105 px-3 py-2 text-sm rounded-lg`}>
             {
-              account?.profilePicId === '' ? 'Update Profile Image' : 'View My Profile'
+              !account?.profilePic ? 'Complete Profile' : 'View My Profile'
             }
             <ChevronRight className='size-4' />
           </Link>
