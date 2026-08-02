@@ -24,7 +24,7 @@ export const metadata = {
   description: "Find trusted service providers and skilled professionals near you.",
   verification: {
     google: "ukIpr66GL43dJDI5xNSm26ufrCDCK6v6I6hkA4kZR5I"
-  }
+  },
 
   keywords: [
     "HelpCart",
